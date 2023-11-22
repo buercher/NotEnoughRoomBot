@@ -14,13 +14,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class MainEPFL {
+public class EPFL {
     public static List<String> fetchStringsFromFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         return Files.readAllLines(path);
     }
 
-    public static void main() throws IOException {
+    public static void scrap(){
         String source = "EPFL";
 
         Date currentDate = new Date();

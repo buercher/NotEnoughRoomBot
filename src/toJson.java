@@ -12,7 +12,7 @@ import java.util.*;
 
 public class toJson {
     public static void makeFile() throws IOException {
-        Map<String, Set<Integer>> reqdMap = new LinkedHashMap<String, Set<Integer>>();
+        Map<String, Set<Integer>> reqdMap = new LinkedHashMap<>();
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
@@ -23,7 +23,7 @@ public class toJson {
             File file = new File(filePath);
             if (file.exists()) {
                 List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-                reqdMap.put(path, new TreeSet<Integer>());
+                reqdMap.put(path, new TreeSet<>());
                 for (String line : lines){
                     for(int i=Integer.parseInt(line.substring(0,2));i<Integer.parseInt(line.substring(3,5));i++){
                         reqdMap.get(path).add(i);
@@ -35,7 +35,7 @@ public class toJson {
             if (file.exists()) {
                 List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
                 if(!reqdMap.containsKey(path)){
-                    reqdMap.put(path, new TreeSet<Integer>());
+                    reqdMap.put(path, new TreeSet<>());
                 }
                 for (String line : lines){
                     for(int i=Integer.parseInt(line.substring(0,2));i<Integer.parseInt(line.substring(3,5));i++){
@@ -43,11 +43,8 @@ public class toJson {
                     }
                 }
             }
-        }/**
-        for (Map.Entry entry : reqdMap.entrySet())
-        {
-            System.out.println("key: " + entry.getKey() + "; value: " + entry.getValue());
-        }*/
+        }
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String json = objectMapper.writeValueAsString(reqdMap);
@@ -65,7 +62,7 @@ public class toJson {
             Files.write(file.toPath(), Collections.singleton(json), Charset.defaultCharset());
 
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 }

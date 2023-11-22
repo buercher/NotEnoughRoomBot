@@ -12,13 +12,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MainFLEP {
+public class FLEP {
     public static List<String> fetchStringsFromFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         return Files.readAllLines(path);
     }
 
-    public static void main() {
+    public static void scrap() {
         String source = "FLEP";
 
         Date currentDate = new Date();
