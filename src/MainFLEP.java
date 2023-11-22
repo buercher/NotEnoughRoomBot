@@ -18,7 +18,7 @@ public class MainFLEP {
         return Files.readAllLines(path);
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         String source = "FLEP";
 
         Date currentDate = new Date();
@@ -53,7 +53,6 @@ public class MainFLEP {
                     Files.write(file.toPath(), lines, Charset.defaultCharset());
                 }
             }
-
         } catch (IOException e) {
             e.fillInStackTrace();
         }

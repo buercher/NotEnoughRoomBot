@@ -22,8 +22,14 @@ public class FolderDeletion {
                     if (file.getName().equals(source + "-" + specifiedFolderName)) {
                         specifiedFolderExists = true;
                     } else if (!file.getName().equals("EPFL-" + specifiedFolderName)
-                            && !file.getName().equals("FLEP-" + specifiedFolderName)) {
+                            && !file.getName().equals("FLEP-" + specifiedFolderName)){
                         deleteDirectory(file);
+                    }
+                } else if (file.isFile()) {
+                    if (!file.getName().equals("data.json")){
+                        if (!file.delete()) {
+                            System.out.println("Failed to create file '" + file.getPath() + "'.");
+                        }
                     }
                 }
             }

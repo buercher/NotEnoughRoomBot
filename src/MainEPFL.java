@@ -20,7 +20,7 @@ public class MainEPFL {
         return Files.readAllLines(path);
     }
 
-    public static void main(String[] args) {
+    public static void main() throws IOException {
         String source = "EPFL";
 
         Date currentDate = new Date();
