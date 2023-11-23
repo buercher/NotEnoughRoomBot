@@ -31,7 +31,7 @@ public class TestFLEP {
             URL url = new URL(First + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            try (BufferedReader ignored = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                 fromFLEP.add(path);
             }
             catch (java.io.FileNotFoundException e){
