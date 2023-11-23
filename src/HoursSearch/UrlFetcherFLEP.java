@@ -1,3 +1,5 @@
+package HoursSearch;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,8 +10,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 public class UrlFetcherFLEP {
+
+    private UrlFetcherFLEP(){}
 
     public static List<JSONObject> fetchDataFromUrl(String urlString) throws IOException {
         String First = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";

@@ -1,3 +1,5 @@
+package HoursSearch;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
@@ -13,6 +15,8 @@ import java.util.Date;
 import java.nio.file.Files;
 
 public class FLEP {
+
+    private FLEP(){}
 
     public static void scrap() throws IOException {
         String source = "FLEP";

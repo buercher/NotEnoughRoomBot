@@ -1,6 +1,11 @@
+package HoursSearch;
+
 import java.util.List;
 
 public class MergeRanges {
+
+    private MergeRanges(){}
+
     public static void mergeAdjacentRanges(List<String> sortedCollection) {
         if (sortedCollection.isEmpty()) {
             return;

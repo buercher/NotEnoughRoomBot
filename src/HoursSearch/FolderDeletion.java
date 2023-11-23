@@ -1,8 +1,12 @@
+package HoursSearch;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 
 public class FolderDeletion {
+
+    private FolderDeletion(){}
 
     public static void deleteFoldersExcept(String directoryPath,
                                            String specifiedFolderName,
@@ -26,7 +30,8 @@ public class FolderDeletion {
                     if (file.getName().equals(source + "-" + specifiedFolderName)) {
                         specifiedFolderExists = true;
                     } else if (!file.getName().equals("EPFL-" + specifiedFolderName)
-                            && !file.getName().equals("FLEP-" + specifiedFolderName)){
+                            && !file.getName().equals("FLEP-" + specifiedFolderName)
+                            && !file.getName().equals("roomChecking")){
                         deleteDirectory(file);
                     }
                 } else if (file.isFile()) {

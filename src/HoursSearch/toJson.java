@@ -1,3 +1,5 @@
+package HoursSearch;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class toJson {
+
+    private toJson(){}
+
     public static void makeFile() throws IOException {
         Map<String, Set<Integer>> reqdMap = new LinkedHashMap<>();
 

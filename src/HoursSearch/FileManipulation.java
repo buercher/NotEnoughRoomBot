@@ -1,3 +1,5 @@
+package HoursSearch;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -6,6 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileManipulation {
+
+    private FileManipulation(){}
+
     public static void appendToFile(String filePath, String value) throws IOException {
         File file = new File(filePath);
 

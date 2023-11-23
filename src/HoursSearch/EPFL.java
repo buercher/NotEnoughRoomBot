@@ -1,3 +1,5 @@
+package HoursSearch;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,7 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class EPFL {
-    public static List<String> fetchStringsFromFile(String filePath) throws IOException {
+
+    private EPFL(){}
+
+    private static List<String> fetchStringsFromFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         return Files.readAllLines(path);
     }

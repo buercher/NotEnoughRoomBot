@@ -1,7 +1,12 @@
+package HoursSearch;
+
 import java.io.File;
 import java.io.IOException;
 
 public class Create {
+
+    private Create(){}
+
     public static void file(File file) throws IOException {
         if (!file.exists()) {
             // If the file does not exist, create a new file
