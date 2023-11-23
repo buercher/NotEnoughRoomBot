@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UrlFetcherFLEP {
 
-    public static List<JSONObject> fetchSchedulesFromUrl(String urlString) throws IOException {
+    public static List<JSONObject> fetchDataFromUrl(String urlString) throws IOException {
         String First = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
         URL url = new URL(First + urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

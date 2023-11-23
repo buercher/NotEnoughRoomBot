@@ -1,13 +1,17 @@
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.InvalidPathException;
 
 public class FolderDeletion {
 
-    public static void deleteFoldersExcept(String directoryPath, String specifiedFolderName, String source) {
+    public static void deleteFoldersExcept(String directoryPath,
+                                           String specifiedFolderName,
+                                           String source) throws IOException {
+
         File directory = new File(directoryPath);
 
         if (!directory.isDirectory()) {
-            System.out.println("Invalid directory path.");
-            return;
+            throw new InvalidPathException(directoryPath, "Invalid directory path");
         }
 
         File[] files = directory.listFiles();
@@ -26,9 +30,11 @@ public class FolderDeletion {
                         deleteDirectory(file);
                     }
                 } else if (file.isFile()) {
-                    if (!file.getName().equals("data.json")){
+                    if (!file.getName().equals("data.json")
+                            && !file.getName().equals("fromEPFL.json")
+                            && !file.getName().equals("roomWithIssue.json")){
                         if (!file.delete()) {
-                            System.out.println("Failed to create file '" + file.getPath() + "'.");
+                            throw new IOException("Failed to create file: " + file.getPath());
                         }
                     }
                 }
@@ -38,15 +44,14 @@ public class FolderDeletion {
         // If the specified folder doesn't exist, create it
         if (!specifiedFolderExists) {
             File newFolder = new File(directoryPath, source + "-" + specifiedFolderName);
-            if (newFolder.mkdir()) {
-                System.out.println("Folder '" + source + "-" + specifiedFolderName + "' created.");
-            } else {
-                System.out.println("Failed to create folder '" + specifiedFolderName + "'.");
+
+            if (!newFolder.mkdir()) {
+                throw new IOException("Failed to create folder '" + specifiedFolderName);
             }
         }
     }
 
-    private static void deleteDirectory(File directory) {
+    private static void deleteDirectory(File directory) throws IOException {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -54,14 +59,14 @@ public class FolderDeletion {
                     deleteDirectory(file);
                 } else {
                     if (!file.delete()) {
-                        System.out.println("Failed to create file '" + file.getPath() + "'.");
+                        throw new IOException("Failed to delete file: " + file.getPath());
                     }
                 }
             }
         }
         // Delete the empty directory after deleting its contents
         if (!directory.delete()) {
-            System.out.println("Failed to create file '" + directory.getPath() + "'.");
+            throw new IOException("Failed to delete directory: " + directory.getPath());
         }
     }
 }

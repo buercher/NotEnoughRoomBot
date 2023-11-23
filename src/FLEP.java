@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -9,52 +11,43 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FLEP {
-    public static List<String> fetchStringsFromFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        return Files.readAllLines(path);
-    }
 
-    public static void scrap() {
+    public static void scrap() throws IOException {
         String source = "FLEP";
-
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
 
         FolderDeletion.deleteFoldersExcept("database", currentDateString, source);
 
-        try {
-            List<String> paths = fetchStringsFromFile("resources/list");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> paths = objectMapper.readValue(
+                new File("database/roomWithIssue.json"), new TypeReference<>() {});
 
-            for (String path : paths) {
-                String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
 
-                List<JSONObject> schedules = UrlFetcherFLEP.fetchSchedulesFromUrl(path);
+        for (String path : paths) {
+            String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
+            List<JSONObject> schedules = UrlFetcherFLEP.fetchDataFromUrl(path);
 
-                for (JSONObject schedule : schedules) {
-                    String scheduleStartDate = schedule.getString("start").substring(0, 10);
+            for (JSONObject schedule : schedules) {
+                String scheduleStartDate = schedule.getString("start").substring(0, 10);
 
-                    if (currentDateString.equals(scheduleStartDate)) {
-                        String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
-                        String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
-                        FileManipulation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
-                    }
-                }
-                File file = new File(filePath);
-                if (file.exists()) {
-                    List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-                    Collections.sort(lines);
-                    MergeRanges.mergeAdjacentRanges(lines);
-
-                    Files.write(file.toPath(), lines, Charset.defaultCharset());
+                if (currentDateString.equals(scheduleStartDate)) {
+                    String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
+                    String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
+                    FileManipulation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
                 }
             }
-        } catch (IOException e) {
-            e.fillInStackTrace();
+            File file = new File(filePath);
+            if (file.exists()) {
+                List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+                Collections.sort(lines);
+                MergeRanges.mergeAdjacentRanges(lines);
+
+                Files.write(file.toPath(), lines, Charset.defaultCharset());
+            }
         }
     }
 }
