@@ -19,8 +19,8 @@ public class EPFL {
 
     private EPFL(){}
 
-    private static List<String> fetchStringsFromFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
+    private static List<String> fetchStringsFromFile() throws IOException {
+        Path path = Paths.get("resources/list");
         return Files.readAllLines(path);
     }
 
@@ -32,7 +32,7 @@ public class EPFL {
         String currentDateString = dateFormat.format(currentDate);
         FolderDeletion.deleteFoldersExcept("database", currentDateString, source);
 
-        List<String> paths = fetchStringsFromFile("resources/list");
+        List<String> paths = fetchStringsFromFile();
         Set<String> roomWithIssue=new HashSet<>();
         Set<String> fromEPFL=new HashSet<>();
 
