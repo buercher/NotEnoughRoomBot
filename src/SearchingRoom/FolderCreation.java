@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderCreation {
-    private FolderCreation(){};
+    private FolderCreation(){}
 
     public static void CreateFolderForTest() throws IOException {
 

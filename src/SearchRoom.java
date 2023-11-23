@@ -10,9 +10,11 @@ public class SearchRoom {
         FolderCreation.CreateFolderForTest();
         File directory=new File("resources/RoomList");
         File[] files = directory.listFiles();
-        for(File file: files){
-            TestEPFL.test(file.getName());
-            TestFLEP.test(file.getName());
+        if (files!=null){
+            for(File file: files){
+                TestEPFL.test(file.getName());
+                TestFLEP.test(file.getName());
+            }
         }
     }
 }

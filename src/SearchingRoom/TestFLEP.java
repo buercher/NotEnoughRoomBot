@@ -10,8 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -20,10 +18,6 @@ import java.util.Set;
 public class TestFLEP {
 
     private TestFLEP(){}
-    private static List<String> fetchStringsFromFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        return Files.readAllLines(path);
-    }
 
     public static void test(String buildingName) throws IOException {
         String First = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
@@ -37,7 +31,6 @@ public class TestFLEP {
             URL url = new URL(First + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            StringBuilder content = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                 fromFLEP.add(path);
             }
