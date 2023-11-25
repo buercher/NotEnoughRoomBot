@@ -1,15 +1,8 @@
-import SearchingRoom.FolderCreation;
-import SearchingRoom.TestEPFL;
-import SearchingRoom.TestFLEP;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 public class AllCases {
     private static List<String> outputList;
     public static void main(String[] args) throws IOException {
@@ -18,8 +11,8 @@ public class AllCases {
         if (files!=null){
             for(File file: files){
                 outputList =new ArrayList<>();
-                List<String> inputset= Files.readAllLines(file.toPath());
-                for (String inputString: inputset){
+                List<String> inputList= Files.readAllLines(file.toPath());
+                for (String inputString: inputList){
                     recursiveCreate(inputString);
                 }
                 File output=new File("resources/RoomList/"+file.getName());
