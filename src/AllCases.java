@@ -34,8 +34,8 @@ public class AllCases {
                 Files.write(output.toPath(),outputList);
             }
         }
-        System.out.println("Nombres de salles avant: "+inputLength);
-        System.out.println("Nombres de salles après: "+outputLength);
+        System.out.println("Nombre de salles avant: "+inputLength);
+        System.out.println("Nombre de salles après: "+outputLength);
     }
 
     public static void recursiveDash(String string){
