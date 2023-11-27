@@ -45,7 +45,7 @@ public class PlanDataFetch {
                         "service=\"WFS\" " +
                         "version=\"1.1.0\" " +
                         "outputFormat=\"GML3\" " +
-                        "maxFeatures=\"100000000\" " +
+                        "maxFeatures=\"10000000\" " +
                         "xsi:schemaLocation=\"https://www.opengis.net/wfs " +
                         "https://schemas.opengis.net/wfs/1.1.0/wfs.xsd\" " +
                         "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
