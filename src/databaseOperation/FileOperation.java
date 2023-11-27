@@ -42,6 +42,7 @@ public class FileOperation {
             Files.write(file.toPath(), Collections.singleton(value), Charset.defaultCharset());
             return;
         }
+
         List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
         lines.add(value);
         Files.write(file.toPath(), lines, Charset.defaultCharset());

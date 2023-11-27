@@ -49,10 +49,8 @@ public class JsonOperation {
             }
         }
         if(!reqdMap.get("BC07-08").isEmpty()){
-            reqdMap.get("BC07").clear();
-            reqdMap.get("BC08").clear();
-            reqdMap.get("BC07").addAll(reqdMap.get("BC07-08"));
-            reqdMap.get("BC08").addAll(reqdMap.get("BC07-08"));
+            reqdMap.replace("BC07",reqdMap.get("BC07-08"));
+            reqdMap.replace("BC08",reqdMap.get("BC07-08"));
         }
         reqdMap.remove("BC07-08");
         try {
