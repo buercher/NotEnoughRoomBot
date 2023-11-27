@@ -1,15 +1,35 @@
-package HoursSearch;
+package databaseOperation;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 
-public class FileManipulation {
+public class FileOperation {
 
-    private FileManipulation(){}
+    private FileOperation(){}
+
+    public static void create(File file) throws IOException {
+        if (!file.exists()) {
+            // If the file does not exist, create a new file
+            if (!file.createNewFile()) {
+                throw new IOException("Failed to create file: " + file.getPath());
+            }
+        }
+        else {
+            if (file.delete()) {
+                if (!file.createNewFile()) {
+                    throw new IOException("Failed to create file: " + file.getPath());
+                }
+            }
+            else{
+                throw new IOException("Failed to create file: " + file.getPath());
+            }
+        }
+    }
 
     public static void appendToFile(String filePath, String value) throws IOException {
         File file = new File(filePath);

@@ -1,6 +1,6 @@
-import SearchingRoom.FolderCreation;
-import SearchingRoom.TestEPFL;
-import SearchingRoom.TestFLEP;
+import databaseOperation.FolderOperation;
+import searchingRoom.TestEPFL;
+import searchingRoom.TestFLEP;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +15,13 @@ public class SearchRoom {
             "ELA", "ELD", "ELE", "ELG", "GC", "GR", "INF", "INJ", "INM", "INR", "MA",
             "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
     private static final Queue<File> fileQueue = new LinkedList<>();
-
     private static Thread EPFLThread;
     private static Thread FLEPThread;
 
+    private SearchRoom(){}
+
     public static void main(String[] args) throws IOException {
-        FolderCreation.CreateFolderForTest();
+        FolderOperation.CreateFolderForTest();
 
         File directory = new File(ROOM_LIST_PATH);
         File[] files = directory.listFiles();

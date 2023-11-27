@@ -1,9 +1,12 @@
-package HoursSearch;
+package hoursSearch;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import databaseOperation.FileOperation;
+import databaseOperation.FolderOperation;
+import databaseOperation.UrlFetcher;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +33,7 @@ public class EPFL {
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
-        FolderDeletion.deleteFoldersExcept("database", currentDateString, source);
+        FolderOperation.deleteFoldersExcept("database", currentDateString, source);
 
         List<String> paths = fetchStringsFromFile();
         Set<String> roomWithIssue=new HashSet<>();
@@ -38,7 +41,7 @@ public class EPFL {
 
         for (String path : paths) {
             String filePath = "database/" + "EPFL-" + currentDateString + "/" + path;
-            String data = UrlFetcherEPFL.fetchDataFromUrl(path);
+            String data = UrlFetcher.EPFL(path);
 
             if(data.contains("Pas d'information pour cette salle")){
                 roomWithIssue.add(path);}
@@ -62,7 +65,7 @@ public class EPFL {
                     if (currentDateString.equals(scheduleStartDate)) {
                         String scheduleStartHour = event.get("Start").asText().substring(11, 13);
                         String scheduleEndHour = event.get("End").asText().substring(11, 13);
-                        FileManipulation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                        FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
                     }
                 }
             }
@@ -87,7 +90,7 @@ public class EPFL {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonString = objectMapper.writeValueAsString(JsonSet);
 
-                Create.file(jsonFile);
+                FileOperation.create(jsonFile);
                 Files.write(jsonFile.toPath(), Collections.singleton(jsonString), Charset.defaultCharset());
 
             } catch (JsonProcessingException e) {

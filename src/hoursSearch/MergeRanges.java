@@ -1,4 +1,4 @@
-package HoursSearch;
+package hoursSearch;
 
 import java.util.List;
 

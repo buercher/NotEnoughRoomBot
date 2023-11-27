@@ -1,7 +1,10 @@
-package HoursSearch;
+package hoursSearch;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import databaseOperation.FileOperation;
+import databaseOperation.FolderOperation;
+import databaseOperation.UrlFetcher;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -24,7 +27,7 @@ public class FLEP {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
 
-        FolderDeletion.deleteFoldersExcept("database", currentDateString, source);
+        FolderOperation.deleteFoldersExcept("database", currentDateString, source);
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
@@ -33,7 +36,7 @@ public class FLEP {
 
         for (String path : paths) {
             String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
-            List<JSONObject> schedules = UrlFetcherFLEP.fetchDataFromUrl(path);
+            List<JSONObject> schedules = UrlFetcher.FLEP(path);
 
             for (JSONObject schedule : schedules) {
                 String scheduleStartDate = schedule.getString("start").substring(0, 10);
@@ -41,7 +44,7 @@ public class FLEP {
                 if (currentDateString.equals(scheduleStartDate)) {
                     String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
                     String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
-                    FileManipulation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                    FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
                 }
             }
             File file = new File(filePath);

@@ -1,4 +1,4 @@
-package HoursSearch;
+package databaseOperation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -13,9 +13,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class toJson {
+public class JsonOperation {
 
-    private toJson(){}
+    private JsonOperation(){}
 
     public static void makeFile() throws IOException {
         Map<String, Set<Integer>> reqdMap = new LinkedHashMap<>();
@@ -59,7 +59,7 @@ public class toJson {
             String json = objectMapper.writeValueAsString(reqdMap);
             File file = new File("database/data.json");
 
-            Create.file(file);
+            FileOperation.create(file);
             Files.write(file.toPath(), Collections.singleton(json), Charset.defaultCharset());
 
         } catch (JsonProcessingException e) {
@@ -78,6 +78,21 @@ public class toJson {
                 for(int i=Integer.parseInt(line.substring(0,2));i<Integer.parseInt(line.substring(3,5));i++){
                     reqdMap.get(path).add(i);
                 }
+            }
+        }
+    }
+    public static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException{
+        if(!JsonSet.isEmpty()){
+            File jsonFile =new File("database/roomChecking/"+name+".json");
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(JsonSet);
+
+                FileOperation.create(jsonFile);
+                Files.write(jsonFile.toPath(), Collections.singleton(jsonString), Charset.defaultCharset());
+
+            } catch (JsonProcessingException e) {
+                e.fillInStackTrace();
             }
         }
     }

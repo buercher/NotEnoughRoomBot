@@ -4,9 +4,12 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 public class AllCases {
+
     private static List<String> outputList;
     private static int inputLength=0;
     private static int outputLength=0;
+
+    private AllCases(){}
 
     public static void main(String[] args) throws IOException {
         File roomChecking = new File("resources/RoomList");
