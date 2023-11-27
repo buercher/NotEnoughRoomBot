@@ -29,8 +29,15 @@ public class TestEPFL {
         for (String path : paths) {
             String data = UrlFetcherEPFL.fetchDataFromUrl(path);
             if(data.contains("Pas d'information pour cette salle")){
-                roomWithIssue.add(path);
-                System.out.println("roomWithIssue : "+path);
+                data = UrlFetcherEPFL.fetchDataFromUrl(path);
+                if(data.contains("Pas d'information pour cette salle")){
+                    roomWithIssue.add(path);
+                    System.out.println("roomWithIssue : "+path);
+                }
+                else{
+                    fromEPFL.add(path);
+                    System.out.println("EPFL : "+path);
+                }
             }
             else{
                 fromEPFL.add(path);
