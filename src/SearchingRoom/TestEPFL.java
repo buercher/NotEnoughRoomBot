@@ -27,12 +27,12 @@ public class TestEPFL {
         Set<String> fromEPFL=new HashSet<>();
         List<String> paths = fetchStringsFromFile("resources/RoomList/"+buildingName);
         for (String path : paths) {
-            System.out.println(path);
             String data = UrlFetcherEPFL.fetchDataFromUrl(path);
             if(data.contains("Pas d'information pour cette salle")){
                 roomWithIssue.add(path);}
             else{
                 fromEPFL.add(path);
+                System.out.println("EPFL : "+path);
             }
         }
         JsonFileWrite(roomWithIssue,"roomWithIssue/"+buildingName);

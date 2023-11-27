@@ -36,8 +36,8 @@ public class TestFLEP {
             }
             catch (java.io.FileNotFoundException e){
                 roomNoSearchable.add(path);
+                System.out.println("FLEP : "+path);
             }
-            System.out.println(path);
         }
         JsonFileWrite(roomNoSearchable, "roomNotSearchable/"+buildingName);
         JsonFileWrite(fromFLEP, "fromFLEP/"+buildingName);

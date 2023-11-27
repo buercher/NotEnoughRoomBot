@@ -12,6 +12,7 @@ public class SearchRoom {
         File[] files = directory.listFiles();
         if (files!=null){
             for(File file: files){
+                System.out.println(file.getName());
                 TestEPFL.test(file.getName());
                 TestFLEP.test(file.getName());
             }
