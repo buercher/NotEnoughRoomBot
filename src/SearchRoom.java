@@ -1,67 +1,73 @@
 import SearchingRoom.FolderCreation;
 import SearchingRoom.TestEPFL;
 import SearchingRoom.TestFLEP;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class SearchRoom {
+
+    private static final String ROOM_LIST_PATH = "resources/RoomList";
+
+    private static final List<String> FLEP_EXISTS = Arrays.asList(
+            "AAC", "AI", "BC", "BCH", "BS", "BSP", "CE", "CH", "CM", "CO", "DIA",
+            "ELA", "ELD", "ELE", "ELG", "GC", "GR", "INF", "INJ", "INM", "INR", "MA",
+            "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
+    private static final Queue<File> fileQueue = new LinkedList<>();
+
+    private static Thread EPFLThread;
+    private static Thread FLEPThread;
+
     public static void main(String[] args) throws IOException {
         FolderCreation.CreateFolderForTest();
 
-        File directory = new File("resources/RoomList");
+        File directory = new File(ROOM_LIST_PATH);
         File[] files = directory.listFiles();
 
-        List<String> FlepExist = Arrays.asList(
-                "AAC","AI", "BC", "BCH","BS", "BSP","CE", "CH", "CM", "CO", "DIA",
-                "ELA","ELD","ELE","ELG","GC", "GR", "INF","INJ","INM","INR","MA",
-                "ME", "MED","MXC","MXF","MXG","ODY","PH", "PO", "RLC","SG", "STCC");
-
-        ObservableList<File> buffer = FXCollections.observableArrayList();
-
-        Thread epflThread = new Thread(() -> {
+        EPFLThread = new Thread(() -> {
             try {
-                if (files != null) {
-                    for (File file : files) {
-                        TestEPFL.test(file.getName());
-                    }
-                }
+                EPFLThreadProcess(files);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        Queue<File> fileQueue =new LinkedList<>();
-        buffer.addListener((ListChangeListener<File>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    fileQueue.addAll(change.getList());
-                }
-            }
-        });
-
-        Thread flepThread = new Thread(() -> {
+        FLEPThread = new Thread(() -> {
             try {
-                while (epflThread.isAlive() || !fileQueue.isEmpty()) {
-                    if (!fileQueue.isEmpty()) {
-                        File currentFile = fileQueue.poll();
-                        if (!FlepExist.contains(currentFile.getName())) {
-                            TestFLEP.test(currentFile.getName());
-                        }
-                    }
-                }
+                FLEPThreadProcess();
             } catch (IOException e) {
                 e.fillInStackTrace();
             }
         });
 
-        flepThread.setDaemon(true);
-        epflThread.setDaemon(true);
-        epflThread.start();
-        flepThread.start();
+        configureAndStartThreads();
+    }
+
+    private static void EPFLThreadProcess(File[] files) throws IOException {
+        if (files != null) {
+            for (File file : files) {
+                TestEPFL.test(file.getName());
+                fileQueue.add(file);
+            }
+        }
+    }
+
+    private static void FLEPThreadProcess() throws IOException {
+        while (EPFLThread.isAlive() || !fileQueue.isEmpty()) {
+            if (!fileQueue.isEmpty()) {
+                File currentFile = fileQueue.poll();
+                if (!FLEP_EXISTS.contains(currentFile.getName())) {
+                    TestFLEP.test(currentFile.getName());
+                }
+            }
+        }
+    }
+
+    private static void configureAndStartThreads(){
+        FLEPThread.setDaemon(true);
+        EPFLThread.setDaemon(true);
+        EPFLThread.start();
+        FLEPThread.start();
     }
 }
