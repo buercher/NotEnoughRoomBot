@@ -1,8 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 public class AllCases {
 
     private static List<String> outputList;
@@ -18,7 +18,9 @@ public class AllCases {
                 throw new IOException("Failed to create folder '" + roomChecking.getPath()+"'");
             }
         }
-
+        Map<Integer,String> count= new TreeMap<>();
+        Map<Integer,String> count2= new TreeMap<>();
+        Map<Double,String> count3= new TreeMap<>();
         File input=new File("resources/RoomToConvert");
         File[] files = input.listFiles();
         if (files!=null){
@@ -33,12 +35,18 @@ public class AllCases {
                     recursiveDash(inputString);
                 }
                 outputLength+=outputList.size();
+                count.put(outputList.size(),file.getName());
+                count2.put(inputList.size(),file.getName());
+                count3.put((double)outputList.size()/(double)inputList.size(),file.getName());
                 File output=new File("resources/RoomList/"+file.getName());
                 Files.write(output.toPath(),outputList);
             }
         }
         System.out.println("Nombre de salles avant: "+inputLength);
         System.out.println("Nombre de salles après: "+outputLength);
+        System.out.println(count);
+        System.out.println(count2);
+        System.out.println(count3);
     }
 
     public static void recursiveDash(String string){
@@ -52,10 +60,6 @@ public class AllCases {
         if (string.contains(".")) {
             recursivePoint(string.replaceFirst("\\.",""));
             recursivePoint(string.replaceFirst("\\.","-"));
-            if(string.replaceFirst("\\.","").contains(".")){
-                recursiveUnderScore(replaceLast(string,"\\.","-"));
-                recursiveUnderScore(replaceLast(string,"\\.",""));
-            }
         }
         recursiveUnderScore(string);
 

@@ -28,12 +28,11 @@ public class EPFL {
     }
 
     public static void scrap() throws IOException {
-        String source = "EPFL";
 
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
-        FolderOperation.deleteFoldersExcept("database", currentDateString, source);
+        FolderOperation.deleteFoldersExcept(currentDateString);
 
         List<String> paths = fetchStringsFromFile();
         Set<String> roomWithIssue=new HashSet<>();

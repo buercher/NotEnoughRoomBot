@@ -21,7 +21,7 @@ public class SearchRoom {
     private SearchRoom(){}
 
     public static void main(String[] args) throws IOException {
-        FolderOperation.CreateFolderForTest();
+        FolderOperation.CreateFoldersForTest();
 
         File directory = new File(ROOM_LIST_PATH);
         File[] files = directory.listFiles();

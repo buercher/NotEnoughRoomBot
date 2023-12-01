@@ -3,7 +3,6 @@ package hoursSearch;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databaseOperation.FileOperation;
-import databaseOperation.FolderOperation;
 import databaseOperation.UrlFetcher;
 import org.json.JSONObject;
 
@@ -22,12 +21,9 @@ public class FLEP {
     private FLEP(){}
 
     public static void scrap() throws IOException {
-        String source = "FLEP";
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
-
-        FolderOperation.deleteFoldersExcept("database", currentDateString, source);
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(

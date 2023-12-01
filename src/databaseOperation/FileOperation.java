@@ -3,9 +3,7 @@ package databaseOperation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Collections;
+import java.nio.file.*;
 import java.util.List;
 
 public class FileOperation {
@@ -13,38 +11,27 @@ public class FileOperation {
     private FileOperation(){}
 
     public static void create(File file) throws IOException {
-        if (!file.exists()) {
-            // If the file does not exist, create a new file
-            if (!file.createNewFile()) {
-                throw new IOException("Failed to create file: " + file.getPath());
-            }
-        }
-        else {
-            if (file.delete()) {
-                if (!file.createNewFile()) {
-                    throw new IOException("Failed to create file: " + file.getPath());
-                }
-            }
-            else{
-                throw new IOException("Failed to create file: " + file.getPath());
-            }
+        Path path = file.toPath();
+        try {
+            Files.createFile(path);
+        } catch (FileAlreadyExistsException e) {
+            // If file already exists, attempt to delete and create again
+            Files.delete(path);
+            Files.createFile(path);
         }
     }
 
     public static void appendToFile(String filePath, String value) throws IOException {
-        File file = new File(filePath);
-
-        if (!file.exists()) {
-            // If the file does not exist, create a new file
-            if (!file.createNewFile()) {
-                throw new IOException("Failed to create file: " + file.getPath());
-            }
-            Files.write(file.toPath(), Collections.singleton(value), Charset.defaultCharset());
-            return;
+        Path path = Path.of(filePath);
+        try {
+            Files.writeString(path,
+                    value + System.lineSeparator(),
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
+        } catch (FileAlreadyExistsException e) {
+            List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
+            lines.add(value);
+            Files.write(path, lines, Charset.defaultCharset());
         }
-
-        List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-        lines.add(value);
-        Files.write(file.toPath(), lines, Charset.defaultCharset());
     }
 }
