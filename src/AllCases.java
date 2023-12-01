@@ -61,15 +61,8 @@ public class AllCases {
             recursivePoint(string.replaceFirst("\\.",""));
             recursivePoint(string.replaceFirst("\\.","-"));
         }
-        recursiveUnderScore(string);
-
-    }
-    public static void recursiveUnderScore(String string){
-        if (string.contains("_")) {
-            recursiveUnderScore(string.replaceFirst("_",""));
-            recursiveUnderScore(string.replaceFirst("_","-"));
-        }
         recursiveSpace(string);
+
     }
 
     public static void recursiveSpace(String string){
@@ -80,9 +73,5 @@ public class AllCases {
         else{
             outputList.add(string);
         }
-    }
-
-    public static String replaceLast(String text, String regex, String replacement) {
-        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
     }
 }
