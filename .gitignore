@@ -27,7 +27,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/database/FLEP-2023-11-21/
-/database/EPFL-2023-11-21/
 /database/
 /resources/RoomList/
+/resources/PlanJson/
