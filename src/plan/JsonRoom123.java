@@ -21,7 +21,6 @@ public class JsonRoom123 {
                 // Create ObjectMapper
                 ObjectMapper objectMapper = new ObjectMapper();
 
-                // TODO: Read JSON file and map to Java object
                 JsonRoom jsonRoom = objectMapper.readValue(jsonFile, JsonRoom.class);
 
                 // Now you can work with the parsed Java objects
