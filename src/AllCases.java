@@ -52,6 +52,14 @@ public class AllCases {
             recursivePoint(string.replaceFirst("\\.",""));
             recursivePoint(string.replaceFirst("\\.","-"));
         }
+        recursiveUnderscore(string);
+
+    }
+    public static void recursiveUnderscore(String string){
+        if (string.contains("_")) {
+            recursiveUnderscore(string.replaceFirst("_",""));
+            recursiveUnderscore(string.replaceFirst("_","-"));
+        }
         recursiveSpace(string);
 
     }

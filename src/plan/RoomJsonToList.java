@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JsonRoom123 {
+public class RoomJsonToList {
     private static final List<String> whiteList = Arrays.asList(
             "LABO", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
             "LOCAUX SECOND", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
@@ -56,7 +56,6 @@ public class JsonRoom123 {
                 Files.write(output.toPath(), outputList);
             }
         }
-        System.out.println(rooms);
     }
 
     public static void test(int floor) throws IOException {
