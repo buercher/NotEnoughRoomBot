@@ -1,7 +1,6 @@
 
 package plan.jsonArchitecture;
 
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,7 +33,8 @@ public class WfsFeatureCollection {
     @JsonProperty("xmlns:xsi")
     private String xmlnsXsi;
     @JsonProperty("gml:featureMember")
-    private Object gmlFeatureMember;
+    @Valid
+    private List<GmlFeatureMember> gmlFeatureMember;
     @JsonProperty("xmlns:wfs")
     private String xmlnsWfs;
     @JsonProperty("gml:boundedBy")
@@ -118,24 +118,12 @@ public class WfsFeatureCollection {
 
     @JsonProperty("gml:featureMember")
     public List<GmlFeatureMember> getGmlFeatureMember() {
-        if (gmlFeatureMember instanceof List) {
-            return (List<GmlFeatureMember>) gmlFeatureMember;
-        } else {
-            // Handle the case when gmlFeatureMember is not a list
-            // For example, return a list with a single element
-            return Collections.singletonList((GmlFeatureMember) gmlFeatureMember);
-        }
+        return gmlFeatureMember;
     }
 
     @JsonProperty("gml:featureMember")
-    public void setGmlFeatureMember(Object gmlFeatureMember) {
-        if (gmlFeatureMember instanceof List) {
-            this.gmlFeatureMember = (List<GmlFeatureMember>) gmlFeatureMember;
-        } else {
-            // Handle the case when gmlFeatureMember is not a list
-            // For example, create a list with a single element
-            this.gmlFeatureMember = Collections.singletonList(gmlFeatureMember);
-        }
+    public void setGmlFeatureMember(List<GmlFeatureMember> gmlFeatureMember) {
+        this.gmlFeatureMember = gmlFeatureMember;
     }
 
     public WfsFeatureCollection withGmlFeatureMember(List<GmlFeatureMember> gmlFeatureMember) {

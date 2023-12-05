@@ -82,7 +82,6 @@ public class PlanDataFetch {
                 Files.deleteIfExists(jsonPath);
                 String jsonString = XML.toJSONObject(response.toString()).toString();
                 Files.write(jsonPath, Collections.singleton(jsonString), Charset.defaultCharset());
-                System.out.println(jsonPath.getFileName());
             } else {
                 System.out.println("HTTP POST request failed with response code: " + responseCode);
             }
