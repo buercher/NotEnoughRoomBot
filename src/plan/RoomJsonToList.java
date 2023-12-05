@@ -59,10 +59,8 @@ public class RoomJsonToList {
     }
 
     public static void test(int floor) throws IOException {
-        // Load JSON file
         File jsonFile = new File("resources/PlanJson/plan floor " + floor + ".json");
 
-        // Create ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 

@@ -15,7 +15,6 @@ public class FileOperation {
         try {
             Files.createFile(path);
         } catch (FileAlreadyExistsException e) {
-            // If file already exists, attempt to delete and create again
             Files.delete(path);
             Files.createFile(path);
         }
