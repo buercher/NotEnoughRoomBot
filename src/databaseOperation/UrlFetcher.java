@@ -56,43 +56,6 @@ public class UrlFetcher {
         return schedulesList;
     }
 
-    /**
-     * Fetches the data from the FLEP website and returns it as a JSONObject.
-     *
-     * @param roomName The name to the room.
-     * @return The data from the FLEP API as a JSONObject.
-     * @throws IOException If the connection fails.
-     */
-    public static JSONObject FLEP2(String roomName) throws IOException {
-        String urlString = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
-
-        return new JSONObject(connect(urlString, roomName));
-    }
-
-    /**
-     * Fetches the data from the FLEP website and returns it as a String.
-     *
-     * @param roomName The name to the room.
-     * @return The data from the FLEP API as a String.
-     * @throws IOException If the connection fails.
-     */
-    public static String FLEP3(String roomName) throws IOException {
-        String urlString = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
-
-        return connect(urlString, roomName);
-    }
-
-    /**
-     * Fetches the data from the EPFL website and returns it as a String.
-     *
-     * @param roomName The name to the room.
-     * @return The data from the EPFL API as a String.
-     * @throws IOException If the connection fails.
-     */
-    public static String EPFL2(String roomName) throws IOException {
-        String urlString = "https://ewa.epfl.ch/room/Default.aspx?room=";
-        return connect(urlString, roomName);
-    }
 
     /**
      * Connects to the URL and returns the content of the website as a String.

@@ -19,7 +19,6 @@ public class SearchRoom {
             "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
     private static final Queue<File> fileQueue = new LinkedList<>();
     private static Thread EPFLThread;
-    private static Thread FLEPThread;
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -51,7 +50,7 @@ public class SearchRoom {
             }
         });
 
-        FLEPThread = new Thread(() -> {
+        Thread FLEPThread = new Thread(() -> {
             try {
                 FLEPThreadProcess();
             } catch (IOException e) {
