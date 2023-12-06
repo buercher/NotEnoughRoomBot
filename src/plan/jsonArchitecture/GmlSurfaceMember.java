@@ -2,6 +2,7 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,7 +10,7 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "gml:Polygon"
+        "gml:Polygon"
 })
 @Generated("jsonschema2pojo")
 public class GmlSurfaceMember {
@@ -36,13 +37,14 @@ public class GmlSurfaceMember {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlSurfaceMember.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlSurfaceMember
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlPolygon");
         sb.append('=');
-        sb.append(((this.gmlPolygon == null)?"<null>":this.gmlPolygon));
+        sb.append(((this.gmlPolygon == null) ? "<null>" : this.gmlPolygon));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -52,7 +54,7 @@ public class GmlSurfaceMember {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.gmlPolygon == null)? 0 :this.gmlPolygon.hashCode()));
+        result = ((result * 31) + ((this.gmlPolygon == null) ? 0 : this.gmlPolygon.hashCode()));
         return result;
     }
 
@@ -65,7 +67,9 @@ public class GmlSurfaceMember {
             return false;
         }
         GmlSurfaceMember rhs = ((GmlSurfaceMember) other);
-        return ((this.gmlPolygon == rhs.gmlPolygon)||((this.gmlPolygon!= null)&&this.gmlPolygon.equals(rhs.gmlPolygon)));
+        return ((this.gmlPolygon == rhs.gmlPolygon) ||
+                ((this.gmlPolygon != null) &&
+                        this.gmlPolygon.equals(rhs.gmlPolygon)));
     }
 
 }

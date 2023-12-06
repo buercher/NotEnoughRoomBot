@@ -2,15 +2,16 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "srsName",
-    "gml:lowerCorner",
-    "gml:upperCorner"
+        "srsName",
+        "gml:lowerCorner",
+        "gml:upperCorner"
 })
 @Generated("jsonschema2pojo")
 public class GmlEnvelope {
@@ -70,21 +71,22 @@ public class GmlEnvelope {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlEnvelope.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlEnvelope
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("srsName");
         sb.append('=');
-        sb.append(((this.srsName == null)?"<null>":this.srsName));
+        sb.append(((this.srsName == null) ? "<null>" : this.srsName));
         sb.append(',');
         sb.append("gmlLowerCorner");
         sb.append('=');
-        sb.append(((this.gmlLowerCorner == null)?"<null>":this.gmlLowerCorner));
+        sb.append(((this.gmlLowerCorner == null) ? "<null>" : this.gmlLowerCorner));
         sb.append(',');
         sb.append("gmlUpperCorner");
         sb.append('=');
-        sb.append(((this.gmlUpperCorner == null)?"<null>":this.gmlUpperCorner));
+        sb.append(((this.gmlUpperCorner == null) ? "<null>" : this.gmlUpperCorner));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -94,9 +96,9 @@ public class GmlEnvelope {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.srsName == null)? 0 :this.srsName.hashCode()));
-        result = ((result* 31)+((this.gmlUpperCorner == null)? 0 :this.gmlUpperCorner.hashCode()));
-        result = ((result* 31)+((this.gmlLowerCorner == null)? 0 :this.gmlLowerCorner.hashCode()));
+        result = ((result * 31) + ((this.srsName == null) ? 0 : this.srsName.hashCode()));
+        result = ((result * 31) + ((this.gmlUpperCorner == null) ? 0 : this.gmlUpperCorner.hashCode()));
+        result = ((result * 31) + ((this.gmlLowerCorner == null) ? 0 : this.gmlLowerCorner.hashCode()));
         return result;
     }
 
@@ -109,7 +111,16 @@ public class GmlEnvelope {
             return false;
         }
         GmlEnvelope rhs = ((GmlEnvelope) other);
-        return ((((this.srsName == rhs.srsName)||((this.srsName!= null)&&this.srsName.equals(rhs.srsName)))&&((this.gmlUpperCorner == rhs.gmlUpperCorner)||((this.gmlUpperCorner!= null)&&this.gmlUpperCorner.equals(rhs.gmlUpperCorner))))&&((this.gmlLowerCorner == rhs.gmlLowerCorner)||((this.gmlLowerCorner!= null)&&this.gmlLowerCorner.equals(rhs.gmlLowerCorner))));
+        return
+                ((((this.srsName == rhs.srsName) ||
+                        ((this.srsName != null) &&
+                                this.srsName.equals(rhs.srsName))) &&
+                        ((this.gmlUpperCorner == rhs.gmlUpperCorner) ||
+                                ((this.gmlUpperCorner != null) &&
+                                        this.gmlUpperCorner.equals(rhs.gmlUpperCorner)))) &&
+                        ((this.gmlLowerCorner == rhs.gmlLowerCorner) ||
+                                ((this.gmlLowerCorner != null) &&
+                                        this.gmlLowerCorner.equals(rhs.gmlLowerCorner))));
     }
 
 }

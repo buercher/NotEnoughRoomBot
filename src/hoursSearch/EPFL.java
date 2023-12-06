@@ -18,15 +18,36 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * The EPFL class provides multiple methods for fetching data from the EPFL website.
+ */
 public class EPFL {
 
-    private EPFL(){}
-
-    private static List<String> fetchStringsFromFile() throws IOException {
-        Path path = Paths.get("resources/list");
-        return Files.readAllLines(path);
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private EPFL() {
     }
 
+    /**
+     * Reads the file containing the list of rooms and returns it as a list of strings.
+     *
+     * @return The list of rooms as a list of strings
+     * @throws IOException If an I/O error occurs while reading the file
+     */
+    private static List<String> fetchStringListFromFile() throws IOException {
+        Path path = Paths.get("resources/list");
+        return Files.readAllLines(path, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Scrapes the data from the EPFL website and stores it in the database.
+     *
+     * @throws IOException If an I/O error occurs
+     * @see UrlFetcher#EPFL(String)
+     * @see JsonNode
+     * @see ObjectMapper
+     */
     public static void scrap() throws IOException {
 
         Date currentDate = new Date();
@@ -34,17 +55,17 @@ public class EPFL {
         String currentDateString = dateFormat.format(currentDate);
         FolderOperation.deleteFoldersExcept(currentDateString);
 
-        List<String> paths = fetchStringsFromFile();
-        Set<String> roomWithIssue=new HashSet<>();
-        Set<String> fromEPFL=new HashSet<>();
+        List<String> paths = fetchStringListFromFile();
+        Set<String> roomWithIssue = new HashSet<>();
+        Set<String> fromEPFL = new HashSet<>();
 
         for (String path : paths) {
             String filePath = "database/" + "EPFL-" + currentDateString + "/" + path;
             String data = UrlFetcher.EPFL(path);
 
-            if(data.contains("Pas d'information pour cette salle")){
-                roomWithIssue.add(path);}
-            else{
+            if (data.contains("Pas d'information pour cette salle")) {
+                roomWithIssue.add(path);
+            } else {
                 fromEPFL.add(path);
             }
 
@@ -69,6 +90,7 @@ public class EPFL {
                 }
             }
 
+            // Sort the file and merge adjacent ranges
             File file = new File(filePath);
             if (file.exists()) {
                 List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
@@ -78,13 +100,20 @@ public class EPFL {
                 Files.write(file.toPath(), lines, Charset.defaultCharset());
             }
         }
-        JsonFileWrite(roomWithIssue,"roomWithIssue");
-        JsonFileWrite(fromEPFL,"fromEPFL");
+        JsonFileWrite(roomWithIssue, "roomWithIssue");
+        JsonFileWrite(fromEPFL, "fromEPFL");
     }
 
-    private static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException{
-        if(!JsonSet.isEmpty()){
-            File jsonFile =new File("database/"+name+".json");
+    /**
+     * Writes a json file with the given name containing the given set of strings.
+     *
+     * @param JsonSet The set of strings to write in the json file
+     * @param name    The name of the json file
+     * @throws IOException If an I/O error occurs
+     */
+    private static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException {
+        if (!JsonSet.isEmpty()) {
+            File jsonFile = new File("database/" + name + ".json");
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonString = objectMapper.writeValueAsString(JsonSet);

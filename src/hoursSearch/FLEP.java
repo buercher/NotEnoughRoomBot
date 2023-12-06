@@ -16,10 +16,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.nio.file.Files;
 
+/**
+ * The FLEP class provides multiple methods for fetching data from the FLEP website.
+ */
 public class FLEP {
 
-    private FLEP(){}
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private FLEP() {
+    }
 
+    /**
+     * Scrapes the data from the FLEP website and stores it in the database.
+     *
+     * @throws IOException If an I/O error occurs
+     * @see UrlFetcher#FLEP(String)
+     * @see JSONObject
+     * @see ObjectMapper
+     */
     public static void scrap() throws IOException {
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -27,7 +42,8 @@ public class FLEP {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
-                new File("database/roomWithIssue.json"), new TypeReference<>() {});
+                new File("database/roomWithIssue.json"), new TypeReference<>() {
+                });
 
 
         for (String path : paths) {
@@ -43,6 +59,8 @@ public class FLEP {
                     FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
                 }
             }
+
+            // Sort the file and merge adjacent ranges
             File file = new File(filePath);
             if (file.exists()) {
                 List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
