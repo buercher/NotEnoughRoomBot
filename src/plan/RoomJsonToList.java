@@ -24,8 +24,8 @@ public class RoomJsonToList {
     }
 
     private static final List<String> WHITE_LIST = Arrays.asList(
-            "LABO", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
-            "LOCAUX SECOND", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
+            "LABO", "DETENTE", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
+            "LOCAUX SECOND","AUDIO-VISUEL", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
             "ABRI REFECTOIRE", "SALLE DE COURS", "RECEPTION", "CAFETERIA",
             "TUTORAT", "SERVICE", "ESPACE COLLABORATIF",
             "BUREAUTIQUE", "CONF MULTIMEDIA", "AFFECT DIV", "PHOTOS", "RESTAURANT", "AUDITOIRE", "BUREAUX",
@@ -53,6 +53,14 @@ public class RoomJsonToList {
      * @see RoomJsonToList#extractValidRooms(int)
      */
     public static void RoomToJson() throws IOException {
+        File roomList = new File("resources/RoomToConvert");
+
+        if (!roomList.exists()) {
+            if (!roomList.mkdir()) {
+                throw new IOException("Failed to create folder '" + roomList.getPath() + "'");
+            }
+        }
+
         for (int i = -4; i < 9; i++) {
             extractValidRooms(i);
         }

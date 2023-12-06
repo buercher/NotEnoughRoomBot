@@ -86,7 +86,7 @@ public class SearchRoom {
         while (EPFLThread.isAlive() || !fileQueue.isEmpty()) {
             if (!fileQueue.isEmpty()) {
                 File currentFile = fileQueue.poll();
-                if (!FLEP_EXISTS.contains(currentFile.getName())) {
+                if (FLEP_EXISTS.contains(currentFile.getName())) {
                     TestFLEP.test(currentFile.getName());
                 }
             }
