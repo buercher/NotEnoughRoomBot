@@ -2,6 +2,7 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,7 +10,7 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "gml:LinearRing"
+        "gml:LinearRing"
 })
 @Generated("jsonschema2pojo")
 public class GmlExterior {
@@ -36,13 +37,14 @@ public class GmlExterior {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlExterior.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlExterior
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlLinearRing");
         sb.append('=');
-        sb.append(((this.gmlLinearRing == null)?"<null>":this.gmlLinearRing));
+        sb.append(((this.gmlLinearRing == null) ? "<null>" : this.gmlLinearRing));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -52,7 +54,7 @@ public class GmlExterior {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.gmlLinearRing == null)? 0 :this.gmlLinearRing.hashCode()));
+        result = ((result * 31) + ((this.gmlLinearRing == null) ? 0 : this.gmlLinearRing.hashCode()));
         return result;
     }
 
@@ -65,7 +67,9 @@ public class GmlExterior {
             return false;
         }
         GmlExterior rhs = ((GmlExterior) other);
-        return ((this.gmlLinearRing == rhs.gmlLinearRing)||((this.gmlLinearRing!= null)&&this.gmlLinearRing.equals(rhs.gmlLinearRing)));
+        return ((this.gmlLinearRing == rhs.gmlLinearRing) ||
+                ((this.gmlLinearRing != null) &&
+                        this.gmlLinearRing.equals(rhs.gmlLinearRing)));
     }
 
 }

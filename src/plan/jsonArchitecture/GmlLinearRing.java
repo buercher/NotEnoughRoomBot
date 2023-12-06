@@ -2,6 +2,7 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,7 +10,7 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "gml:posList"
+        "gml:posList"
 })
 @Generated("jsonschema2pojo")
 public class GmlLinearRing {
@@ -36,13 +37,14 @@ public class GmlLinearRing {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlLinearRing.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlLinearRing
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlPosList");
         sb.append('=');
-        sb.append(((this.gmlPosList == null)?"<null>":this.gmlPosList));
+        sb.append(((this.gmlPosList == null) ? "<null>" : this.gmlPosList));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -52,7 +54,7 @@ public class GmlLinearRing {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.gmlPosList == null)? 0 :this.gmlPosList.hashCode()));
+        result = ((result * 31) + ((this.gmlPosList == null) ? 0 : this.gmlPosList.hashCode()));
         return result;
     }
 
@@ -65,7 +67,9 @@ public class GmlLinearRing {
             return false;
         }
         GmlLinearRing rhs = ((GmlLinearRing) other);
-        return ((this.gmlPosList == rhs.gmlPosList)||((this.gmlPosList!= null)&&this.gmlPosList.equals(rhs.gmlPosList)));
+        return ((this.gmlPosList == rhs.gmlPosList) ||
+                ((this.gmlPosList != null) &&
+                        this.gmlPosList.equals(rhs.gmlPosList)));
     }
 
 }

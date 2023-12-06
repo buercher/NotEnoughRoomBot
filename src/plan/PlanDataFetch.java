@@ -11,33 +11,49 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 
+/**
+ * This class is used to fetch the data from the EPFL plan API.
+ * It is used to generate the JSON files in the resources/PlanJson folder.
+ */
 public class PlanDataFetch {
 
+    private static final String API_URL =
+            "https://plan.epfl.ch/mapserv_proxy?ogcserver=source%20for%20image%2Fpng&floor=";
+
+    /**
+     * This class is not meant to be instantiated.
+     */
+    private PlanDataFetch() {
+    }
+
+    /**
+     * This class is used to represent a coordinate.
+     */
     public record Coordinate(double x, double y) {
     }
 
+    /**
+     * This class is used to represent the area to search in.
+     */
     public record Area(Coordinate upperCorner, Coordinate lowerCorner) {
     }
 
-    private static final String apiUrl = "https://plan.epfl.ch/mapserv_proxy?ogcserver=source%20for%20image%2Fpng&floor=";
-
-    public static void main(String[] args) throws IOException {
-        File roomChecking = new File("resources/PlanJson");
-        if (!roomChecking.exists()) {
-            if (!roomChecking.mkdir()) {
-                throw new IOException("Failed to create folder '" + roomChecking.getPath() + "'");
-            }
-        }
+    /**
+     * Searches all the floors in the given area.
+     */
+    public static void searchAllFloor() {
         Area area = new Area(new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
-        searchAllFloor(area);
-    }
-
-    private static void searchAllFloor(Area area) {
         for (int i = -4; i < 9; i++) {
             search(area, i);
         }
     }
 
+    /**
+     * Searches the given floor in the given area.
+     *
+     * @param area  The area to search in
+     * @param floor The floor to search
+     */
     private static void search(Area area, int floor) {
 
         String requestBody =
@@ -61,6 +77,7 @@ public class PlanDataFetch {
                         "</Envelope></BBOX></Filter></Query>" +
                         "</GetFeature>";
         try {
+            // Create connection
             HttpURLConnection connection = getHttpURLConnection(floor);
             DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
             outputStream.writeBytes(requestBody);
@@ -69,6 +86,8 @@ public class PlanDataFetch {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                // Read response
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
                 StringBuilder response = new StringBuilder();
@@ -78,10 +97,12 @@ public class PlanDataFetch {
                 }
                 reader.close();
 
+                // Write response to file
                 Path jsonPath = Path.of("resources/PlanJson/plan floor " + floor + ".json");
                 Files.deleteIfExists(jsonPath);
                 String jsonString = XML.toJSONObject(response.toString()).toString();
                 Files.write(jsonPath, Collections.singleton(jsonString), Charset.defaultCharset());
+                System.out.println("floor " + floor + " done");
             } else {
                 System.out.println("HTTP POST request failed with response code: " + responseCode);
             }
@@ -91,14 +112,23 @@ public class PlanDataFetch {
         }
     }
 
+    /**
+     * Creates a connection to the EPFL plan API.
+     *
+     * @param floor The floor to search
+     * @return The connection to the EPFL plan API
+     * @throws IOException If an I/O error occurs
+     */
     @NotNull
     private static HttpURLConnection getHttpURLConnection(int floor) throws IOException {
-        URL url = new URL(apiUrl + floor);
+        URL url = new URL(API_URL + floor);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
 
         // Set headers
-        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
+        connection.setRequestProperty(
+                "User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
         connection.setRequestProperty("Accept", "application/json, text/plain, */*");
         connection.setRequestProperty("Accept-Language", "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3");
         connection.setRequestProperty("Sec-Fetch-Dest", "empty");

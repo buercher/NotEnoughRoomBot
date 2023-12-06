@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "gml:exterior"
+        "gml:exterior"
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Generated("jsonschema2pojo")
@@ -39,13 +39,14 @@ public class GmlPolygon {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlPolygon.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlPolygon
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlExterior");
         sb.append('=');
-        sb.append(((this.gmlExterior == null)?"<null>":this.gmlExterior));
+        sb.append(((this.gmlExterior == null) ? "<null>" : this.gmlExterior));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -55,7 +56,7 @@ public class GmlPolygon {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.gmlExterior == null)? 0 :this.gmlExterior.hashCode()));
+        result = ((result * 31) + ((this.gmlExterior == null) ? 0 : this.gmlExterior.hashCode()));
         return result;
     }
 
@@ -68,7 +69,9 @@ public class GmlPolygon {
             return false;
         }
         GmlPolygon rhs = ((GmlPolygon) other);
-        return ((this.gmlExterior == rhs.gmlExterior)||((this.gmlExterior!= null)&&this.gmlExterior.equals(rhs.gmlExterior)));
+        return ((this.gmlExterior == rhs.gmlExterior) ||
+                ((this.gmlExterior != null) &&
+                        this.gmlExterior.equals(rhs.gmlExterior)));
     }
 
 }

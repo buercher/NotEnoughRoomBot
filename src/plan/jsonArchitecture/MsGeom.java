@@ -2,6 +2,7 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,7 +10,7 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "gml:MultiSurface"
+        "gml:MultiSurface"
 })
 @Generated("jsonschema2pojo")
 public class MsGeom {
@@ -36,13 +37,14 @@ public class MsGeom {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(MsGeom.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(MsGeom
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlMultiSurface");
         sb.append('=');
-        sb.append(((this.gmlMultiSurface == null)?"<null>":this.gmlMultiSurface));
+        sb.append(((this.gmlMultiSurface == null) ? "<null>" : this.gmlMultiSurface));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -52,7 +54,7 @@ public class MsGeom {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.gmlMultiSurface == null)? 0 :this.gmlMultiSurface.hashCode()));
+        result = ((result * 31) + ((this.gmlMultiSurface == null) ? 0 : this.gmlMultiSurface.hashCode()));
         return result;
     }
 
@@ -65,7 +67,9 @@ public class MsGeom {
             return false;
         }
         MsGeom rhs = ((MsGeom) other);
-        return ((this.gmlMultiSurface == rhs.gmlMultiSurface)||((this.gmlMultiSurface!= null)&&this.gmlMultiSurface.equals(rhs.gmlMultiSurface)));
+        return ((this.gmlMultiSurface == rhs.gmlMultiSurface) ||
+                ((this.gmlMultiSurface != null) &&
+                        this.gmlMultiSurface.equals(rhs.gmlMultiSurface)));
     }
 
 }

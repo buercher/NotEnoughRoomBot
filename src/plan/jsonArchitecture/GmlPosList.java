@@ -2,14 +2,15 @@
 package plan.jsonArchitecture;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "srsDimension",
-    "content"
+        "srsDimension",
+        "content"
 })
 @Generated("jsonschema2pojo")
 public class GmlPosList {
@@ -52,17 +53,18 @@ public class GmlPosList {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlPosList.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(GmlPosList
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("srsDimension");
         sb.append('=');
         sb.append(this.srsDimension);
         sb.append(',');
         sb.append("content");
         sb.append('=');
-        sb.append(((this.content == null)?"<null>":this.content));
+        sb.append(((this.content == null) ? "<null>" : this.content));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -72,8 +74,8 @@ public class GmlPosList {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+ this.srsDimension);
-        result = ((result* 31)+((this.content == null)? 0 :this.content.hashCode()));
+        result = ((result * 31) + this.srsDimension);
+        result = ((result * 31) + ((this.content == null) ? 0 : this.content.hashCode()));
         return result;
     }
 
@@ -86,7 +88,10 @@ public class GmlPosList {
             return false;
         }
         GmlPosList rhs = ((GmlPosList) other);
-        return ((this.srsDimension == rhs.srsDimension)&&((this.content == rhs.content)||((this.content!= null)&&this.content.equals(rhs.content))));
+        return ((this.srsDimension == rhs.srsDimension) &&
+                ((this.content == rhs.content) ||
+                        ((this.content != null) &&
+                                this.content.equals(rhs.content))));
     }
 
 }

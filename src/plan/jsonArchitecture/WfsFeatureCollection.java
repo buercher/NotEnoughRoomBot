@@ -3,6 +3,7 @@ package plan.jsonArchitecture;
 
 import java.util.List;
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,14 +11,14 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "xmlns:gml",
-    "xmlns:ms",
-    "xmlns:ogc",
-    "xsi:schemaLocation",
-    "xmlns:xsi",
-    "gml:featureMember",
-    "xmlns:wfs",
-    "gml:boundedBy"
+        "xmlns:gml",
+        "xmlns:ms",
+        "xmlns:ogc",
+        "xsi:schemaLocation",
+        "xmlns:xsi",
+        "gml:featureMember",
+        "xmlns:wfs",
+        "gml:boundedBy"
 })
 @Generated("jsonschema2pojo")
 public class WfsFeatureCollection {
@@ -164,41 +165,42 @@ public class WfsFeatureCollection {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(WfsFeatureCollection.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(WfsFeatureCollection
+                .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("xmlnsGml");
         sb.append('=');
-        sb.append(((this.xmlnsGml == null)?"<null>":this.xmlnsGml));
+        sb.append(((this.xmlnsGml == null) ? "<null>" : this.xmlnsGml));
         sb.append(',');
         sb.append("xmlnsMs");
         sb.append('=');
-        sb.append(((this.xmlnsMs == null)?"<null>":this.xmlnsMs));
+        sb.append(((this.xmlnsMs == null) ? "<null>" : this.xmlnsMs));
         sb.append(',');
         sb.append("xmlnsOgc");
         sb.append('=');
-        sb.append(((this.xmlnsOgc == null)?"<null>":this.xmlnsOgc));
+        sb.append(((this.xmlnsOgc == null) ? "<null>" : this.xmlnsOgc));
         sb.append(',');
         sb.append("xsiSchemaLocation");
         sb.append('=');
-        sb.append(((this.xsiSchemaLocation == null)?"<null>":this.xsiSchemaLocation));
+        sb.append(((this.xsiSchemaLocation == null) ? "<null>" : this.xsiSchemaLocation));
         sb.append(',');
         sb.append("xmlnsXsi");
         sb.append('=');
-        sb.append(((this.xmlnsXsi == null)?"<null>":this.xmlnsXsi));
+        sb.append(((this.xmlnsXsi == null) ? "<null>" : this.xmlnsXsi));
         sb.append(',');
         sb.append("gmlFeatureMember");
         sb.append('=');
-        sb.append(((this.gmlFeatureMember == null)?"<null>":this.gmlFeatureMember));
+        sb.append(((this.gmlFeatureMember == null) ? "<null>" : this.gmlFeatureMember));
         sb.append(',');
         sb.append("xmlnsWfs");
         sb.append('=');
-        sb.append(((this.xmlnsWfs == null)?"<null>":this.xmlnsWfs));
+        sb.append(((this.xmlnsWfs == null) ? "<null>" : this.xmlnsWfs));
         sb.append(',');
         sb.append("gmlBoundedBy");
         sb.append('=');
-        sb.append(((this.gmlBoundedBy == null)?"<null>":this.gmlBoundedBy));
+        sb.append(((this.gmlBoundedBy == null) ? "<null>" : this.gmlBoundedBy));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -208,14 +210,14 @@ public class WfsFeatureCollection {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.xmlnsXsi == null)? 0 :this.xmlnsXsi.hashCode()));
-        result = ((result* 31)+((this.xmlnsMs == null)? 0 :this.xmlnsMs.hashCode()));
-        result = ((result* 31)+((this.gmlBoundedBy == null)? 0 :this.gmlBoundedBy.hashCode()));
-        result = ((result* 31)+((this.xsiSchemaLocation == null)? 0 :this.xsiSchemaLocation.hashCode()));
-        result = ((result* 31)+((this.xmlnsGml == null)? 0 :this.xmlnsGml.hashCode()));
-        result = ((result* 31)+((this.gmlFeatureMember == null)? 0 :this.gmlFeatureMember.hashCode()));
-        result = ((result* 31)+((this.xmlnsWfs == null)? 0 :this.xmlnsWfs.hashCode()));
-        result = ((result* 31)+((this.xmlnsOgc == null)? 0 :this.xmlnsOgc.hashCode()));
+        result = ((result * 31) + ((this.xmlnsXsi == null) ? 0 : this.xmlnsXsi.hashCode()));
+        result = ((result * 31) + ((this.xmlnsMs == null) ? 0 : this.xmlnsMs.hashCode()));
+        result = ((result * 31) + ((this.gmlBoundedBy == null) ? 0 : this.gmlBoundedBy.hashCode()));
+        result = ((result * 31) + ((this.xsiSchemaLocation == null) ? 0 : this.xsiSchemaLocation.hashCode()));
+        result = ((result * 31) + ((this.xmlnsGml == null) ? 0 : this.xmlnsGml.hashCode()));
+        result = ((result * 31) + ((this.gmlFeatureMember == null) ? 0 : this.gmlFeatureMember.hashCode()));
+        result = ((result * 31) + ((this.xmlnsWfs == null) ? 0 : this.xmlnsWfs.hashCode()));
+        result = ((result * 31) + ((this.xmlnsOgc == null) ? 0 : this.xmlnsOgc.hashCode()));
         return result;
     }
 
@@ -228,7 +230,30 @@ public class WfsFeatureCollection {
             return false;
         }
         WfsFeatureCollection rhs = ((WfsFeatureCollection) other);
-        return (((((((((this.xmlnsXsi == rhs.xmlnsXsi)||((this.xmlnsXsi!= null)&&this.xmlnsXsi.equals(rhs.xmlnsXsi)))&&((this.xmlnsMs == rhs.xmlnsMs)||((this.xmlnsMs!= null)&&this.xmlnsMs.equals(rhs.xmlnsMs))))&&((this.gmlBoundedBy == rhs.gmlBoundedBy)||((this.gmlBoundedBy!= null)&&this.gmlBoundedBy.equals(rhs.gmlBoundedBy))))&&((this.xsiSchemaLocation == rhs.xsiSchemaLocation)||((this.xsiSchemaLocation!= null)&&this.xsiSchemaLocation.equals(rhs.xsiSchemaLocation))))&&((this.xmlnsGml == rhs.xmlnsGml)||((this.xmlnsGml!= null)&&this.xmlnsGml.equals(rhs.xmlnsGml))))&&((this.gmlFeatureMember == rhs.gmlFeatureMember)||((this.gmlFeatureMember!= null)&&this.gmlFeatureMember.equals(rhs.gmlFeatureMember))))&&((this.xmlnsWfs == rhs.xmlnsWfs)||((this.xmlnsWfs!= null)&&this.xmlnsWfs.equals(rhs.xmlnsWfs))))&&((this.xmlnsOgc == rhs.xmlnsOgc)||((this.xmlnsOgc!= null)&&this.xmlnsOgc.equals(rhs.xmlnsOgc))));
+        return (((((((((this.xmlnsXsi == rhs.xmlnsXsi) ||
+                ((this.xmlnsXsi != null) &&
+                        this.xmlnsXsi.equals(rhs.xmlnsXsi))) &&
+                ((this.xmlnsMs == rhs.xmlnsMs) ||
+                        ((this.xmlnsMs != null) &&
+                                this.xmlnsMs.equals(rhs.xmlnsMs)))) &&
+                ((this.gmlBoundedBy == rhs.gmlBoundedBy) ||
+                        ((this.gmlBoundedBy != null) &&
+                                this.gmlBoundedBy.equals(rhs.gmlBoundedBy)))) &&
+                ((this.xsiSchemaLocation == rhs.xsiSchemaLocation) ||
+                        ((this.xsiSchemaLocation != null) &&
+                                this.xsiSchemaLocation.equals(rhs.xsiSchemaLocation)))) &&
+                ((this.xmlnsGml == rhs.xmlnsGml) ||
+                        ((this.xmlnsGml != null) &&
+                                this.xmlnsGml.equals(rhs.xmlnsGml)))) &&
+                ((this.gmlFeatureMember == rhs.gmlFeatureMember) ||
+                        ((this.gmlFeatureMember != null) &&
+                                this.gmlFeatureMember.equals(rhs.gmlFeatureMember)))) &&
+                ((this.xmlnsWfs == rhs.xmlnsWfs) ||
+                        ((this.xmlnsWfs != null) &&
+                                this.xmlnsWfs.equals(rhs.xmlnsWfs)))) &&
+                ((this.xmlnsOgc == rhs.xmlnsOgc) ||
+                        ((this.xmlnsOgc != null) &&
+                                this.xmlnsOgc.equals(rhs.xmlnsOgc))));
     }
 
 }
