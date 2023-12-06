@@ -1,3 +1,5 @@
+package searchingRoom;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,14 +26,14 @@ public class AllCases {
      *
      * @throws IOException If an I/O error occurs
      */
-    public static void main(String[] args) throws IOException {
-        File roomChecking = new File("resources/RoomList");
+    public static void find() throws IOException {
+        File roomChecking = new File("database/RoomList");
         if (!roomChecking.exists()) {
             if (!roomChecking.mkdir()) {
                 throw new IOException("Failed to create folder '" + roomChecking.getPath() + "'");
             }
         }
-        File input = new File("resources/RoomToConvert");
+        File input = new File("database/RoomToConvert");
         File[] files = input.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -45,12 +47,12 @@ public class AllCases {
                     recursiveDash(inputString);
                 }
                 outputLength += outputList.size();
-                File output = new File("resources/RoomList/" + file.getName());
+                File output = new File("database/RoomList/" + file.getName());
                 Files.write(output.toPath(), outputList);
             }
         }
-        System.out.println("Nombre de salles avant: " + inputLength);
-        System.out.println("Nombre de salles après: " + outputLength);
+        System.out.println("Room before recursive search : " + inputLength);
+        System.out.println("Room after recursive search  : " + outputLength);
     }
 
     /**

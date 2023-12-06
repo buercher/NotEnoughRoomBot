@@ -45,7 +45,7 @@ public class TestEPFL {
     public static void test(String buildingName) throws IOException {
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
-        List<String> paths = fetchStringsFromFile("resources/RoomList/" + buildingName);
+        List<String> paths = fetchStringsFromFile("database/RoomList/" + buildingName);
         for (String path : paths) {
             String data = UrlFetcher.EPFL(path);
             if (data.contains("Pas d'information pour cette salle")) {

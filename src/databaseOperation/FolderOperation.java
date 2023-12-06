@@ -30,6 +30,9 @@ public class FolderOperation {
     public static void deleteFoldersExcept(String currentDateString) throws IOException {
 
         File directory = new File("database");
+        if (!directory.exists() && !directory.mkdirs()) {
+            throw new IOException("Failed to create folder '" + directory.getPath() + "'");
+        }
         File[] files = directory.listFiles();
 
         // List of files and folders that should not be deleted
@@ -38,18 +41,26 @@ public class FolderOperation {
                 "fromEPFL.json",
                 "roomWithIssue.json"
         );
-        List<String> folderPaths = Arrays.asList(
+        List<String> folderNames = Arrays.asList(
                 "roomChecking",
                 "EPFL-" + currentDateString,
-                "FLEP-" + currentDateString
+                "FLEP-" + currentDateString,
+                "PlanJson",
+                "RoomList",
+                "RoomToConvert"
         );
+        List<String> folderPaths = Arrays.asList(
+                "database/" + "EPFL-" + currentDateString,
+                "database/" + "FLEP-" + currentDateString
+        );
+
 
         // Delete all files and folders that are not in the lists above
         if (files != null) {
             for (File file : files) {
                 if (file.isFile() && !filePaths.contains(file.getName())) {
                     Files.delete(file.toPath());
-                } else if (file.isDirectory() && !folderPaths.contains(file.getName())) {
+                } else if (file.isDirectory() && !folderNames.contains(file.getName())) {
 
                     // Delete all files and folders within the directory
                     try (Stream<Path> pathStream = Files.walk(file.toPath())) {
@@ -66,7 +77,7 @@ public class FolderOperation {
 
         // Create the folders if they don't exist
         for (String folderPath : folderPaths) {
-            File folder = new File("database/" + folderPath);
+            File folder = new File(folderPath);
             if (!folder.exists() && !folder.mkdirs()) {
                 throw new IOException("Failed to create folder '" + folder.getPath() + "'");
             }

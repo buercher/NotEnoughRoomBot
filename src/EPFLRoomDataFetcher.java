@@ -1,5 +1,6 @@
 import plan.PlanDataFetch;
 import plan.RoomJsonToList;
+import searchingRoom.AllCases;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,11 @@ public class EPFLRoomDataFetcher {
      * @see RoomJsonToList#RoomToJson()
      */
     public static void main(String[] args) throws IOException {
-        File roomChecking = new File("resources/PlanJson");
+        File directory = new File("database");
+        if (!directory.exists() && !directory.mkdirs()) {
+            throw new IOException("Failed to create folder '" + directory.getPath() + "'");
+        }
+        File roomChecking = new File("database/PlanJson");
         if (!roomChecking.exists()) {
             if (!roomChecking.mkdir()) {
                 throw new IOException("Failed to create folder '" + roomChecking.getPath() + "'");
@@ -31,5 +36,6 @@ public class EPFLRoomDataFetcher {
         }
         PlanDataFetch.searchAllFloor();
         RoomJsonToList.RoomToJson();
+        AllCases.find();
     }
 }

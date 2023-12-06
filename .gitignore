@@ -28,6 +28,3 @@ bin/
 ### Mac OS ###
 .DS_Store
 /database/
-/resources/RoomList/
-/resources/PlanJson/
-/resources/RoomToConvert/

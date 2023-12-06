@@ -53,7 +53,7 @@ public class RoomJsonToList {
      * @see RoomJsonToList#extractValidRooms(int)
      */
     public static void RoomToJson() throws IOException {
-        File roomList = new File("resources/RoomToConvert");
+        File roomList = new File("database/RoomToConvert");
 
         if (!roomList.exists()) {
             if (!roomList.mkdir()) {
@@ -66,7 +66,7 @@ public class RoomJsonToList {
         }
         for (String building : BUILDINGS) {
             List<String> outputList = new ArrayList<>();
-            File output = new File("resources/RoomToConvert/" + building);
+            File output = new File("database/RoomToConvert/" + building);
             Files.deleteIfExists(output.toPath());
             for (String room : rooms) {
                 if (room.contains(building)) {
@@ -94,7 +94,7 @@ public class RoomJsonToList {
      */
     public static void extractValidRooms(int floor) throws IOException {
         // Load JSON file
-        File jsonFile = new File("resources/PlanJson/plan floor " + floor + ".json");
+        File jsonFile = new File("database/PlanJson/plan floor " + floor + ".json");
 
         // Create ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();

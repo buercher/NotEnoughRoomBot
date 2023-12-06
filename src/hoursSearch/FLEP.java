@@ -68,6 +68,7 @@ public class FLEP {
                 MergeRanges.mergeAdjacentRanges(lines);
 
                 Files.write(file.toPath(), lines, Charset.defaultCharset());
+                System.out.println("FLEP "+file.getName() );
             }
         }
     }

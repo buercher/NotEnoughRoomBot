@@ -98,6 +98,7 @@ public class EPFL {
                 MergeRanges.mergeAdjacentRanges(lines);
 
                 Files.write(file.toPath(), lines, Charset.defaultCharset());
+                System.out.println("EPFL "+file.getName() );
             }
         }
         JsonFileWrite(roomWithIssue, "roomWithIssue");
