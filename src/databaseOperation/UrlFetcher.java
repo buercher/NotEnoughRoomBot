@@ -49,9 +49,7 @@ public class UrlFetcher {
         JSONArray schedulesArray = data.getJSONArray("schedules");
 
         List<JSONObject> schedulesList = new ArrayList<>();
-        for (int i = 0; i < schedulesArray.length(); i++) {
-            schedulesList.add(schedulesArray.getJSONObject(i));
-        }
+        schedulesArray.forEach(item -> schedulesList.add((JSONObject) item));
 
         return schedulesList;
     }
@@ -74,7 +72,9 @@ public class UrlFetcher {
 
             // Read the content of the website
             StringBuilder content = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            try (BufferedReader reader =
+                         new BufferedReader(
+                                 new InputStreamReader(connection.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     content.append(line);
