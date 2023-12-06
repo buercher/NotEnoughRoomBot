@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class SearchRoom {
 
-    private static final String ROOM_LIST_PATH = "resources/RoomList";
+    private static final String ROOM_LIST_PATH = "resources/RoomList/";
 
     private static final List<String> FLEP_EXISTS = Arrays.asList(
             "AAC", "AI", "BC", "BCH", "BS", "BSP", "CE", "CH", "CM", "CO", "DIA",
@@ -19,6 +19,7 @@ public class SearchRoom {
             "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
     private static final Queue<File> fileQueue = new LinkedList<>();
     private static Thread EPFLThread;
+    private static Thread FLEPThread;
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -50,7 +51,7 @@ public class SearchRoom {
             }
         });
 
-        Thread FLEPThread = new Thread(() -> {
+        FLEPThread = new Thread(() -> {
             try {
                 FLEPThreadProcess();
             } catch (IOException e) {
@@ -58,10 +59,7 @@ public class SearchRoom {
             }
         });
 
-        FLEPThread.setDaemon(true);
-        EPFLThread.setDaemon(true);
-        EPFLThread.start();
-        FLEPThread.start();
+        configureAndStartThreads();
     }
 
     /**
@@ -92,6 +90,29 @@ public class SearchRoom {
                     TestFLEP.test(currentFile.getName());
                 }
             }
+        }
+    }
+
+    /**
+     * Static method to configure and start threads.
+     */
+    private static void configureAndStartThreads() {
+        FLEPThread.setDaemon(true);
+        EPFLThread.setDaemon(true);
+        EPFLThread.start();
+        FLEPThread.start();
+        try {
+            EPFLThread.join();
+        } catch (InterruptedException e) {
+            // Interrupted, stop EPFLThread and allow FLEPThread to continue
+            EPFLThread.interrupt();
+        }
+
+        try {
+            FLEPThread.join();
+        } catch (InterruptedException e) {
+            // Interrupted, stop FLEPThread and allow EPFLThread to continue
+            FLEPThread.interrupt();
         }
     }
 }
