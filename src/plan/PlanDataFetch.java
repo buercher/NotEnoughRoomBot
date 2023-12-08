@@ -1,5 +1,8 @@
 package plan;
 
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
 import org.jetbrains.annotations.NotNull;
 import org.json.XML;
 
@@ -42,9 +45,28 @@ public class PlanDataFetch {
      * Searches all the floors in the given area.
      */
     public static void searchAllFloor() {
-        Area area = new Area(new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
-        for (int i = -4; i < 9; i++) {
-            search(area, i);
+
+        ProgressBarBuilder pbb = ProgressBar.builder()
+                .setStyle(ProgressBarStyle.builder()
+                        .refreshPrompt("\r")
+                        .leftBracket("\u001b[1:36m")
+                        .delimitingSequence("\u001b[1:34m")
+                        .rightBracket("\u001b[1:34m")
+                        .block('━')
+                        .space('━')
+                        .fractionSymbols(" ╸")
+                        .rightSideFractionSymbol('╺')
+                        .build()
+                ).continuousUpdate().setTaskName("Plan").setMaxRenderedLength(86);
+
+        try (ProgressBar pb = pbb.build()) {
+            pb.maxHint(13);
+            Area area = new Area(new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
+            for (int i = -4; i < 9; i++) {
+                search(area, i);
+                pb.step();
+                pb.refresh();
+            }
         }
     }
 
@@ -102,7 +124,6 @@ public class PlanDataFetch {
                 Files.deleteIfExists(jsonPath);
                 String jsonString = XML.toJSONObject(response.toString()).toString();
                 Files.write(jsonPath, Collections.singleton(jsonString), Charset.defaultCharset());
-                System.out.println("floor " + floor + " done");
             } else {
                 System.out.println("HTTP POST request failed with response code: " + responseCode);
             }

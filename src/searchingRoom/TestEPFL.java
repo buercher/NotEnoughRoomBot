@@ -1,6 +1,8 @@
 package searchingRoom;
 
 import databaseOperation.UrlFetcher;
+import me.tongfei.progressbar.ProgressBar;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,7 +44,7 @@ public class TestEPFL {
      * @throws IOException If an I/O error occurs
      * @see UrlFetcher#EPFL(String)
      */
-    public static void test(String buildingName) throws IOException {
+    public static void test(String buildingName,ProgressBar pbEPFL,String count) throws IOException {
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
         List<String> paths = fetchStringsFromFile("database/RoomList/" + buildingName);
@@ -53,9 +55,11 @@ public class TestEPFL {
             } else {
                 fromEPFL.add(path);
             }
+            pbEPFL.step();
+            pbEPFL.setExtraMessage(StringUtils.rightPad(" EPFL: " + path, 20));
+            pbEPFL.refresh();
         }
-        JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName);
-        JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName);
+        JsonFileWrite(roomWithIssue, "roomWithIssue"+count+"/" + buildingName);
+        JsonFileWrite(fromEPFL, "fromEPFL"+count+"/" + buildingName);
     }
-
 }

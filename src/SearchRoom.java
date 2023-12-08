@@ -1,10 +1,17 @@
 import databaseOperation.FolderOperation;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.lang.StringUtils;
 import searchingRoom.TestEPFL;
 import searchingRoom.TestFLEP;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * The SearchRoom class provides multiple methods for testing existence of room in EPFL and FLEP websites.
@@ -33,8 +40,8 @@ public class SearchRoom {
      *
      * @throws IOException If an I/O error occurs during the testing process
      * @see FolderOperation#CreateFoldersForTest()
-     * @see TestEPFL#test(String)
-     * @see TestFLEP#test(String)
+     * @see TestEPFL#test(String, ProgressBar, String)
+     * @see TestFLEP#test(String, ProgressBar)
      */
     public static void main(String[] args) throws IOException {
         File database = new File("database");
@@ -46,24 +53,41 @@ public class SearchRoom {
         File directory = new File(ROOM_LIST_PATH);
         File[] files = directory.listFiles();
 
+        ProgressBarBuilder pbb = ProgressBar.builder()
+                .setStyle(ProgressBarStyle.builder()
+                        .refreshPrompt("\r")
+                        .leftBracket("\u001b[1:36m")
+                        .delimitingSequence("\u001b[1:34m")
+                        .rightBracket("\u001b[1:34m")
+                        .block('━')
+                        .space('━')
+                        .fractionSymbols(" ╸")
+                        .rightSideFractionSymbol('╺')
+                        .build())
+                .setTaskName("Total")
+                .setMaxRenderedLength(111);
 
-        EPFLThread = new Thread(() -> {
-            try {
-                EPFLThreadProcess(files);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        try (ProgressBar pb = pbb.build()) {
+            pb.maxHint(31156 * 3);
 
-        FLEPThread = new Thread(() -> {
-            try {
-                FLEPThreadProcess();
-            } catch (IOException e) {
-                e.fillInStackTrace();
-            }
-        });
+            EPFLThread = new Thread(() -> {
+                try {
+                    EPFLThreadProcess(files, pb);
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
-        configureAndStartThreads();
+            FLEPThread = new Thread(() -> {
+                try {
+                    FLEPThreadProcess(pb);
+                } catch (IOException e) {
+                    e.fillInStackTrace();
+                }
+            });
+            configureAndStartThreads();
+            pb.setExtraMessage(StringUtils.rightPad(" done", 14));
+        }
     }
 
     /**
@@ -72,13 +96,30 @@ public class SearchRoom {
      * @param files The files to be processed
      * @throws IOException If an I/O error occurs
      */
-    private static void EPFLThreadProcess(File[] files) throws IOException {
+    private static void EPFLThreadProcess(File[] files, ProgressBar pbEPFL) throws IOException, InterruptedException {
         if (files != null) {
             for (File file : files) {
-                TestEPFL.test(file.getName());
+                TestEPFL.test(file.getName(), pbEPFL, "");
                 fileQueue.add(file);
             }
         }
+        while (FLEPThread.isAlive()) {
+            pbEPFL.refresh();
+        }
+        Thread.sleep(60000);
+        File roomWithIssue = new File("database/roomChecking/roomWithIssue/");
+        List<File> files2 = List.of(Objects.requireNonNull(roomWithIssue.listFiles()));
+        for (File file : Objects.requireNonNull(files)) {
+            if (files2.contains(file)) {
+                TestEPFL.test(file.getName(), pbEPFL, "2");
+                Thread.sleep(50);
+            } else {
+                try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
+                    pbEPFL.stepBy(lines.count());
+                }
+            }
+        }
+
     }
 
     /**
@@ -86,12 +127,16 @@ public class SearchRoom {
      *
      * @throws IOException If an I/O error occurs
      */
-    private static void FLEPThreadProcess() throws IOException {
+    private static void FLEPThreadProcess(ProgressBar pbFLEP) throws IOException {
         while (EPFLThread.isAlive() || !fileQueue.isEmpty()) {
             if (!fileQueue.isEmpty()) {
                 File currentFile = fileQueue.poll();
                 if (FLEP_EXISTS.contains(currentFile.getName())) {
-                    TestFLEP.test(currentFile.getName());
+                    TestFLEP.test(currentFile.getName(), pbFLEP);
+                } else {
+                    try (Stream<String> lines = Files.lines(currentFile.toPath(), StandardCharsets.UTF_8)) {
+                        pbFLEP.stepBy(lines.count());
+                    }
                 }
             }
         }

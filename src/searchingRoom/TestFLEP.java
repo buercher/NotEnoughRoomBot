@@ -2,10 +2,14 @@ package searchingRoom;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.tongfei.progressbar.ProgressBar;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +33,7 @@ public class TestFLEP {
      * @param buildingName The name of the building
      * @throws IOException If an I/O error occurs
      */
-    public static void test(String buildingName) throws IOException {
+    public static void test(String buildingName, ProgressBar pbFLEP) throws IOException {
         String First = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
         Set<String> roomNoSearchable = new HashSet<>();
         Set<String> fromFLEP = new HashSet<>();
@@ -40,6 +44,15 @@ public class TestFLEP {
                 , new TypeReference<>() {
                 }
         );
+        if (Files.exists(Path.of("database/roomChecking/fromEPFL/" + buildingName + ".json"))) {
+            List<String> temp = objectMapper.readValue(
+                    new File(
+                            "database/roomChecking/fromEPFL/" + buildingName + ".json")
+                    , new TypeReference<>() {
+                    }
+            );
+            pbFLEP.stepBy(temp.size());
+        }
         for (String path : paths) {
             URL url = new URL(First + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -49,6 +62,9 @@ public class TestFLEP {
             } catch (java.io.FileNotFoundException e) {
                 roomNoSearchable.add(path);
             }
+            pbFLEP.step();
+            pbFLEP.setExtraMessage(StringUtils.rightPad(" FLEP: " + path, 20));
+            pbFLEP.refresh();
         }
         JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName);
         JsonFileWrite(fromFLEP, "fromFLEP/" + buildingName);

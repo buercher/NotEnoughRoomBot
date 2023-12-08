@@ -95,7 +95,9 @@ public class FolderOperation {
                 "database/roomChecking/fromEPFL",
                 "database/roomChecking/fromFLEP",
                 "database/roomChecking/roomNotSearchable",
-                "database/roomChecking/roomWithIssue"
+                "database/roomChecking/roomWithIssue",
+                "database/roomChecking/fromEPFL2",
+                "database/roomChecking/roomWithIssue2"
         );
 
         for (String folderPath : folderPaths) {
