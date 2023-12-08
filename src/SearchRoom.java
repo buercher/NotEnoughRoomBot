@@ -40,7 +40,7 @@ public class SearchRoom {
      *
      * @throws IOException If an I/O error occurs during the testing process
      * @see FolderOperation#CreateFoldersForTest()
-     * @see TestEPFL#test(String, ProgressBar, String)
+     * @see TestEPFL#test(String, ProgressBar)
      * @see TestFLEP#test(String, ProgressBar)
      */
     public static void main(String[] args) throws IOException {
@@ -68,12 +68,12 @@ public class SearchRoom {
                 .setMaxRenderedLength(111);
 
         try (ProgressBar pb = pbb.build()) {
-            pb.maxHint(31156 * 3);
+            pb.maxHint(31156 * 2);
 
             EPFLThread = new Thread(() -> {
                 try {
                     EPFLThreadProcess(files, pb);
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             });
@@ -96,30 +96,11 @@ public class SearchRoom {
      * @param files The files to be processed
      * @throws IOException If an I/O error occurs
      */
-    private static void EPFLThreadProcess(File[] files, ProgressBar pbEPFL) throws IOException, InterruptedException {
+    private static void EPFLThreadProcess(File[] files, ProgressBar pbEPFL) throws IOException {
         if (files != null) {
             for (File file : files) {
-                TestEPFL.test(file.getName(), pbEPFL, "");
+                TestEPFL.test(file.getName(), pbEPFL);
                 fileQueue.add(file);
-            }
-        }
-        while (!fileQueue.isEmpty()) {
-            pbEPFL.refresh();
-        }
-        Thread.sleep(10000);
-        File roomWithIssue = new File("database/roomChecking/roomWithIssue/");
-        List<File> files2 = List.of(Objects.requireNonNull(roomWithIssue.listFiles()));
-        List<String> filesName = new ArrayList<>();
-        files2.iterator().forEachRemaining(file ->
-                filesName.add(file.getName().replaceAll(".json", "")));
-
-        for (File file : Objects.requireNonNull(files)) {
-            if (filesName.contains(file.getName())) {
-                TestEPFL.test(file.getName(), pbEPFL, "2");
-                Thread.sleep(50);
-            } else {
-                List<String> a = Files.readAllLines(file.toPath());
-                pbEPFL.stepBy(a.size());
             }
         }
 
