@@ -103,20 +103,23 @@ public class SearchRoom {
                 fileQueue.add(file);
             }
         }
-        while (FLEPThread.isAlive()) {
+        while (!fileQueue.isEmpty()) {
             pbEPFL.refresh();
         }
-        Thread.sleep(60000);
+        Thread.sleep(10000);
         File roomWithIssue = new File("database/roomChecking/roomWithIssue/");
         List<File> files2 = List.of(Objects.requireNonNull(roomWithIssue.listFiles()));
+        List<String> filesName = new ArrayList<>();
+        files2.iterator().forEachRemaining(file ->
+                filesName.add(file.getName().replaceAll(".json", "")));
+
         for (File file : Objects.requireNonNull(files)) {
-            if (files2.contains(file)) {
+            if (filesName.contains(file.getName())) {
                 TestEPFL.test(file.getName(), pbEPFL, "2");
                 Thread.sleep(50);
             } else {
-                try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
-                    pbEPFL.stepBy(lines.count());
-                }
+                List<String> a = Files.readAllLines(file.toPath());
+                pbEPFL.stepBy(a.size());
             }
         }
 
