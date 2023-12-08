@@ -3,6 +3,10 @@ package databaseOperation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,20 +59,39 @@ public class JsonOperation {
                 new File("database/roomWithIssue.json"), new TypeReference<>() {
                 });
 
-
-        for (String path : paths) {
-            roomSchedules.put(path, new TreeSet<>());
-            if (pathsEPFL.contains(path)) {
-                AddToMap(roomSchedules,
-                        path,
-                        "database/" + "EPFL-" + currentDateString + "/" + path);
-            } else if (pathsRoomWithIssue.contains(path)) {
-                AddToMap(roomSchedules,
-                        path,
-                        "database/" + "FLEP-" + currentDateString + "/" + path);
-            } else {
-                throw new IllegalStateException("The data wasn't attributed to any of the maps");
+        ProgressBarBuilder pbb = ProgressBar.builder()
+                .setStyle(ProgressBarStyle.builder()
+                        .refreshPrompt("\r")
+                        .leftBracket("\u001b[1:36m")
+                        .delimitingSequence("\u001b[1:34m")
+                        .rightBracket("\u001b[1:34m")
+                        .block('━')
+                        .space('━')
+                        .fractionSymbols(" ╸")
+                        .rightSideFractionSymbol('╺')
+                        .build()
+                ).continuousUpdate().setTaskName("JSON").setMaxRenderedLength(100);
+        try (ProgressBar pb = pbb.build()) {
+            pb.maxHint(paths.size());
+            for (String path : paths) {
+                roomSchedules.put(path, new TreeSet<>());
+                if (pathsEPFL.contains(path)) {
+                    AddToMap(roomSchedules,
+                            path,
+                            "database/" + "EPFL-" + currentDateString + "/" + path);
+                } else if (pathsRoomWithIssue.contains(path)) {
+                    AddToMap(roomSchedules,
+                            path,
+                            "database/" + "FLEP-" + currentDateString + "/" + path);
+                } else {
+                    throw new IllegalStateException("The data wasn't attributed to any of the maps");
+                }
+                pb.step();
+                pb.setExtraMessage(StringUtils.rightPad(" " + path, 14));
+                pb.refresh();
             }
+            pb.setExtraMessage(StringUtils.rightPad(" done", 14));
+            pb.refresh();
         }
 
         // BC07 and BC08 are merged into one room in the EPFL schedule

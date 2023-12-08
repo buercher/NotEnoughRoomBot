@@ -4,17 +4,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databaseOperation.FileOperation;
 import databaseOperation.UrlFetcher;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.nio.file.Files;
 
 /**
  * The FLEP class provides multiple methods for fetching data from the FLEP website.
@@ -36,6 +36,7 @@ public class FLEP {
      * @see ObjectMapper
      */
     public static void scrap() throws IOException {
+
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
@@ -45,31 +46,40 @@ public class FLEP {
                 new File("database/roomWithIssue.json"), new TypeReference<>() {
                 });
 
+        ProgressBarBuilder pbb = ProgressBar.builder()
+                .setStyle(ProgressBarStyle.builder()
+                        .refreshPrompt("\r")
+                        .leftBracket("\u001b[1:36m")
+                        .delimitingSequence("\u001b[1:34m")
+                        .rightBracket("\u001b[1:34m"+"  ")
+                        .block('━')
+                        .space('━')
+                        .fractionSymbols(" ╸")
+                        .rightSideFractionSymbol('╺')
+                        .build()
+                ).continuousUpdate().setTaskName("FLEP").setMaxRenderedLength(100);
+        try (ProgressBar pb = pbb.build()) {
+            pb.maxHint(paths.size());
 
-        for (String path : paths) {
-            String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
-            List<JSONObject> schedules = UrlFetcher.FLEP(path);
+            for (String path : paths) {
+                String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
+                List<JSONObject> schedules = UrlFetcher.FLEP(path);
 
-            for (JSONObject schedule : schedules) {
-                String scheduleStartDate = schedule.getString("start").substring(0, 10);
+                for (JSONObject schedule : schedules) {
+                    String scheduleStartDate = schedule.getString("start").substring(0, 10);
 
-                if (currentDateString.equals(scheduleStartDate)) {
-                    String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
-                    String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
-                    FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                    if (currentDateString.equals(scheduleStartDate)) {
+                        String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
+                        String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
+                        FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                    }
                 }
-            }
 
-            // Sort the file and merge adjacent ranges
-            File file = new File(filePath);
-            if (file.exists()) {
-                List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-                Collections.sort(lines);
-                MergeRanges.mergeAdjacentRanges(lines);
-
-                Files.write(file.toPath(), lines, Charset.defaultCharset());
-                System.out.println("FLEP "+file.getName() );
+                // Sort the file and merge adjacent ranges
+                FileOperation.FinalFileCreation(pb, path, filePath);
             }
+            pb.setExtraMessage(StringUtils.rightPad(" done", 14));
+            pb.refresh();
         }
     }
 }

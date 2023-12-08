@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import databaseOperation.FileOperation;
 import databaseOperation.FolderOperation;
 import databaseOperation.UrlFetcher;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,47 +63,57 @@ public class EPFL {
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
 
-        for (String path : paths) {
-            String filePath = "database/" + "EPFL-" + currentDateString + "/" + path;
-            String data = UrlFetcher.EPFL(path);
+        ProgressBarBuilder pbb = ProgressBar.builder()
+                .setStyle(ProgressBarStyle.builder()
+                        .refreshPrompt("\r")
+                        .leftBracket("\u001b[1:36m")
+                        .delimitingSequence("\u001b[1:34m")
+                        .rightBracket("\u001b[1:34m")
+                        .block('━')
+                        .space('━')
+                        .fractionSymbols(" ╸")
+                        .rightSideFractionSymbol('╺')
+                        .build()
+                ).continuousUpdate().setTaskName("EPFL").setMaxRenderedLength(100);
+        try (ProgressBar pb = pbb.build()) {
+            pb.maxHint(paths.size());
 
-            if (data.contains("Pas d'information pour cette salle")) {
-                roomWithIssue.add(path);
-            } else {
-                fromEPFL.add(path);
-            }
+            for (String path : paths) {
+                String filePath = "database/" + "EPFL-" + currentDateString + "/" + path;
+                String data = UrlFetcher.EPFL(path);
 
-            int startIndex = data.indexOf("v.events = ");
-            int endIndex = data.indexOf(";", startIndex);
+                if (data.contains("Pas d'information pour cette salle")) {
+                    roomWithIssue.add(path);
+                } else {
+                    fromEPFL.add(path);
+                }
 
-            if (startIndex != -1 && endIndex != -1) {
+                int startIndex = data.indexOf("v.events = ");
+                int endIndex = data.indexOf(";", startIndex);
 
-                String json = data.substring(startIndex + 11, endIndex).trim();
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.configure(
-                        JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
-                JsonNode eventsArray = objectMapper.readTree(json);
-                for (JsonNode event : eventsArray) {
-                    String scheduleStartDate = event.get("Start").asText().substring(0, 10);
+                if (startIndex != -1 && endIndex != -1) {
 
-                    if (currentDateString.equals(scheduleStartDate)) {
-                        String scheduleStartHour = event.get("Start").asText().substring(11, 13);
-                        String scheduleEndHour = event.get("End").asText().substring(11, 13);
-                        FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                    String json = data.substring(startIndex + 11, endIndex).trim();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    objectMapper.configure(
+                            JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
+                    JsonNode eventsArray = objectMapper.readTree(json);
+                    for (JsonNode event : eventsArray) {
+                        String scheduleStartDate = event.get("Start").asText().substring(0, 10);
+
+                        if (currentDateString.equals(scheduleStartDate)) {
+                            String scheduleStartHour = event.get("Start").asText().substring(11, 13);
+                            String scheduleEndHour = event.get("End").asText().substring(11, 13);
+                            FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                        }
                     }
                 }
-            }
 
-            // Sort the file and merge adjacent ranges
-            File file = new File(filePath);
-            if (file.exists()) {
-                List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-                Collections.sort(lines);
-                MergeRanges.mergeAdjacentRanges(lines);
-
-                Files.write(file.toPath(), lines, Charset.defaultCharset());
-                System.out.println("EPFL "+file.getName() );
+                // Sort the file and merge adjacent ranges
+                FileOperation.FinalFileCreation(pb, path, filePath);
             }
+            pb.setExtraMessage(StringUtils.rightPad(" done", 14));
+            pb.refresh();
         }
         JsonFileWrite(roomWithIssue, "roomWithIssue");
         JsonFileWrite(fromEPFL, "fromEPFL");

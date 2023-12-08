@@ -1,9 +1,15 @@
 package databaseOperation;
 
+import hoursSearch.MergeRanges;
+import me.tongfei.progressbar.ProgressBar;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,5 +59,19 @@ public class FileOperation {
             lines.add(value);
             Files.write(path, lines, Charset.defaultCharset());
         }
+    }
+
+    public static void FinalFileCreation(ProgressBar progressBar, String path, String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
+            List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+            Collections.sort(lines);
+            MergeRanges.mergeAdjacentRanges(lines);
+
+            Files.write(file.toPath(), lines, Charset.defaultCharset());
+        }
+        progressBar.step();
+        progressBar.setExtraMessage(StringUtils.rightPad(" " + path, 14));
+        progressBar.refresh();
     }
 }

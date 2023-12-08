@@ -46,10 +46,8 @@ public class TestFLEP {
             connection.setRequestMethod("GET");
             try (BufferedReader ignored = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                 fromFLEP.add(path);
-                System.out.println("FLEP : " + path);
             } catch (java.io.FileNotFoundException e) {
                 roomNoSearchable.add(path);
-                System.out.println("roomNoSearchable : " + path);
             }
         }
         JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName);
