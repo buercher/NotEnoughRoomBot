@@ -2,6 +2,7 @@ package hoursSearch;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databaseOperation.FileOperation;
@@ -15,10 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -40,8 +38,11 @@ public class EPFL {
      * @throws IOException If an I/O error occurs while reading the file
      */
     private static List<String> fetchStringListFromFile() throws IOException {
-        Path path = Paths.get("resources/list");
-        return Files.readAllLines(path, StandardCharsets.UTF_8);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(
+                new File("resources/allValidRooms.json"),
+                new TypeReference<>() {});
+
     }
 
     /**

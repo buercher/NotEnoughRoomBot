@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -49,8 +48,11 @@ public class JsonOperation {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateString = dateFormat.format(currentDate);
 
-        List<String> paths = Files.readAllLines(Paths.get("resources/list"));
         ObjectMapper objectMapper = new ObjectMapper();
+        List<String> paths = objectMapper.readValue(
+                new File("resources/allValidRooms.json"),
+                new TypeReference<>() {});
+
         List<String> pathsEPFL = objectMapper.readValue(
                 new File("database/fromEPFL.json"), new TypeReference<>() {
                 });
