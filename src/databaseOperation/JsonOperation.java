@@ -32,8 +32,8 @@ public class JsonOperation {
      * The data is organized in a map with the following structure:</p>
      * <pre>
      * {@code
-     *     "AAC006": [4, 5, 10],
-     *     "BC05": [1, 2, 3, 4, 5, 10],
+     *     "AAC006": [4, 5, 9, 10],
+     *     "BC05": [3, 4, 5, 8, 9, 10],
      *     "BC06": [1, 2, 8, 9, 10],
      *     "BC07": [3, 6, 7, 8, 9, 10],
      * }
@@ -51,7 +51,8 @@ public class JsonOperation {
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
                 new File("resources/allValidRooms.json"),
-                new TypeReference<>() {});
+                new TypeReference<>() {
+                });
 
         List<String> pathsEPFL = objectMapper.readValue(
                 new File("database/fromEPFL.json"), new TypeReference<>() {

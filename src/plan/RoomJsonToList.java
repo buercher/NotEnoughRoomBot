@@ -102,6 +102,7 @@ public class RoomJsonToList {
 
         JsonRoom jsonRoom = objectMapper.readValue(jsonFile, JsonRoom.class);
 
+
         // Now you can work with the parsed Java objects
         jsonRoom.
                 getWfsFeatureCollection().
