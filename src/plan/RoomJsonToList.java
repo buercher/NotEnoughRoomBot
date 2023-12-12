@@ -2,6 +2,7 @@ package plan;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import databaseOperation.JsonRoomArchitecture;
 import plan.jsonArchitecture.JsonRoom;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class RoomJsonToList {
 
     private static final List<String> WHITE_LIST = Arrays.asList(
             "LABO", "DETENTE", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
-            "LOCAUX SECOND","AUDIO-VISUEL", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
+            "LOCAUX SECOND", "AUDIO-VISUEL", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
             "ABRI REFECTOIRE", "SALLE DE COURS", "RECEPTION", "CAFETERIA",
             "TUTORAT", "SERVICE", "ESPACE COLLABORATIF",
             "BUREAUTIQUE", "CONF MULTIMEDIA", "AFFECT DIV", "PHOTOS", "RESTAURANT", "AUDITOIRE", "BUREAUX",
@@ -46,6 +47,8 @@ public class RoomJsonToList {
 
     public static final List<String> rooms = new ArrayList<>();
 
+    public static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
+
     /**
      * Extracts the valid rooms from the JSON files and stores them in the database according to their building.
      *
@@ -54,6 +57,8 @@ public class RoomJsonToList {
      */
     public static void RoomToJson() throws IOException {
         File roomList = new File("database/RoomToConvert");
+
+        File roomsDataJson= new File("database/roomsDataJson.json");
 
         if (!roomList.exists()) {
             if (!roomList.mkdir()) {
@@ -82,6 +87,14 @@ public class RoomJsonToList {
                 Files.write(output.toPath(), outputList);
             }
         }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(roomsDataJson, jsonRoomArchitecture);
+            System.out.println("JSON file created successfully.");
+        } catch (IOException e) {
+            e.fillInStackTrace();
+        }
     }
 
     /**
@@ -108,10 +121,40 @@ public class RoomJsonToList {
                 getWfsFeatureCollection().
                 getGmlFeatureMember().forEach(gmlFeatureMember -> {
                             if (WHITE_LIST.contains(gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomUtiA())) {
-                                rooms.add(extractRoomText(
-                                        gmlFeatureMember.
-                                                getMsBatimentsWmsquery()
-                                                .getMsRoomAbrLink()));
+                                String room = extractRoomText(
+                                        gmlFeatureMember
+                                                .getMsBatimentsWmsquery()
+                                                .getMsRoomAbrLink());
+                                rooms.add(room);
+                                JsonRoomArchitecture jsonRoomArchitecture1 = new JsonRoomArchitecture();
+                                jsonRoomArchitecture1.setRooms(room
+                                        .replaceAll("-", "")
+                                        .replaceAll(" ", "")
+                                        .replaceAll("\\.", "")
+                                        .replaceAll("_", ""));
+                                jsonRoomArchitecture1.setBuildings(
+                                        extractBuilding(room));
+                                jsonRoomArchitecture1.setPlanName(room);
+                                jsonRoomArchitecture1.setPdfLink(
+                                        extractPdfLink(
+                                                gmlFeatureMember
+                                                        .getMsBatimentsWmsquery()
+                                                        .getMsPdfLink()));
+                                jsonRoomArchitecture1.setPlanLink(
+                                        extractPlanLink(
+                                                gmlFeatureMember
+                                                        .getMsBatimentsWmsquery()
+                                                        .getMsRoomAbrLink()));
+                                jsonRoomArchitecture1.setType(
+                                        gmlFeatureMember
+                                                .getMsBatimentsWmsquery()
+                                                .getMsRoomUtiA());
+                                jsonRoomArchitecture1.setPlaces(
+                                        gmlFeatureMember
+                                                .getMsBatimentsWmsquery()
+                                                .getMsRoomPlace());
+                                jsonRoomArchitecture1.setFloor(String.valueOf(floor));
+                                jsonRoomArchitecture.add(jsonRoomArchitecture1);
                             }
                         }
                 );
@@ -133,5 +176,39 @@ public class RoomJsonToList {
         } else {
             return "No match found";
         }
+    }
+
+    public static String extractPdfLink(String input) {
+        String patternString = "<a target=\"_blank\" href=\"(.*?)\">lien</a>";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return matcher.group(1).trim();
+        } else {
+            return "";
+        }
+    }
+
+    public static String extractPlanLink(String input) {
+        String patternString =
+                "<div><button class=\"clipboard\" data-clipboard-text=\"(.*?)\" translate>Copier le lien</div>";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return matcher.group(1).trim();
+        } else {
+            return "";
+        }
+    }
+    public static String extractBuilding(String input) {
+
+        for(String building:BUILDINGS){
+            if(input.contains(building)){
+                return building;
+            }
+        }
+        throw new NoSuchElementException("la Salle"+input+"est dans aucun bâtiment");
     }
 }

@@ -10,7 +10,7 @@ import java.util.*;
 public class GetRoomAvailability {
 
     public static void search(int Start, int End){
-
+        System.out.println(Start+End);
     }
     public static void main(String[] args) throws IOException {
 
@@ -27,15 +27,16 @@ public class GetRoomAvailability {
         Map<String, Set<Integer>> result = new ObjectMapper().readValue(jsonString, typeRef);
 
         for(String key:result.keySet()){
-            Set<Integer> heure= new HashSet<>(Set.of(15, 16, 17, 18, 19));
+            Set<Integer> heure= new HashSet<>(Set.of(17, 18, 19));
             heure.removeAll(result.get(key));
             count.put(key,heure.size());
         }
 
-        for (int i=5;i>0;i--){
+        for (int i=3;i>2;i--){
             System.out.println(i+"h: ");
             for(String key:rooms){
-                if(count.get(key)==i && rooms.contains(key)){
+                if(count.get(key)==i &&
+                        rooms.contains(key)){
                     System.out.printf(key+" ");
                 }
             }

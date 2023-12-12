@@ -39,7 +39,8 @@ public class FolderOperation {
         List<String> filePaths = Arrays.asList(
                 "data.json",
                 "fromEPFL.json",
-                "roomWithIssue.json"
+                "roomWithIssue.json",
+                "roomsDataJson.json"
         );
         List<String> folderNames = Arrays.asList(
                 "roomChecking",

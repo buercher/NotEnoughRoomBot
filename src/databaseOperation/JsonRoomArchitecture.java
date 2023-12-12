@@ -1,12 +1,9 @@
 
 package databaseOperation;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,23 +15,19 @@ import jakarta.validation.Valid;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "Rooms",
-        "Source",
         "Buildings",
         "Plan_Name",
         "Pdf_Link",
         "Plan_Link",
         "Type",
         "Places",
-        "Horaire",
-        "Name"
+        "floor"
 })
 @Generated("jsonschema2pojo")
 public class JsonRoomArchitecture {
 
     @JsonProperty("Rooms")
     private String rooms;
-    @JsonProperty("Source")
-    private String source;
     @JsonProperty("Buildings")
     private String buildings;
     @JsonProperty("Plan_Name")
@@ -47,45 +40,40 @@ public class JsonRoomArchitecture {
     private String type;
     @JsonProperty("Places")
     private String places;
-    @JsonProperty("Horaire")
-    @Valid
-    private List<Integer> horaire = new ArrayList<Integer>();
-    @JsonProperty("Name")
-    private String name;
+    @JsonProperty("floor")
+    private String floor;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
      * No args constructor for use in serialization
+     *
      */
     public JsonRoomArchitecture() {
     }
 
     /**
-     * @param horaire
+     *
      * @param rooms
      * @param places
      * @param buildings
-     * @param name
      * @param planName
-     * @param source
      * @param pdfLink
      * @param type
+     * @param floor
      * @param planLink
      */
-    public JsonRoomArchitecture(String rooms, String source, String buildings, String planName, String pdfLink, String planLink, String type, String places, List<Integer> horaire, String name) {
+    public JsonRoomArchitecture(String rooms, String buildings, String planName, String pdfLink, String planLink, String type, String places, String floor) {
         super();
         this.rooms = rooms;
-        this.source = source;
         this.buildings = buildings;
         this.planName = planName;
         this.pdfLink = pdfLink;
         this.planLink = planLink;
         this.type = type;
         this.places = places;
-        this.horaire = horaire;
-        this.name = name;
+        this.floor = floor;
     }
 
     @JsonProperty("Rooms")
@@ -100,21 +88,6 @@ public class JsonRoomArchitecture {
 
     public JsonRoomArchitecture withRooms(String rooms) {
         this.rooms = rooms;
-        return this;
-    }
-
-    @JsonProperty("Source")
-    public String getSource() {
-        return source;
-    }
-
-    @JsonProperty("Source")
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public JsonRoomArchitecture withSource(String source) {
-        this.source = source;
         return this;
     }
 
@@ -208,33 +181,18 @@ public class JsonRoomArchitecture {
         return this;
     }
 
-    @JsonProperty("Horaire")
-    public List<Integer> getHoraire() {
-        return horaire;
+    @JsonProperty("floor")
+    public String getFloor() {
+        return floor;
     }
 
-    @JsonProperty("Horaire")
-    public void setHoraire(List<Integer> horaire) {
-        this.horaire = horaire;
+    @JsonProperty("floor")
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 
-    public JsonRoomArchitecture withHoraire(List<Integer> horaire) {
-        this.horaire = horaire;
-        return this;
-    }
-
-    @JsonProperty("Name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("Name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public JsonRoomArchitecture withName(String name) {
-        this.name = name;
+    public JsonRoomArchitecture withFloor(String floor) {
+        this.floor = floor;
         return this;
     }
 
@@ -259,50 +217,42 @@ public class JsonRoomArchitecture {
         sb.append(JsonRoomArchitecture.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("rooms");
         sb.append('=');
-        sb.append(((this.rooms == null) ? "<null>" : this.rooms));
-        sb.append(',');
-        sb.append("source");
-        sb.append('=');
-        sb.append(((this.source == null) ? "<null>" : this.source));
+        sb.append(((this.rooms == null)?"<null>":this.rooms));
         sb.append(',');
         sb.append("buildings");
         sb.append('=');
-        sb.append(((this.buildings == null) ? "<null>" : this.buildings));
+        sb.append(((this.buildings == null)?"<null>":this.buildings));
         sb.append(',');
         sb.append("planName");
         sb.append('=');
-        sb.append(((this.planName == null) ? "<null>" : this.planName));
+        sb.append(((this.planName == null)?"<null>":this.planName));
         sb.append(',');
         sb.append("pdfLink");
         sb.append('=');
-        sb.append(((this.pdfLink == null) ? "<null>" : this.pdfLink));
+        sb.append(((this.pdfLink == null)?"<null>":this.pdfLink));
         sb.append(',');
         sb.append("planLink");
         sb.append('=');
-        sb.append(((this.planLink == null) ? "<null>" : this.planLink));
+        sb.append(((this.planLink == null)?"<null>":this.planLink));
         sb.append(',');
         sb.append("type");
         sb.append('=');
-        sb.append(((this.type == null) ? "<null>" : this.type));
+        sb.append(((this.type == null)?"<null>":this.type));
         sb.append(',');
         sb.append("places");
         sb.append('=');
-        sb.append(((this.places == null) ? "<null>" : this.places));
+        sb.append(((this.places == null)?"<null>":this.places));
         sb.append(',');
-        sb.append("horaire");
+        sb.append("floor");
         sb.append('=');
-        sb.append(((this.horaire == null) ? "<null>" : this.horaire));
-        sb.append(',');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null) ? "<null>" : this.name));
+        sb.append(((this.floor == null)?"<null>":this.floor));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');
-        sb.append(((this.additionalProperties == null) ? "<null>" : this.additionalProperties));
+        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
         sb.append(',');
-        if (sb.charAt((sb.length() - 1)) == ',') {
-            sb.setCharAt((sb.length() - 1), ']');
+        if (sb.charAt((sb.length()- 1)) == ',') {
+            sb.setCharAt((sb.length()- 1), ']');
         } else {
             sb.append(']');
         }
@@ -312,17 +262,15 @@ public class JsonRoomArchitecture {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result * 31) + ((this.horaire == null) ? 0 : this.horaire.hashCode()));
-        result = ((result * 31) + ((this.rooms == null) ? 0 : this.rooms.hashCode()));
-        result = ((result * 31) + ((this.places == null) ? 0 : this.places.hashCode()));
-        result = ((result * 31) + ((this.buildings == null) ? 0 : this.buildings.hashCode()));
-        result = ((result * 31) + ((this.name == null) ? 0 : this.name.hashCode()));
-        result = ((result * 31) + ((this.planName == null) ? 0 : this.planName.hashCode()));
-        result = ((result * 31) + ((this.source == null) ? 0 : this.source.hashCode()));
-        result = ((result * 31) + ((this.additionalProperties == null) ? 0 : this.additionalProperties.hashCode()));
-        result = ((result * 31) + ((this.pdfLink == null) ? 0 : this.pdfLink.hashCode()));
-        result = ((result * 31) + ((this.type == null) ? 0 : this.type.hashCode()));
-        result = ((result * 31) + ((this.planLink == null) ? 0 : this.planLink.hashCode()));
+        result = ((result* 31)+((this.rooms == null)? 0 :this.rooms.hashCode()));
+        result = ((result* 31)+((this.places == null)? 0 :this.places.hashCode()));
+        result = ((result* 31)+((this.buildings == null)? 0 :this.buildings.hashCode()));
+        result = ((result* 31)+((this.planName == null)? 0 :this.planName.hashCode()));
+        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
+        result = ((result* 31)+((this.pdfLink == null)? 0 :this.pdfLink.hashCode()));
+        result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
+        result = ((result* 31)+((this.floor == null)? 0 :this.floor.hashCode()));
+        result = ((result* 31)+((this.planLink == null)? 0 :this.planLink.hashCode()));
         return result;
     }
 
@@ -335,38 +283,32 @@ public class JsonRoomArchitecture {
             return false;
         }
         JsonRoomArchitecture rhs = ((JsonRoomArchitecture) other);
-        return ((((((((((((this.horaire == rhs.horaire) ||
-                ((this.horaire != null) &&
-                        this.horaire.equals(rhs.horaire))) &&
-                ((this.rooms == rhs.rooms) ||
-                        ((this.rooms != null) &&
-                                this.rooms.equals(rhs.rooms)))) &&
-                ((this.places == rhs.places) ||
-                        ((this.places != null) &&
-                                this.places.equals(rhs.places)))) &&
-                ((this.buildings == rhs.buildings) ||
-                        ((this.buildings != null) &&
-                                this.buildings.equals(rhs.buildings)))) &&
-                ((this.name == rhs.name) ||
-                        ((this.name != null) &&
-                                this.name.equals(rhs.name)))) &&
-                ((this.planName == rhs.planName) ||
-                        ((this.planName != null) &&
-                                this.planName.equals(rhs.planName)))) &&
-                ((this.source == rhs.source) ||
-                        ((this.source != null) &&
-                                this.source.equals(rhs.source)))) &&
-                ((this.additionalProperties == rhs.additionalProperties) ||
-                        ((this.additionalProperties != null) &&
-                                this.additionalProperties.equals(rhs.additionalProperties)))) &&
-                ((this.pdfLink == rhs.pdfLink) ||
-                        ((this.pdfLink != null) &&
-                                this.pdfLink.equals(rhs.pdfLink)))) &&
-                ((this.type == rhs.type) ||
-                        ((this.type != null) &&
-                                this.type.equals(rhs.type)))) &&
-                ((this.planLink == rhs.planLink) ||
-                        ((this.planLink != null) &&
+        return ((((((((((this.rooms == rhs.rooms)||
+                ((this.rooms!= null)&&
+                        this.rooms.equals(rhs.rooms)))&&
+                ((this.places == rhs.places)||
+                        ((this.places!= null)&&
+                                this.places.equals(rhs.places))))&&
+                ((this.buildings == rhs.buildings)||
+                        ((this.buildings!= null)&&
+                                this.buildings.equals(rhs.buildings))))&&
+                ((this.planName == rhs.planName)||
+                        ((this.planName!= null)&&
+                                this.planName.equals(rhs.planName))))&&
+                ((this.additionalProperties == rhs.additionalProperties)||
+                        ((this.additionalProperties!= null)&&
+                                this.additionalProperties.equals(rhs.additionalProperties))))&&
+                ((this.pdfLink == rhs.pdfLink)||
+                        ((this.pdfLink!= null)&&
+                                this.pdfLink.equals(rhs.pdfLink))))&&
+                ((this.type == rhs.type)||
+                        ((this.type!= null)&&
+                                this.type.equals(rhs.type))))&&
+                ((this.floor == rhs.floor)||
+                        ((this.floor!= null)&&
+                                this.floor.equals(rhs.floor))))&&
+                ((this.planLink == rhs.planLink)||
+                        ((this.planLink!= null)&&
                                 this.planLink.equals(rhs.planLink))));
     }
 
