@@ -40,7 +40,8 @@ public class FolderOperation {
                 "data.json",
                 "fromEPFL.json",
                 "roomWithIssue.json",
-                "roomsDataJson.json"
+                "roomsDataJson.json",
+                "validRoomData.json"
         );
         List<String> folderNames = Arrays.asList(
                 "roomChecking",

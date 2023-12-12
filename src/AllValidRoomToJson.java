@@ -1,5 +1,7 @@
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import databaseOperation.JsonRoomArchitecture;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -13,6 +15,8 @@ public class AllValidRoomToJson {
     private static final String EPFL_ROOM_LIST_PATH = "database/roomChecking/fromEPFL/";
     private static final String FLEP_ROOM_LIST_PATH = "database/roomChecking/fromFLEP/";
 
+    private static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         File epflDirectory = new File(EPFL_ROOM_LIST_PATH);
         File flepDirectory = new File(FLEP_ROOM_LIST_PATH);
@@ -20,22 +24,57 @@ public class AllValidRoomToJson {
         List<String> AllString = getStringList(flepDirectory, epflDirectory);
         Collections.sort(AllString);
 
+        // Load JSON file
+        File roomsDataJson = new File("database/roomsDataJson.json");
+
+        // Create ObjectMapper
+        try {
+            Set<String> smallString = new HashSet<>();
+            for (String room : AllString) {
+                smallString.add(room.replaceAll("-", "")
+                        .replaceAll(" ", "")
+                        .replaceAll("\\.", "")
+                        .replaceAll("_", ""));
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
+            JsonRoomArchitecture[] jsonRoomsDataJson = objectMapper.readValue(roomsDataJson, JsonRoomArchitecture[].class);
+
+            for (JsonRoomArchitecture room : jsonRoomsDataJson) {
+                if (smallString.contains(room.getRooms())) {
+                    jsonRoomArchitecture.add(room);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         File jsonFile = new File("resources/allValidRooms.json");
         Files.deleteIfExists(jsonFile.toPath());
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(AllString);
         Files.write(jsonFile.toPath(), Collections.singleton(jsonString), Charset.defaultCharset());
+
+        try {
+            File validRoomData = new File("database/validRoomData.json");
+            objectMapper.writeValue(validRoomData, jsonRoomArchitecture);
+        } catch (IOException e) {
+            e.fillInStackTrace();
+        }
     }
 
     @NotNull
-    private static List<String> getStringList(File flepDirectory, File epflDirectory){
-        List<File> allFiles= new ArrayList<>();
+    private static List<String> getStringList(File flepDirectory, File epflDirectory) {
+        List<File> allFiles = new ArrayList<>();
 
         allFiles.addAll(List.of(Objects.requireNonNull(epflDirectory.listFiles())));
         allFiles.addAll(List.of(Objects.requireNonNull(flepDirectory.listFiles())));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<List<String>> typeRef = new TypeReference<>() {};
+        TypeReference<List<String>> typeRef = new TypeReference<>() {
+        };
 
         return new ArrayList<>(allFiles.stream().map(l -> {
             try {
