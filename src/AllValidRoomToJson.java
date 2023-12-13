@@ -40,7 +40,11 @@ public class AllValidRoomToJson {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-            JsonRoomArchitecture[] jsonRoomsDataJson = objectMapper.readValue(roomsDataJson, JsonRoomArchitecture[].class);
+            JsonRoomArchitecture[] jsonRoomsDataJson =
+                    objectMapper
+                            .readValue(
+                                    roomsDataJson,
+                                    JsonRoomArchitecture[].class);
 
             for (JsonRoomArchitecture room : jsonRoomsDataJson) {
                 if (smallString.contains(room.getRooms())) {

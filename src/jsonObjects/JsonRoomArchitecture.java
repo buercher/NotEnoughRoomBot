@@ -1,9 +1,9 @@
-
 package jsonObjects;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,13 +48,11 @@ public class JsonRoomArchitecture {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public JsonRoomArchitecture() {
     }
 
     /**
-     *
      * @param rooms
      * @param places
      * @param buildings
@@ -64,7 +62,15 @@ public class JsonRoomArchitecture {
      * @param floor
      * @param planLink
      */
-    public JsonRoomArchitecture(String rooms, String buildings, String planName, String pdfLink, String planLink, String type, String places, String floor) {
+    public JsonRoomArchitecture(
+            String rooms,
+            String buildings,
+            String planName,
+            String pdfLink,
+            String planLink,
+            String type,
+            String places,
+            String floor) {
         super();
         this.rooms = rooms;
         this.buildings = buildings;
@@ -214,45 +220,52 @@ public class JsonRoomArchitecture {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(JsonRoomArchitecture.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(JsonRoomArchitecture
+                        .class
+                        .getName())
+                .append('@')
+                .append(Integer
+                        .toHexString(System
+                                .identityHashCode(this)))
+                .append('[');
         sb.append("rooms");
         sb.append('=');
-        sb.append(((this.rooms == null)?"<null>":this.rooms));
+        sb.append(((this.rooms == null) ? "<null>" : this.rooms));
         sb.append(',');
         sb.append("buildings");
         sb.append('=');
-        sb.append(((this.buildings == null)?"<null>":this.buildings));
+        sb.append(((this.buildings == null) ? "<null>" : this.buildings));
         sb.append(',');
         sb.append("planName");
         sb.append('=');
-        sb.append(((this.planName == null)?"<null>":this.planName));
+        sb.append(((this.planName == null) ? "<null>" : this.planName));
         sb.append(',');
         sb.append("pdfLink");
         sb.append('=');
-        sb.append(((this.pdfLink == null)?"<null>":this.pdfLink));
+        sb.append(((this.pdfLink == null) ? "<null>" : this.pdfLink));
         sb.append(',');
         sb.append("planLink");
         sb.append('=');
-        sb.append(((this.planLink == null)?"<null>":this.planLink));
+        sb.append(((this.planLink == null) ? "<null>" : this.planLink));
         sb.append(',');
         sb.append("type");
         sb.append('=');
-        sb.append(((this.type == null)?"<null>":this.type));
+        sb.append(((this.type == null) ? "<null>" : this.type));
         sb.append(',');
         sb.append("places");
         sb.append('=');
-        sb.append(((this.places == null)?"<null>":this.places));
+        sb.append(((this.places == null) ? "<null>" : this.places));
         sb.append(',');
         sb.append("floor");
         sb.append('=');
-        sb.append(((this.floor == null)?"<null>":this.floor));
+        sb.append(((this.floor == null) ? "<null>" : this.floor));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
+        sb.append(((this.additionalProperties == null) ? "<null>" : this.additionalProperties));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -262,15 +275,15 @@ public class JsonRoomArchitecture {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.rooms == null)? 0 :this.rooms.hashCode()));
-        result = ((result* 31)+((this.places == null)? 0 :this.places.hashCode()));
-        result = ((result* 31)+((this.buildings == null)? 0 :this.buildings.hashCode()));
-        result = ((result* 31)+((this.planName == null)? 0 :this.planName.hashCode()));
-        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
-        result = ((result* 31)+((this.pdfLink == null)? 0 :this.pdfLink.hashCode()));
-        result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
-        result = ((result* 31)+((this.floor == null)? 0 :this.floor.hashCode()));
-        result = ((result* 31)+((this.planLink == null)? 0 :this.planLink.hashCode()));
+        result = ((result * 31) + ((this.rooms == null) ? 0 : this.rooms.hashCode()));
+        result = ((result * 31) + ((this.places == null) ? 0 : this.places.hashCode()));
+        result = ((result * 31) + ((this.buildings == null) ? 0 : this.buildings.hashCode()));
+        result = ((result * 31) + ((this.planName == null) ? 0 : this.planName.hashCode()));
+        result = ((result * 31) + ((this.additionalProperties == null) ? 0 : this.additionalProperties.hashCode()));
+        result = ((result * 31) + ((this.pdfLink == null) ? 0 : this.pdfLink.hashCode()));
+        result = ((result * 31) + ((this.type == null) ? 0 : this.type.hashCode()));
+        result = ((result * 31) + ((this.floor == null) ? 0 : this.floor.hashCode()));
+        result = ((result * 31) + ((this.planLink == null) ? 0 : this.planLink.hashCode()));
         return result;
     }
 
@@ -283,32 +296,32 @@ public class JsonRoomArchitecture {
             return false;
         }
         JsonRoomArchitecture rhs = ((JsonRoomArchitecture) other);
-        return ((((((((((this.rooms == rhs.rooms)||
-                ((this.rooms!= null)&&
-                        this.rooms.equals(rhs.rooms)))&&
-                ((this.places == rhs.places)||
-                        ((this.places!= null)&&
-                                this.places.equals(rhs.places))))&&
-                ((this.buildings == rhs.buildings)||
-                        ((this.buildings!= null)&&
-                                this.buildings.equals(rhs.buildings))))&&
-                ((this.planName == rhs.planName)||
-                        ((this.planName!= null)&&
-                                this.planName.equals(rhs.planName))))&&
-                ((this.additionalProperties == rhs.additionalProperties)||
-                        ((this.additionalProperties!= null)&&
-                                this.additionalProperties.equals(rhs.additionalProperties))))&&
-                ((this.pdfLink == rhs.pdfLink)||
-                        ((this.pdfLink!= null)&&
-                                this.pdfLink.equals(rhs.pdfLink))))&&
-                ((this.type == rhs.type)||
-                        ((this.type!= null)&&
-                                this.type.equals(rhs.type))))&&
-                ((this.floor == rhs.floor)||
-                        ((this.floor!= null)&&
-                                this.floor.equals(rhs.floor))))&&
-                ((this.planLink == rhs.planLink)||
-                        ((this.planLink!= null)&&
+        return ((((((((((this.rooms == rhs.rooms) ||
+                ((this.rooms != null) &&
+                        this.rooms.equals(rhs.rooms))) &&
+                ((this.places == rhs.places) ||
+                        ((this.places != null) &&
+                                this.places.equals(rhs.places)))) &&
+                ((this.buildings == rhs.buildings) ||
+                        ((this.buildings != null) &&
+                                this.buildings.equals(rhs.buildings)))) &&
+                ((this.planName == rhs.planName) ||
+                        ((this.planName != null) &&
+                                this.planName.equals(rhs.planName)))) &&
+                ((this.additionalProperties == rhs.additionalProperties) ||
+                        ((this.additionalProperties != null) &&
+                                this.additionalProperties.equals(rhs.additionalProperties)))) &&
+                ((this.pdfLink == rhs.pdfLink) ||
+                        ((this.pdfLink != null) &&
+                                this.pdfLink.equals(rhs.pdfLink)))) &&
+                ((this.type == rhs.type) ||
+                        ((this.type != null) &&
+                                this.type.equals(rhs.type)))) &&
+                ((this.floor == rhs.floor) ||
+                        ((this.floor != null) &&
+                                this.floor.equals(rhs.floor)))) &&
+                ((this.planLink == rhs.planLink) ||
+                        ((this.planLink != null) &&
                                 this.planLink.equals(rhs.planLink))));
     }
 
