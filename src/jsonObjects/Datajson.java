@@ -16,15 +16,12 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "rooms",
         "Source",
         "Horaire"
 })
 @Generated("jsonschema2pojo")
 public class Datajson {
 
-    @JsonProperty("rooms")
-    private String rooms;
     @JsonProperty("Source")
     private String source;
     @JsonProperty("Horaire")
@@ -42,29 +39,12 @@ public class Datajson {
 
     /**
      * @param horaire
-     * @param rooms
      * @param source
      */
-    public Datajson(String rooms, String source, List<Integer> horaire) {
+    public Datajson(String source, List<Integer> horaire) {
         super();
-        this.rooms = rooms;
         this.source = source;
         this.horaire = horaire;
-    }
-
-    @JsonProperty("rooms")
-    public String getRooms() {
-        return rooms;
-    }
-
-    @JsonProperty("rooms")
-    public void setRooms(String rooms) {
-        this.rooms = rooms;
-    }
-
-    public Datajson withRooms(String rooms) {
-        this.rooms = rooms;
-        return this;
     }
 
     @JsonProperty("Source")
@@ -123,10 +103,6 @@ public class Datajson {
                         .toHexString(System
                                 .identityHashCode(this)))
                 .append('[');
-        sb.append("rooms");
-        sb.append('=');
-        sb.append(((this.rooms == null) ? "<null>" : this.rooms));
-        sb.append(',');
         sb.append("source");
         sb.append('=');
         sb.append(((this.source == null) ? "<null>" : this.source));
@@ -151,7 +127,6 @@ public class Datajson {
     public int hashCode() {
         int result = 1;
         result = ((result * 31) + ((this.horaire == null) ? 0 : this.horaire.hashCode()));
-        result = ((result * 31) + ((this.rooms == null) ? 0 : this.rooms.hashCode()));
         result = ((result * 31) + ((this.source == null) ? 0 : this.source.hashCode()));
         result = ((result * 31) + ((this.additionalProperties == null) ? 0 : this.additionalProperties.hashCode()));
         return result;
@@ -166,12 +141,9 @@ public class Datajson {
             return false;
         }
         Datajson rhs = ((Datajson) other);
-        return (((((this.horaire == rhs.horaire) ||
+        return ((((this.horaire == rhs.horaire) ||
                 ((this.horaire != null) &&
                         this.horaire.equals(rhs.horaire))) &&
-                ((this.rooms == rhs.rooms) ||
-                        ((this.rooms != null) &&
-                                this.rooms.equals(rhs.rooms)))) &&
                 ((this.source == rhs.source) ||
                         ((this.source != null) &&
                                 this.source.equals(rhs.source)))) &&
