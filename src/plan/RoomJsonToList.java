@@ -2,8 +2,8 @@ package plan;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import databaseOperation.JsonRoomArchitecture;
-import plan.jsonArchitecture.JsonRoom;
+import jsonObjects.JsonRoomArchitecture;
+import jsonObjects.planJsonArchtecture.JsonRoom;
 
 import java.io.File;
 import java.io.IOException;

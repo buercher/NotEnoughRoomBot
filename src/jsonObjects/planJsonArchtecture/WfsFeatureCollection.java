@@ -1,5 +1,5 @@
 
-package plan.jsonArchitecture;
+package jsonObjects.planJsonArchtecture;
 
 import java.util.List;
 import javax.annotation.Generated;

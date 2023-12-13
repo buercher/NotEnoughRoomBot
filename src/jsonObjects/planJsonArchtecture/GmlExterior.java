@@ -1,5 +1,5 @@
 
-package plan.jsonArchitecture;
+package jsonObjects.planJsonArchtecture;
 
 import javax.annotation.Generated;
 
@@ -10,38 +10,38 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "gml:posList"
+        "gml:LinearRing"
 })
 @Generated("jsonschema2pojo")
-public class GmlLinearRing {
+public class GmlExterior {
 
-    @JsonProperty("gml:posList")
+    @JsonProperty("gml:LinearRing")
     @Valid
-    private GmlPosList gmlPosList;
+    private GmlLinearRing gmlLinearRing;
 
-    @JsonProperty("gml:posList")
-    public GmlPosList getGmlPosList() {
-        return gmlPosList;
+    @JsonProperty("gml:LinearRing")
+    public GmlLinearRing getGmlLinearRing() {
+        return gmlLinearRing;
     }
 
-    @JsonProperty("gml:posList")
-    public void setGmlPosList(GmlPosList gmlPosList) {
-        this.gmlPosList = gmlPosList;
+    @JsonProperty("gml:LinearRing")
+    public void setGmlLinearRing(GmlLinearRing gmlLinearRing) {
+        this.gmlLinearRing = gmlLinearRing;
     }
 
-    public GmlLinearRing withGmlPosList(GmlPosList gmlPosList) {
-        this.gmlPosList = gmlPosList;
+    public GmlExterior withGmlLinearRing(GmlLinearRing gmlLinearRing) {
+        this.gmlLinearRing = gmlLinearRing;
         return this;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlLinearRing
+        sb.append(GmlExterior
                 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("gmlPosList");
+        sb.append("gmlLinearRing");
         sb.append('=');
-        sb.append(((this.gmlPosList == null) ? "<null>" : this.gmlPosList));
+        sb.append(((this.gmlLinearRing == null) ? "<null>" : this.gmlLinearRing));
         sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
@@ -54,7 +54,7 @@ public class GmlLinearRing {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result * 31) + ((this.gmlPosList == null) ? 0 : this.gmlPosList.hashCode()));
+        result = ((result * 31) + ((this.gmlLinearRing == null) ? 0 : this.gmlLinearRing.hashCode()));
         return result;
     }
 
@@ -63,13 +63,13 @@ public class GmlLinearRing {
         if (other == this) {
             return true;
         }
-        if ((other instanceof GmlLinearRing) == false) {
+        if ((other instanceof GmlExterior) == false) {
             return false;
         }
-        GmlLinearRing rhs = ((GmlLinearRing) other);
-        return ((this.gmlPosList == rhs.gmlPosList) ||
-                ((this.gmlPosList != null) &&
-                        this.gmlPosList.equals(rhs.gmlPosList)));
+        GmlExterior rhs = ((GmlExterior) other);
+        return ((this.gmlLinearRing == rhs.gmlLinearRing) ||
+                ((this.gmlLinearRing != null) &&
+                        this.gmlLinearRing.equals(rhs.gmlLinearRing)));
     }
 
 }

@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import databaseOperation.JsonRoomArchitecture;
+import jsonObjects.JsonRoomArchitecture;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

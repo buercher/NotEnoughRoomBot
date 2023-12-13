@@ -1,5 +1,5 @@
 
-package plan.jsonArchitecture;
+package jsonObjects.planJsonArchtecture;
 
 import javax.annotation.Generated;
 
@@ -13,23 +13,23 @@ import jakarta.validation.Valid;
         "gml:Envelope"
 })
 @Generated("jsonschema2pojo")
-public class GmlBoundedBy__1 {
+public class GmlBoundedBy {
 
     @JsonProperty("gml:Envelope")
     @Valid
-    private GmlEnvelope__1 gmlEnvelope;
+    private GmlEnvelope gmlEnvelope;
 
     @JsonProperty("gml:Envelope")
-    public GmlEnvelope__1 getGmlEnvelope() {
+    public GmlEnvelope getGmlEnvelope() {
         return gmlEnvelope;
     }
 
     @JsonProperty("gml:Envelope")
-    public void setGmlEnvelope(GmlEnvelope__1 gmlEnvelope) {
+    public void setGmlEnvelope(GmlEnvelope gmlEnvelope) {
         this.gmlEnvelope = gmlEnvelope;
     }
 
-    public GmlBoundedBy__1 withGmlEnvelope(GmlEnvelope__1 gmlEnvelope) {
+    public GmlBoundedBy withGmlEnvelope(GmlEnvelope gmlEnvelope) {
         this.gmlEnvelope = gmlEnvelope;
         return this;
     }
@@ -37,7 +37,7 @@ public class GmlBoundedBy__1 {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlBoundedBy__1
+        sb.append(GmlBoundedBy
                 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("gmlEnvelope");
         sb.append('=');
@@ -63,10 +63,10 @@ public class GmlBoundedBy__1 {
         if (other == this) {
             return true;
         }
-        if ((other instanceof GmlBoundedBy__1) == false) {
+        if ((other instanceof GmlBoundedBy) == false) {
             return false;
         }
-        GmlBoundedBy__1 rhs = ((GmlBoundedBy__1) other);
+        GmlBoundedBy rhs = ((GmlBoundedBy) other);
         return (
                 (this.gmlEnvelope == rhs.gmlEnvelope) ||
                         ((this.gmlEnvelope != null) &&

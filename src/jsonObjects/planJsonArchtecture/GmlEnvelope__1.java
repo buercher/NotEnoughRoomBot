@@ -1,5 +1,5 @@
 
-package plan.jsonArchitecture;
+package jsonObjects.planJsonArchtecture;
 
 import javax.annotation.Generated;
 
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "gml:upperCorner"
 })
 @Generated("jsonschema2pojo")
-public class GmlEnvelope {
+public class GmlEnvelope__1 {
 
     @JsonProperty("srsName")
     private String srsName;
@@ -33,7 +33,7 @@ public class GmlEnvelope {
         this.srsName = srsName;
     }
 
-    public GmlEnvelope withSrsName(String srsName) {
+    public GmlEnvelope__1 withSrsName(String srsName) {
         this.srsName = srsName;
         return this;
     }
@@ -48,7 +48,7 @@ public class GmlEnvelope {
         this.gmlLowerCorner = gmlLowerCorner;
     }
 
-    public GmlEnvelope withGmlLowerCorner(String gmlLowerCorner) {
+    public GmlEnvelope__1 withGmlLowerCorner(String gmlLowerCorner) {
         this.gmlLowerCorner = gmlLowerCorner;
         return this;
     }
@@ -63,7 +63,7 @@ public class GmlEnvelope {
         this.gmlUpperCorner = gmlUpperCorner;
     }
 
-    public GmlEnvelope withGmlUpperCorner(String gmlUpperCorner) {
+    public GmlEnvelope__1 withGmlUpperCorner(String gmlUpperCorner) {
         this.gmlUpperCorner = gmlUpperCorner;
         return this;
     }
@@ -71,7 +71,7 @@ public class GmlEnvelope {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlEnvelope
+        sb.append(GmlEnvelope__1
                 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("srsName");
         sb.append('=');
@@ -107,20 +107,19 @@ public class GmlEnvelope {
         if (other == this) {
             return true;
         }
-        if ((other instanceof GmlEnvelope) == false) {
+        if ((other instanceof GmlEnvelope__1) == false) {
             return false;
         }
-        GmlEnvelope rhs = ((GmlEnvelope) other);
-        return
-                ((((this.srsName == rhs.srsName) ||
-                        ((this.srsName != null) &&
-                                this.srsName.equals(rhs.srsName))) &&
-                        ((this.gmlUpperCorner == rhs.gmlUpperCorner) ||
-                                ((this.gmlUpperCorner != null) &&
-                                        this.gmlUpperCorner.equals(rhs.gmlUpperCorner)))) &&
-                        ((this.gmlLowerCorner == rhs.gmlLowerCorner) ||
-                                ((this.gmlLowerCorner != null) &&
-                                        this.gmlLowerCorner.equals(rhs.gmlLowerCorner))));
+        GmlEnvelope__1 rhs = ((GmlEnvelope__1) other);
+        return ((((this.srsName == rhs.srsName) ||
+                ((this.srsName != null) &&
+                        this.srsName.equals(rhs.srsName))) &&
+                ((this.gmlUpperCorner == rhs.gmlUpperCorner) ||
+                        ((this.gmlUpperCorner != null) &&
+                                this.gmlUpperCorner.equals(rhs.gmlUpperCorner)))) &&
+                ((this.gmlLowerCorner == rhs.gmlLowerCorner) ||
+                        ((this.gmlLowerCorner != null) &&
+                                this.gmlLowerCorner.equals(rhs.gmlLowerCorner))));
     }
 
 }

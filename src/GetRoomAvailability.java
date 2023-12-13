@@ -14,9 +14,9 @@ public class GetRoomAvailability {
     }
     public static void main(String[] args) throws IOException {
 
-        File jsonFIle = new File("database/data.json");
+        File jsonFile = new File("database/data.json");
 
-        String jsonString= Files.readString(jsonFIle.toPath());
+        String jsonString= Files.readString(jsonFile.toPath());
 
         Map<String, Integer> count= new LinkedHashMap<>();
 

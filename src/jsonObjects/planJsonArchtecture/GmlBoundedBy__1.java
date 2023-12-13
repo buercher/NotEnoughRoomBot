@@ -1,5 +1,5 @@
 
-package plan.jsonArchitecture;
+package jsonObjects.planJsonArchtecture;
 
 import javax.annotation.Generated;
 
@@ -10,38 +10,38 @@ import jakarta.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "gml:Polygon"
+        "gml:Envelope"
 })
 @Generated("jsonschema2pojo")
-public class GmlSurfaceMember {
+public class GmlBoundedBy__1 {
 
-    @JsonProperty("gml:Polygon")
+    @JsonProperty("gml:Envelope")
     @Valid
-    private GmlPolygon gmlPolygon;
+    private GmlEnvelope__1 gmlEnvelope;
 
-    @JsonProperty("gml:Polygon")
-    public GmlPolygon getGmlPolygon() {
-        return gmlPolygon;
+    @JsonProperty("gml:Envelope")
+    public GmlEnvelope__1 getGmlEnvelope() {
+        return gmlEnvelope;
     }
 
-    @JsonProperty("gml:Polygon")
-    public void setGmlPolygon(GmlPolygon gmlPolygon) {
-        this.gmlPolygon = gmlPolygon;
+    @JsonProperty("gml:Envelope")
+    public void setGmlEnvelope(GmlEnvelope__1 gmlEnvelope) {
+        this.gmlEnvelope = gmlEnvelope;
     }
 
-    public GmlSurfaceMember withGmlPolygon(GmlPolygon gmlPolygon) {
-        this.gmlPolygon = gmlPolygon;
+    public GmlBoundedBy__1 withGmlEnvelope(GmlEnvelope__1 gmlEnvelope) {
+        this.gmlEnvelope = gmlEnvelope;
         return this;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(GmlSurfaceMember
+        sb.append(GmlBoundedBy__1
                 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("gmlPolygon");
+        sb.append("gmlEnvelope");
         sb.append('=');
-        sb.append(((this.gmlPolygon == null) ? "<null>" : this.gmlPolygon));
+        sb.append(((this.gmlEnvelope == null) ? "<null>" : this.gmlEnvelope));
         sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
@@ -54,7 +54,7 @@ public class GmlSurfaceMember {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result * 31) + ((this.gmlPolygon == null) ? 0 : this.gmlPolygon.hashCode()));
+        result = ((result * 31) + ((this.gmlEnvelope == null) ? 0 : this.gmlEnvelope.hashCode()));
         return result;
     }
 
@@ -63,13 +63,14 @@ public class GmlSurfaceMember {
         if (other == this) {
             return true;
         }
-        if ((other instanceof GmlSurfaceMember) == false) {
+        if ((other instanceof GmlBoundedBy__1) == false) {
             return false;
         }
-        GmlSurfaceMember rhs = ((GmlSurfaceMember) other);
-        return ((this.gmlPolygon == rhs.gmlPolygon) ||
-                ((this.gmlPolygon != null) &&
-                        this.gmlPolygon.equals(rhs.gmlPolygon)));
+        GmlBoundedBy__1 rhs = ((GmlBoundedBy__1) other);
+        return (
+                (this.gmlEnvelope == rhs.gmlEnvelope) ||
+                        ((this.gmlEnvelope != null) &&
+                                this.gmlEnvelope.equals(rhs.gmlEnvelope)));
     }
 
 }
