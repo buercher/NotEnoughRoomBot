@@ -70,6 +70,7 @@ public class FolderOperation {
                                 .sorted(Comparator.reverseOrder())
                                 .map(Path::toFile)
                                 .forEach(File::deleteOnExit);
+                        Files.delete(file.toPath());
                     } catch (IOException e) {
                         e.fillInStackTrace();
                     }

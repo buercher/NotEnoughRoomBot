@@ -1,9 +1,6 @@
 package jsonObjects;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -26,7 +23,7 @@ public class Datajson {
     private String source;
     @JsonProperty("Horaire")
     @Valid
-    private List<Integer> horaire = new ArrayList<Integer>();
+    private Set<Integer> horaire = new TreeSet<Integer>();
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
@@ -41,7 +38,7 @@ public class Datajson {
      * @param horaire
      * @param source
      */
-    public Datajson(String source, List<Integer> horaire) {
+    public Datajson(String source, Set<Integer> horaire) {
         super();
         this.source = source;
         this.horaire = horaire;
@@ -63,16 +60,16 @@ public class Datajson {
     }
 
     @JsonProperty("Horaire")
-    public List<Integer> getHoraire() {
+    public Set<Integer> getHoraire() {
         return horaire;
     }
 
     @JsonProperty("Horaire")
-    public void setHoraire(List<Integer> horaire) {
+    public void setHoraire(Set<Integer> horaire) {
         this.horaire = horaire;
     }
 
-    public Datajson withHoraire(List<Integer> horaire) {
+    public Datajson withHoraire(Set<Integer> horaire) {
         this.horaire = horaire;
         return this;
     }

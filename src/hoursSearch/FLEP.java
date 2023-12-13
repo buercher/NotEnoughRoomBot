@@ -51,7 +51,7 @@ public class FLEP {
                         .refreshPrompt("\r")
                         .leftBracket("\u001b[1:36m")
                         .delimitingSequence("\u001b[1:34m")
-                        .rightBracket("\u001b[1:34m"+"  ")
+                        .rightBracket("\u001b[1:34m")
                         .block('━')
                         .space('━')
                         .fractionSymbols(" ╸")
@@ -77,9 +77,12 @@ public class FLEP {
 
                 // Sort the file and merge adjacent ranges
                 FileOperation.FinalFileCreation(pb, path, filePath);
+                Thread.sleep(50);
             }
             pb.setExtraMessage(StringUtils.rightPad(" done", 14));
             pb.refresh();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
