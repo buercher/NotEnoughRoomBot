@@ -12,8 +12,8 @@ import java.util.*;
 
 public class AllValidRoomToJson {
 
-    private static final String EPFL_ROOM_LIST_PATH = "database/roomChecking/fromEPFL/";
-    private static final String FLEP_ROOM_LIST_PATH = "database/roomChecking/fromFLEP/";
+    private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
+    private static final String FLEP_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromFLEP/";
 
     private static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
 
@@ -25,7 +25,7 @@ public class AllValidRoomToJson {
         Collections.sort(AllString);
 
         // Load JSON file
-        File roomsDataJson = new File("database/roomsDataJson.json");
+        File roomsDataJson = new File("database/SetupData/roomsDataJson.json");
 
         // Create ObjectMapper
         try {

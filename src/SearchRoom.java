@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class SearchRoom {
 
-    private static final String ROOM_LIST_PATH = "database/RoomList/";
+    private static final String ROOM_LIST_PATH = "database/SetupData/RoomList/";
 
     private static final List<String> FLEP_EXISTS = Arrays.asList(
             "AAC", "AI", "BC", "BCH", "BS", "BSP", "CE", "CH", "CM", "CO", "DIA",
@@ -44,10 +44,6 @@ public class SearchRoom {
      * @see TestFLEP#test(String, ProgressBar)
      */
     public static void main(String[] args) throws IOException {
-        File database = new File("database");
-        if (!database.exists() && !database.mkdirs()) {
-            throw new IOException("Failed to create folder '" + database.getPath() + "'");
-        }
         FolderOperation.CreateFoldersForTest();
 
         File directory = new File(ROOM_LIST_PATH);

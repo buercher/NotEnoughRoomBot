@@ -132,7 +132,7 @@ public class EPFL {
      */
     private static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException {
         if (!JsonSet.isEmpty()) {
-            File jsonFile = new File("database/" + name + ".json");
+            File jsonFile = new File("database/DataFromDailySteps" + name + ".json");
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonString = objectMapper.writeValueAsString(JsonSet);

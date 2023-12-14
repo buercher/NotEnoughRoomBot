@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jsonObjects.Datajson;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,39 +10,55 @@ import java.util.*;
 
 public class GetRoomAvailability {
 
-    public static void search(int Start, int End) {
-        System.out.println(Start + End);
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static Map<String, List<String>> search(int Start, int End) throws IOException {
+        Map<String, List<String>> roomsList = new TreeMap<>(Map.of(
+                "EPFL", new ArrayList<>(),
+                "FLEP", new ArrayList<>()));
 
         File jsonFile = new File("database/data.json");
-
         String jsonString = Files.readString(jsonFile.toPath());
-
-        Map<String, Integer> count = new LinkedHashMap<>();
-
-        List<String> rooms = Files.readAllLines(Path.of("resources/list"));
-
-        TypeReference<Map<String, Set<Integer>>> typeRef = new TypeReference<>() {
+        List<String> rooms = new ArrayList<>();
+        Files.readAllLines(Path.of("resources/list")).forEach(room ->
+                rooms.add(room.replaceAll("-", "")
+                        .replaceAll(" ", "")
+                        .replaceAll("\\.", "")
+                        .replaceAll("_", "")));
+        TypeReference<Map<String, Datajson>> typeRef = new TypeReference<>() {
         };
+        Map<String, Datajson> result = new ObjectMapper().readValue(jsonString, typeRef);
 
-        Map<String, Set<Integer>> result = new ObjectMapper().readValue(jsonString, typeRef);
-
-        for (String key : result.keySet()) {
-            Set<Integer> heure = new HashSet<>(Set.of(17, 18, 19));
-            heure.removeAll(result.get(key));
-            count.put(key, heure.size());
-        }
-
-        for (int i = 3; i > 2; i--) {
-            System.out.println(i + "h: ");
-            for (String key : rooms) {
-                if (count.get(key) == i &&
-                        rooms.contains(key)) {
-                    System.out.printf(key + " ");
+        for (int i = Start; i < End; i++) {
+            Set<String> keys = Set.copyOf(result.keySet());
+            for (String room : keys) {
+                if (result.get(room).getHoraire().contains(i) || !rooms.contains(room)) {
+                    result.remove(room);
                 }
             }
         }
+        for (String room : result.keySet()) {
+            if (Objects.equals(result.get(room).getSource(), "EPFL")) {
+                roomsList.get("EPFL").add(room);
+            }
+        }
+        if (roomsList.get("EPFL").isEmpty()) {
+            roomsList.remove("EPFL");
+        } else {
+            Collections.sort(roomsList.get("EPFL"));
+        }
+        for (String room : result.keySet()) {
+            if (Objects.equals(result.get(room).getSource(), "FLEP")) {
+                roomsList.get("FLEP").add(room);
+            }
+        }
+        if (roomsList.get("FLEP").isEmpty()) {
+            roomsList.remove("FLEP");
+        } else {
+            Collections.sort(roomsList.get("FLEP"));
+        }
+        return roomsList;
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(search(16, 19));
     }
 }

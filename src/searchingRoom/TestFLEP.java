@@ -40,14 +40,14 @@ public class TestFLEP {
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
                 new File(
-                        "database/roomChecking/roomWithIssue/" + buildingName + ".json")
+                        "database/SetupData/roomChecking/roomWithIssue/" + buildingName + ".json")
                 , new TypeReference<>() {
                 }
         );
-        if (Files.exists(Path.of("database/roomChecking/fromEPFL/" + buildingName + ".json"))) {
+        if (Files.exists(Path.of("database/SetupData/roomChecking/fromEPFL/" + buildingName + ".json"))) {
             List<String> temp = objectMapper.readValue(
                     new File(
-                            "database/roomChecking/fromEPFL/" + buildingName + ".json")
+                            "database/SetupData/roomChecking/fromEPFL/" + buildingName + ".json")
                     , new TypeReference<>() {
                     }
             );

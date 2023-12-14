@@ -38,22 +38,18 @@ public class FolderOperation {
         // List of files and folders that should not be deleted
         List<String> filePaths = Arrays.asList(
                 "data.json",
-                "fromEPFL.json",
-                "roomWithIssue.json",
-                "roomsDataJson.json",
                 "validRoomData.json"
         );
         List<String> folderNames = Arrays.asList(
-                "roomChecking",
                 "EPFL-" + currentDateString,
                 "FLEP-" + currentDateString,
-                "PlanJson",
-                "RoomList",
-                "RoomToConvert"
+                "SetupData",
+                "DataFromDailySteps"
         );
         List<String> folderPaths = Arrays.asList(
                 "database/" + "EPFL-" + currentDateString,
-                "database/" + "FLEP-" + currentDateString
+                "database/" + "FLEP-" + currentDateString,
+                "database/DataFromDailySteps"
         );
 
 
@@ -94,13 +90,13 @@ public class FolderOperation {
      */
     public static void CreateFoldersForTest() throws IOException {
         List<String> folderPaths = Arrays.asList(
-                "database/roomChecking",
-                "database/roomChecking/fromEPFL",
-                "database/roomChecking/fromFLEP",
-                "database/roomChecking/roomNotSearchable",
-                "database/roomChecking/roomWithIssue",
-                "database/roomChecking/fromEPFL2",
-                "database/roomChecking/roomWithIssue2"
+                "database",
+                "database/SetupData",
+                "database/SetupData/roomChecking",
+                "database/SetupData/roomChecking/fromEPFL",
+                "database/SetupData/roomChecking/fromFLEP",
+                "database/SetupData/roomChecking/roomNotSearchable",
+                "database/SetupData/roomChecking/roomWithIssue"
         );
 
         for (String folderPath : folderPaths) {

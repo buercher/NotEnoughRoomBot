@@ -16,7 +16,7 @@ import java.util.Collections;
 
 /**
  * This class is used to fetch the data from the EPFL plan API.
- * It is used to generate the JSON files in the database/PlanJson folder.
+ * It is used to generate the JSON files in the database/SetupData/PlanJson folder.
  */
 public class PlanDataFetch {
 
@@ -120,7 +120,7 @@ public class PlanDataFetch {
                 reader.close();
 
                 // Write response to file
-                Path jsonPath = Path.of("database/PlanJson/plan floor " + floor + ".json");
+                Path jsonPath = Path.of("database/SetupData/PlanJson/plan floor " + floor + ".json");
                 Files.deleteIfExists(jsonPath);
                 String jsonString = XML.toJSONObject(response.toString()).toString();
                 Files.write(jsonPath, Collections.singleton(jsonString), Charset.defaultCharset());

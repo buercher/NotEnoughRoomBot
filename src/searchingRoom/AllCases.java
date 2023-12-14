@@ -27,13 +27,13 @@ public class AllCases {
      * @throws IOException If an I/O error occurs
      */
     public static void find() throws IOException {
-        File roomChecking = new File("database/RoomList");
-        if (!roomChecking.exists()) {
-            if (!roomChecking.mkdir()) {
-                throw new IOException("Failed to create folder '" + roomChecking.getPath() + "'");
+        File roomList = new File("database/SetupData/RoomList");
+        if (!roomList.exists()) {
+            if (!roomList.mkdir()) {
+                throw new IOException("Failed to create folder '" + roomList.getPath() + "'");
             }
         }
-        File input = new File("database/RoomToConvert");
+        File input = new File("database/SetupData/RoomToConvert");
         File[] files = input.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -47,7 +47,7 @@ public class AllCases {
                     recursiveDash(inputString);
                 }
                 outputLength += outputList.size();
-                File output = new File("database/RoomList/" + file.getName());
+                File output = new File("database/SetupData/RoomList/" + file.getName());
                 Files.write(output.toPath(), outputList);
             }
         }

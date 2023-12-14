@@ -56,13 +56,13 @@ public class RoomJsonToList {
      * @see RoomJsonToList#extractValidRooms(int)
      */
     public static void RoomToJson() throws IOException {
-        File roomList = new File("database/RoomToConvert");
+        File roomToConvert = new File("database/SetupData/RoomToConvert");
 
-        File roomsDataJson= new File("database/roomsDataJson.json");
+        File roomsDataJson= new File("database/SetupData/roomsDataJson.json");
 
-        if (!roomList.exists()) {
-            if (!roomList.mkdir()) {
-                throw new IOException("Failed to create folder '" + roomList.getPath() + "'");
+        if (!roomToConvert.exists()) {
+            if (!roomToConvert.mkdir()) {
+                throw new IOException("Failed to create folder '" + roomToConvert.getPath() + "'");
             }
         }
 
@@ -71,7 +71,7 @@ public class RoomJsonToList {
         }
         for (String building : BUILDINGS) {
             List<String> outputList = new ArrayList<>();
-            File output = new File("database/RoomToConvert/" + building);
+            File output = new File("database/SetupData/RoomToConvert/" + building);
             Files.deleteIfExists(output.toPath());
             for (String room : rooms) {
                 if (room.contains(building)) {
@@ -107,7 +107,7 @@ public class RoomJsonToList {
      */
     public static void extractValidRooms(int floor) throws IOException {
         // Load JSON file
-        File jsonFile = new File("database/PlanJson/plan floor " + floor + ".json");
+        File jsonFile = new File("database/SetupData/PlanJson/plan floor " + floor + ".json");
 
         // Create ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();

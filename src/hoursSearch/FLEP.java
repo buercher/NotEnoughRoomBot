@@ -43,7 +43,7 @@ public class FLEP {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
-                new File("database/roomWithIssue.json"), new TypeReference<>() {
+                new File("database/DataFromDailySteps/roomWithIssue.json"), new TypeReference<>() {
                 });
 
         ProgressBarBuilder pbb = ProgressBar.builder()

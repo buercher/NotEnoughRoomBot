@@ -57,11 +57,11 @@ public class JsonOperation {
                 });
 
         List<String> pathsEPFL = objectMapper.readValue(
-                new File("database/fromEPFL.json"), new TypeReference<>() {
+                new File("database/DataFromDailySteps/fromEPFL.json"), new TypeReference<>() {
                 });
 
         List<String> pathsRoomWithIssue = objectMapper.readValue(
-                new File("database/roomWithIssue.json"), new TypeReference<>() {
+                new File("database/DataFromDailySteps/roomWithIssue.json"), new TypeReference<>() {
                 });
 
         ProgressBarBuilder pbb = ProgressBar.builder()
@@ -172,7 +172,7 @@ public class JsonOperation {
      */
     public static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException {
         if (!JsonSet.isEmpty()) {
-            File jsonFile = new File("database/roomChecking/" + name + ".json");
+            File jsonFile = new File("database/SetupData/roomChecking/" + name + ".json");
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonString = objectMapper.writeValueAsString(JsonSet);
