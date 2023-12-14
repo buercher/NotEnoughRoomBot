@@ -1,9 +1,5 @@
 package ProjectSetup;
 
-import ProjectSetup.AllValidRoomToJson;
-import ProjectSetup.EPFLRoomDataFetcher;
-import ProjectSetup.SearchRoom;
-
 import java.io.IOException;
 
 public class EntireProjectSetup {
