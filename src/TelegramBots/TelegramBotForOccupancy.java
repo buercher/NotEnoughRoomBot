@@ -358,24 +358,24 @@ public class TelegramBotForOccupancy {
         String back;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            messageText = """
+            messageText =String.format( """
                     Veuillez sélectionner une option pour continuer :
 
-                    🔍 Voir toutes les salles avec un horaire public dans ce bâtiment
-                    ➕ Ajouter toutes les salles de ce bâtiment à votre liste
-                    ➖ Supprimer toutes les salles de ce bâtiment de votre liste.
+                    🔍 Voir toutes les salles avec un horaire public dans le bâtiment %s
+                    ➕ Ajouter toutes les salles de du bâtiment %s à votre liste
+                    ➖ Supprimer toutes les salles du bâtiment %s de votre liste.
 
-                    N'hésitez pas à choisir une option ou à revenir en arrière.""";
+                    N'hésitez pas à choisir une option ou à revenir en arrière.""",building,building,building);
         } else {
             back = "Go Back";
-            messageText = """
+            messageText = String.format("""
                     Please select an option to proceed:
 
-                    🔍 View all rooms with a public schedule in this building
-                    ➕ Add all the rooms in this building to your list
-                    ➖ Remove all the rooms in this building from your list.
+                    🔍 View all rooms with a public schedule in the building %s
+                    ➕ Add all the rooms in the building %s to your list
+                    ➖ Remove all the rooms in the building %s from your list.
 
-                    Feel free to choose an option or go back.""";
+                    Feel free to choose an option or go back.""",building,building,building);
         }
         EditMessageText editMessageText =
                 new EditMessageText(
@@ -408,10 +408,16 @@ public class TelegramBotForOccupancy {
         String back;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            stringBuilder.append("Voici une listes des salles disponible dans ce bâtiment: \n");
+            stringBuilder
+                    .append("Voici une listes des salles disponible dans le bâtiment ")
+                    .append(building)
+                    .append(": \n");
         } else {
             back = "Go Back";
-            stringBuilder.append("Here is a list of the rooms available in this building: \n");
+            stringBuilder
+                    .append("Here is a list of the rooms available in the building ")
+                    .append(building)
+                    .append(": \n");
         }
         stringBuilder.append("\n");
         stringBuilder.append("<strong>");
@@ -453,11 +459,11 @@ public class TelegramBotForOccupancy {
         String messageText;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            success = "Les salles de ce bâtiment ont été ajoutées avec succès à votre liste";
+            success = "Les salles du bâtiment "+building+" ont été ajoutées avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms in this building have been successfully added to your list";
+            success = "The rooms in the building "+building+" have been successfully added to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -492,11 +498,11 @@ public class TelegramBotForOccupancy {
         String messageText;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            success = "Les salles de ce bâtiment ont été supprimés avec succès à votre liste";
+            success = "Les salles du bâtiment "+building+" ont été supprimés avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms in this building have been successfully deleted to your list";
+            success = "The rooms in the building "+building+" have been successfully removed from your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -546,26 +552,28 @@ public class TelegramBotForOccupancy {
         String room = message.text().replaceAll("[^A-Za-z0-9]", "").toUpperCase();
         String messageText;
         SendMessage sendMessage;
+        String validRoom= validRoomData.stream()
+                .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (AllRooms.contains(room)) {
             userOnWait.remove(messageData);
             if (Objects.equals(message.from().languageCode(), "fr")) {
-                messageText = """
+                messageText = String.format("""
                         Veuillez sélectionner une option pour continuer :
 
-                        📋 Voir toutes les information sur cette salle
-                        ➕ Ajouter la salle à votre liste
-                        ➖ Supprimer la salle de votre liste.
+                        📋 Voir toutes les information sur la salle %s
+                        ➕ Ajouter la salle %s à votre liste
+                        ➖ Supprimer la salle %s de votre liste.
 
-                        N'hésitez pas à choisir une option""";
+                        N'hésitez pas à choisir une option""",validRoom,validRoom,validRoom);
             } else {
-                messageText = """
+                messageText = String.format("""
                         Please select an option to proceed:
 
-                        📋 View all information about this room
-                        ➕ Add the rooms to your list
-                        ➖ Remove the rooms from your list.
+                        📋 View all information about the room %s
+                        ➕ Add the room %s to your list
+                        ➖ Remove the room %s from your list.
 
-                        Feel free to choose an option or go back.""";
+                        Feel free to choose an option or go back.""",validRoom,validRoom,validRoom);
             }
             sendMessage = new SendMessage(message.chat().id(), messageText);
             sendMessage.replyMarkup(new InlineKeyboardMarkup(
@@ -601,24 +609,26 @@ public class TelegramBotForOccupancy {
     private static void roomMidBack(CallbackQuery callbackQuery, String room) {
         String messageText;
         EditMessageText editMessageText;
+        String validRoom= validRoomData.stream()
+                .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            messageText = """
+            messageText = String.format("""
                     Veuillez sélectionner une option pour continuer :
 
-                    📋 Voir toutes les information sur cette salle
-                    ➕ Ajouter la salle à votre liste
-                    ➖ Supprimer la salle de votre liste.
+                    📋 Voir toutes les information sur la salle %s
+                    ➕ Ajouter la salle %s à votre liste
+                    ➖ Supprimer la salle %s de votre liste.
 
-                    N'hésitez pas à choisir une option""";
+                    N'hésitez pas à choisir une option""",validRoom,validRoom,validRoom);
         } else {
-            messageText = """
+            messageText = String.format("""
                     Please select an option to proceed:
 
-                    📋 View all information about this room
-                    ➕ Add the rooms to your list
-                    ➖ Remove the rooms from your list.
+                    📋 View all information about the room %s
+                    ➕ Add the room %s to your list
+                    ➖ Remove the room %s from your list.
 
-                    Feel free to choose an option or go back.""";
+                    Feel free to choose an option or go back.""",validRoom,validRoom,validRoom);
         }
 
         editMessageText = new EditMessageText(callbackQuery.message().chat().id(),
@@ -650,13 +660,15 @@ public class TelegramBotForOccupancy {
         String success;
         String failure;
         String messageText;
+        String validRoom= validRoomData.stream()
+                .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            success = "La salle a été ajoutée avec succès à votre liste";
+            success = "La salle "+validRoom+" a été ajoutée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms has been successfully added to your list";
+            success = "The room "+validRoom+" has been successfully added to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -690,13 +702,15 @@ public class TelegramBotForOccupancy {
         String success;
         String failure;
         String messageText;
+        String validRoom= validRoomData.stream()
+                .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             back = "revenir en arrière";
-            success = "La salle a été supprimée avec succès à votre liste";
+            success = "La salle "+validRoom+" a été supprimée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms has been successfully deleted to your list";
+            success = "The rooms "+validRoom+" has been successfully removed to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
