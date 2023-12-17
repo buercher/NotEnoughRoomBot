@@ -75,6 +75,8 @@ public class TelegramBotForOccupancy {
                             Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
                                     Objects.equals(l.ChatId, update.callbackQuery().message().chat().id())).findFirst();
                     if (request.isPresent()) {
+                        System.out.println(userOnWait.size());
+                        System.out.println(userOnWait);
                         userOnWait.remove(request.get());
                         switch (request.get().command) {
                             case "buildingStart" -> buildingMid(update.callbackQuery(),
@@ -284,9 +286,6 @@ public class TelegramBotForOccupancy {
     }
 
     private static void buildingBackStart(CallbackQuery callbackQuery) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), callbackQuery.from().id()) &&
-                        Objects.equals(messageData.ChatId(), callbackQuery.message().chat().id()));
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
@@ -349,14 +348,15 @@ public class TelegramBotForOccupancy {
                 new EditMessageText(
                         callbackQuery.message().chat().id(),
                         callbackQuery.message().messageId(),
-                        messageText)
-                        .replyMarkup(
-                                new InlineKeyboardMarkup(new InlineKeyboardButton[][]{{
-                                        new InlineKeyboardButton("🔍").callbackData("HaveListOfRoom"),
-                                        new InlineKeyboardButton("➕").callbackData("AddBuildingToList"),
-                                        new InlineKeyboardButton("🗄️").callbackData("HaveListOfTypes")}, {
-                                        new InlineKeyboardButton(back).callbackData("Go Back")
-                                }}))
+                        messageText).replyMarkup(
+                                new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                                        {
+                                                new InlineKeyboardButton("🔍").callbackData("HaveListOfRoom"),
+                                                new InlineKeyboardButton("➕").callbackData("AddBuildingToList"),
+                                                new InlineKeyboardButton("🗄️").callbackData("HaveListOfTypes")},
+                                        {
+                                                new InlineKeyboardButton(back).callbackData("Go Back")}
+                                }))
                         .parseMode(ParseMode.Markdown);
         bot.execute(editMessageText);
     }
