@@ -8,9 +8,11 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.*;
+import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.response.SendResponse;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,29 +77,37 @@ public class TelegramBotForOccupancy {
                             Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
                                     Objects.equals(l.ChatId, update.callbackQuery().message().chat().id())).findFirst();
                     if (request.isPresent()) {
-                        System.out.println(userOnWait.size());
-                        System.out.println(userOnWait);
-                        userOnWait.remove(request.get());
                         switch (request.get().command) {
-                            case "buildingStart" -> buildingMid(update.callbackQuery(),
-                                    update.callbackQuery().data());
-                            case "buildingMid" -> {
+                            case "building" -> {
+                                userOnWait.remove(request.get());
+                                if (AllBuilding.contains(update.callbackQuery().data())) {
+                                    buildingMid(update.callbackQuery(),
+                                            update.callbackQuery().data());
+                                } else if (Objects.equals(update.callbackQuery().data(), "Go Back")) {
+                                    buildingBackStart(update.callbackQuery());
 
-                                switch (update.callbackQuery().data()) {
-                                    case "HaveListOfRoom" -> HaveListOfRoom(
-                                            request.get()
-                                                    .additionalProperties.get(0),
-                                            update.callbackQuery());
-                                    case "AddBuildingToList" -> AddBuildingToList(
-                                            request.get()
-                                                    .additionalProperties.get(0),
-                                            update.callbackQuery().message());
-                                    case "HaveListOfTypes" -> HaveListOfTypes(
-                                            request.get().additionalProperties.get(0),
-                                            update.callbackQuery().message());
-                                    case "Go Back" -> buildingBackStart(update.callbackQuery());
-                                    case "Go Back To buildingMid" ->buildingMid(update.callbackQuery(),
-                                            request.get().additionalProperties.get(0));
+                                } else if (update.callbackQuery().data().startsWith("Go Back To buildingMid")) {
+                                    buildingMid(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("Go Back To buildingMid ", ""));
+
+                                } else if (update.callbackQuery().data().startsWith("HaveListOfRoom")) {
+                                    HaveListOfRoom(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("HaveListOfRoom ", ""));
+
+                                } else if (update.callbackQuery().data().startsWith("AddBuildingToList")) {
+                                    AddBuildingToList(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("AddBuildingToList ", ""));
+
+                                } else if (update.callbackQuery().data().startsWith("RemoveBuildingToList")) {
+                                    RemoveBuildingToList(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("RemoveBuildingToList ", ""));
+
+                                } else {
+                                    System.out.println("error");
                                 }
                             }
                             default -> System.out.println("default");
@@ -146,9 +156,8 @@ public class TelegramBotForOccupancy {
     }
 
     private static void create(Message message) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), message.from().id()) &&
-                        Objects.equals(messageData.ChatId(), message.chat().id()));
+        removeKeyboard(message);
+
         SendMessage request;
         if (rooms.containsKey(message.from().id())) {
             if (Objects.equals(message.from().languageCode(), "fr")) {
@@ -175,9 +184,8 @@ public class TelegramBotForOccupancy {
     }
 
     private static void delete(Message message) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), message.from().id()) &&
-                        Objects.equals(messageData.ChatId(), message.chat().id()));
+        removeKeyboard(message);
+
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
             if (Objects.equals(message.from().languageCode(), "fr")) {
@@ -203,9 +211,8 @@ public class TelegramBotForOccupancy {
     }
 
     private static void reset(Message message) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), message.from().id()) &&
-                        Objects.equals(messageData.ChatId(), message.chat().id()));
+        removeKeyboard(message);
+
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
             if (Objects.equals(message.from().languageCode(), "fr")) {
@@ -231,9 +238,8 @@ public class TelegramBotForOccupancy {
     }
 
     private static void allBuildings(Message message) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), message.from().id()) &&
-                        Objects.equals(messageData.ChatId(), message.chat().id()));
+        removeKeyboard(message);
+
 
         StringBuilder stringBuilder = new StringBuilder();
         if (Objects.equals(message.from().languageCode(), "fr")) {
@@ -257,14 +263,8 @@ public class TelegramBotForOccupancy {
     }
 
     private static void buildingStart(Message message) {
-        userOnWait.removeIf(messageData ->
-                Objects.equals(messageData.UserId(), message.from().id()) &&
-                        Objects.equals(messageData.ChatId(), message.chat().id()));
-        userOnWait.add(
-                new MessageData(
-                        message.from().id(),
-                        message.date(),
-                        message.chat().id(), "buildingStart"));
+        removeKeyboard(message);
+
         SendMessage request;
         if (Objects.equals(message.from().languageCode(), "fr")) {
             request = new SendMessage(
@@ -282,15 +282,18 @@ public class TelegramBotForOccupancy {
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
 
         request.replyMarkup(inlineKeyboard);
-        bot.execute(request);
+
+        SendResponse response = bot.execute(request);
+
+        userOnWait.add(
+                new MessageData(
+                        message.from().id(),
+                        message.date(),
+                        message.chat().id(), "building",
+                        List.of(response.message().messageId().toString())));
     }
 
     private static void buildingBackStart(CallbackQuery callbackQuery) {
-        userOnWait.add(
-                new MessageData(
-                        callbackQuery.from().id(),
-                        callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "buildingStart"));
         String messageText;
         if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
             messageText = "Veuillez choisir un bâtiment";
@@ -313,14 +316,16 @@ public class TelegramBotForOccupancy {
                         .replyMarkup(inlineKeyboard)
                         .parseMode(ParseMode.Markdown);
         bot.execute(editMessageText);
-    }
 
-    private static void buildingMid(CallbackQuery callbackQuery, String building) {
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "buildingMid", List.of(building)));
+                        callbackQuery.message().chat().id(), "building",
+                        List.of(callbackQuery.message().messageId().toString())));
+    }
+
+    private static void buildingMid(CallbackQuery callbackQuery, String building) {
         String messageText;
         String back;
         if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
@@ -330,7 +335,7 @@ public class TelegramBotForOccupancy {
 
                     🔍 Voir toutes les salles avec un horaire public dans ce bâtiment
                     ➕ Ajouter toutes les salles de ce bâtiment à votre liste
-                    🗄️ Voir toutes les catégories de salles dans ce bâtiment.
+                    ➖ Supprimez toutes les salles de ce bâtiment de votre liste.
 
                     N'hésitez pas à choisir une option ou à revenir en arrière.""";
         } else {
@@ -340,7 +345,7 @@ public class TelegramBotForOccupancy {
 
                     🔍 View all rooms with a public schedule in this building
                     ➕ Add all the rooms in this building to your list
-                    🗄️ View all category of rooms in this building.
+                    ➖ Remove all the rooms in this building from your list.
 
                     Feel free to choose an option or go back.""";
         }
@@ -351,22 +356,26 @@ public class TelegramBotForOccupancy {
                         messageText).replyMarkup(
                                 new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
                                         {
-                                                new InlineKeyboardButton("🔍").callbackData("HaveListOfRoom"),
-                                                new InlineKeyboardButton("➕").callbackData("AddBuildingToList"),
-                                                new InlineKeyboardButton("🗄️").callbackData("HaveListOfTypes")},
+                                                new InlineKeyboardButton("🔍")
+                                                        .callbackData("HaveListOfRoom " + building),
+                                                new InlineKeyboardButton("➕")
+                                                        .callbackData("AddBuildingToList " + building),
+                                                new InlineKeyboardButton("➖")
+                                                        .callbackData("RemoveBuildingToList " + building)},
                                         {
                                                 new InlineKeyboardButton(back).callbackData("Go Back")}
                                 }))
                         .parseMode(ParseMode.Markdown);
         bot.execute(editMessageText);
-    }
-
-    private static void HaveListOfRoom(String building, CallbackQuery callbackQuery) {
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "buildingMid", List.of(building)));
+                        callbackQuery.message().chat().id(), "building",
+                        List.of(callbackQuery.message().messageId().toString())));
+    }
+
+    private static void HaveListOfRoom(CallbackQuery callbackQuery, String building) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
         if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
@@ -385,7 +394,7 @@ public class TelegramBotForOccupancy {
                 .forEach(l -> roomsOfThatBuilding.add(l.getPlanName()));
         Collections.sort(roomsOfThatBuilding);
         roomsOfThatBuilding.forEach(l -> stringBuilder.append(l).append("\n"));
-        stringBuilder.append("</strong>");
+        stringBuilder.append("\n</strong>");
         if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
             stringBuilder.append("/room to get information about a certain room");
         } else {
@@ -399,16 +408,108 @@ public class TelegramBotForOccupancy {
                         stringBuilder.toString())
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(new InlineKeyboardMarkup(
-                                new InlineKeyboardButton(back).callbackData("Go Back To buildingMid")));
+                                new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)));
         bot.execute(editMessageText);
+        userOnWait.add(
+                new MessageData(
+                        callbackQuery.from().id(),
+                        callbackQuery.message().date(),
+                        callbackQuery.message().chat().id(), "building",
+                        List.of(callbackQuery.message().messageId().toString())));
     }
 
-    private static void AddBuildingToList(String Room, Message message) {
-        System.out.println(Room + message);
+    private static void AddBuildingToList(CallbackQuery callbackQuery, String building) {
+        String back;
+        String success;
+        String failure;
+        String messageText;
+        if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
+            back = "revenir en arrière";
+            success = "Les chambres de ce bâtiment ont été ajoutées avec succès à votre liste";
+            failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
+        } else {
+            back = "Go Back";
+            success = "The rooms in this building have been successfully added to your list";
+            failure = "You don't have a list, please create one with /create";
+        }
+        if (rooms.containsKey(callbackQuery.from().id())) {
+            validRoomData.stream()
+                    .filter(l -> l.getBuildings().equals(building))
+                    .forEachOrdered(l -> rooms.get(callbackQuery.from().id()).add(l.getRooms()));
+            messageText = success;
+        } else {
+            messageText = failure;
+        }
+        EditMessageText editMessageText =
+                new EditMessageText(
+                        callbackQuery.message().chat().id(),
+                        callbackQuery.message().messageId(),
+                        messageText)
+                        .parseMode(ParseMode.HTML)
+                        .replyMarkup(new InlineKeyboardMarkup(
+                                new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)));
+        bot.execute(editMessageText);
+        userOnWait.add(
+                new MessageData(
+                        callbackQuery.from().id(),
+                        callbackQuery.message().date(),
+                        callbackQuery.message().chat().id(), "building",
+                        List.of(callbackQuery.message().messageId().toString())));
     }
 
-    private static void HaveListOfTypes(String Room, Message message) {
-        System.out.println(Room + message);
+    private static void RemoveBuildingToList(CallbackQuery callbackQuery, String building) {
+        String back;
+        String success;
+        String failure;
+        String messageText;
+        if (Objects.equals(callbackQuery.message().from().languageCode(), "fr")) {
+            back = "revenir en arrière";
+            success = "Les chambres de ce bâtiment ont été supprimés avec succès à votre liste";
+            failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
+        } else {
+            back = "Go Back";
+            success = "The rooms in this building have been successfully deleted to your list";
+            failure = "You don't have a list, please create one with /create";
+        }
+        if (rooms.containsKey(callbackQuery.from().id())) {
+            validRoomData.stream()
+                    .filter(l -> l.getBuildings().equals(building))
+                    .forEachOrdered(l -> rooms.get(callbackQuery.from().id()).remove(l.getRooms()));
+            messageText = success;
+        } else {
+            messageText = failure;
+        }
+        EditMessageText editMessageText =
+                new EditMessageText(
+                        callbackQuery.message().chat().id(),
+                        callbackQuery.message().messageId(),
+                        messageText)
+                        .parseMode(ParseMode.HTML)
+                        .replyMarkup(new InlineKeyboardMarkup(
+                                new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)));
+        bot.execute(editMessageText);
+        userOnWait.add(
+                new MessageData(
+                        callbackQuery.from().id(),
+                        callbackQuery.message().date(),
+                        callbackQuery.message().chat().id(), "building",
+                        List.of(callbackQuery.message().messageId().toString())));
     }
 
+    private static void removeKeyboard(Message message) {
+        List<MessageData> replyMarkup = userOnWait.stream().filter(l ->
+                Objects.equals(l.UserId(), message.from().id()) &&
+                        Objects.equals(l.ChatId, message.chat().id())).toList();
+        if (!replyMarkup.isEmpty()) {
+            replyMarkup.forEach(userOnWait::remove);
+            for (MessageData messageData : replyMarkup) {
+                if (!messageData.additionalProperties().isEmpty()) {
+                    EditMessageReplyMarkup editMessageReplyMarkup = new
+                            EditMessageReplyMarkup(messageData.ChatId(),
+                            Integer.parseInt(messageData.additionalProperties().get(0)));
+                    bot.execute(editMessageReplyMarkup);
+                }
+            }
+        }
+    }
 }
