@@ -1,5 +1,6 @@
 package TelegramBots;
 
+import Utils.jsonObjects.Datajson;
 import Utils.jsonObjects.JsonRoomArchitecture;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,7 @@ public class TelegramBotForOccupancy {
 
     public static List<JsonRoomArchitecture> validRoomData;
     public static Map<Long, Set<String>> rooms;
+    public static Map<String, Datajson> dataJson;
 
     // Replace "YOUR_BOT_TOKEN" with your actual bot token
     public static TelegramBot bot = new TelegramBot("6944730251:AAFZSgdQfUYKU8r17WOBPzZSgLQ3ogH7rro");
@@ -45,10 +47,18 @@ public class TelegramBotForOccupancy {
     public static void main(String[] args) throws IOException {
 
         File validRoomDataFile = new File("database/validRoomData.json");
+
         TypeReference<List<JsonRoomArchitecture>> typeRefValidRoom = new TypeReference<>() {
         };
         String validRoomJson = Files.readString(validRoomDataFile.toPath());
         validRoomData = new ObjectMapper().readValue(validRoomJson, typeRefValidRoom);
+
+        File DataJsonFile = new File("database/data.json");
+        TypeReference<Map<String, Datajson>> typeRefDataJson = new TypeReference<>() {
+        };
+        String dataJsonString = Files.readString(DataJsonFile.toPath());
+        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+
 
         validRoomData.forEach(validRooms -> {
             AllBuilding.add(validRooms.getBuildings());
@@ -357,15 +367,15 @@ public class TelegramBotForOccupancy {
         String messageText;
         String back;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
-            messageText =String.format( """
+            back = "Revenir en arrière";
+            messageText = String.format("""
                     Veuillez sélectionner une option pour continuer :
 
                     🔍 Voir toutes les salles avec un horaire public dans le bâtiment %s
                     ➕ Ajouter toutes les salles de du bâtiment %s à votre liste
                     ➖ Supprimer toutes les salles du bâtiment %s de votre liste.
 
-                    N'hésitez pas à choisir une option ou à revenir en arrière.""",building,building,building);
+                    N'hésitez pas à choisir une option ou à revenir en arrière.""", building, building, building);
         } else {
             back = "Go Back";
             messageText = String.format("""
@@ -375,7 +385,7 @@ public class TelegramBotForOccupancy {
                     ➕ Add all the rooms in the building %s to your list
                     ➖ Remove all the rooms in the building %s from your list.
 
-                    Feel free to choose an option or go back.""",building,building,building);
+                    Feel free to choose an option or go back.""", building, building, building);
         }
         EditMessageText editMessageText =
                 new EditMessageText(
@@ -407,7 +417,7 @@ public class TelegramBotForOccupancy {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
+            back = "Revenir en arrière";
             stringBuilder
                     .append("Voici une listes des salles disponible dans le bâtiment ")
                     .append(building)
@@ -458,12 +468,12 @@ public class TelegramBotForOccupancy {
         String failure;
         String messageText;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
-            success = "Les salles du bâtiment "+building+" ont été ajoutées avec succès à votre liste";
+            back = "Revenir en arrière";
+            success = "Les salles du bâtiment " + building + " ont été ajoutées avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms in the building "+building+" have been successfully added to your list";
+            success = "The rooms in the building " + building + " have been successfully added to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -497,12 +507,12 @@ public class TelegramBotForOccupancy {
         String failure;
         String messageText;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
-            success = "Les salles du bâtiment "+building+" ont été supprimés avec succès à votre liste";
+            back = "Revenir en arrière";
+            success = "Les salles du bâtiment " + building + " ont été supprimés avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms in the building "+building+" have been successfully removed from your list";
+            success = "The rooms in the building " + building + " have been successfully removed from your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -552,9 +562,9 @@ public class TelegramBotForOccupancy {
         String room = message.text().replaceAll("[^A-Za-z0-9]", "").toUpperCase();
         String messageText;
         SendMessage sendMessage;
-        String validRoom= validRoomData.stream()
-                .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (AllRooms.contains(room)) {
+            String validRoom = validRoomData.stream()
+                    .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
             userOnWait.remove(messageData);
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 messageText = String.format("""
@@ -564,7 +574,7 @@ public class TelegramBotForOccupancy {
                         ➕ Ajouter la salle %s à votre liste
                         ➖ Supprimer la salle %s de votre liste.
 
-                        N'hésitez pas à choisir une option""",validRoom,validRoom,validRoom);
+                        N'hésitez pas à choisir une option""", validRoom, validRoom, validRoom);
             } else {
                 messageText = String.format("""
                         Please select an option to proceed:
@@ -573,7 +583,7 @@ public class TelegramBotForOccupancy {
                         ➕ Add the room %s to your list
                         ➖ Remove the room %s from your list.
 
-                        Feel free to choose an option or go back.""",validRoom,validRoom,validRoom);
+                        Feel free to choose an option or go back.""", validRoom, validRoom, validRoom);
             }
             sendMessage = new SendMessage(message.chat().id(), messageText);
             sendMessage.replyMarkup(new InlineKeyboardMarkup(
@@ -609,7 +619,7 @@ public class TelegramBotForOccupancy {
     private static void roomMidBack(CallbackQuery callbackQuery, String room) {
         String messageText;
         EditMessageText editMessageText;
-        String validRoom= validRoomData.stream()
+        String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
             messageText = String.format("""
@@ -619,7 +629,7 @@ public class TelegramBotForOccupancy {
                     ➕ Ajouter la salle %s à votre liste
                     ➖ Supprimer la salle %s de votre liste.
 
-                    N'hésitez pas à choisir une option""",validRoom,validRoom,validRoom);
+                    N'hésitez pas à choisir une option""", validRoom, validRoom, validRoom);
         } else {
             messageText = String.format("""
                     Please select an option to proceed:
@@ -628,7 +638,7 @@ public class TelegramBotForOccupancy {
                     ➕ Add the room %s to your list
                     ➖ Remove the room %s from your list.
 
-                    Feel free to choose an option or go back.""",validRoom,validRoom,validRoom);
+                    Feel free to choose an option or go back.""", validRoom, validRoom, validRoom);
         }
 
         editMessageText = new EditMessageText(callbackQuery.message().chat().id(),
@@ -651,8 +661,132 @@ public class TelegramBotForOccupancy {
     }
 
     private static void ViewRoomInfo(CallbackQuery callbackQuery, String room) {
-        System.out.println("Plus tard" + callbackQuery + room);
+        StringBuilder stringBuilder = new StringBuilder();
+        String back;
 
+        Optional<JsonRoomArchitecture> roomData =
+                validRoomData
+                        .stream().filter(l -> l.getRooms().equals(room))
+                        .findFirst();
+
+        if (roomData.isPresent()) {
+            if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+                back = "Revenir en arrière";
+                stringBuilder
+                        .append("<b>Information sur la salle ").append(roomData.get().getPlanName()).append("</b> :\n")
+                        .append(" <b>Utilisation</b> : ").append(roomData.get().getType()).append("\n")
+                        .append(" <b>Batiment</b> : ").append(roomData.get().getBuildings()).append("\n");
+                if (!Objects.equals(roomData.get().getPlaces(), "")) {
+                    stringBuilder.append(" <b>Places</b> : ").append(roomData.get().getPlaces()).append("\n");
+                }
+                stringBuilder
+                        .append(" <b>Étage</b> : ").append(roomData.get().getFloor()).append("\n")
+                        .append(" <b>Plan</b> : <a href=\"")
+                        .append(roomData.get().getPlanLink()).append("\">lien</a>\n")
+                ;
+                if (!Objects.equals(roomData.get().getPdfLink(), "")) {
+                    stringBuilder.append(" <b>PDF</b> : <a href=\"")
+                            .append(roomData.get().getPdfLink()).append("\">lien</a>\n");
+                }
+                stringBuilder.append("<b> Disponibilité de la Salle</b>");
+
+                if (dataJson.get(room).getSource().equals("EPFL")) {
+                    stringBuilder.append(" (Source <a href=\"https://occupancy.epfl.ch\">EPFL</a>) \n");
+                } else if (dataJson.get(room).getSource().equals("FLEP")) {
+                    stringBuilder.append(" (Source <a href=\"https://occupancy.FLEP.ch\">FLEP</a>) \n");
+                }
+                stringBuilder
+                        .append("<code>|  Horaire  |⬜| Disponibilité |\n")
+                        .append(      "|-----------|⬜|---------------|\n");
+                for (int i = 7; i < 19; i++) {
+                        stringBuilder.append("| ");
+                        if(i<10){
+                            stringBuilder.append("0");
+                        }
+                        stringBuilder
+                                .append(i)
+                                .append("h - ");
+                        if(i<9){
+                            stringBuilder.append("0");
+                        }
+                        stringBuilder.append(i+1)
+                                .append("h |");
+                        if (dataJson.get(room).getHoraire().contains(i)) {
+                            stringBuilder.append("🟥| Occupé        |\n");
+                        } else {
+                            stringBuilder.append("🟩| Disponible    |\n");
+                        }
+                }
+                stringBuilder.append("</code>");
+            } else {
+                back = "Go Back";
+                stringBuilder
+                        .append("<b>Information about the room ").append(roomData.get().getPlanName()).append("</b> :\n")
+                        .append(" <b>Building</b> : ").append(roomData.get().getBuildings()).append("\n");
+                if (!Objects.equals(roomData.get().getPlaces(), "")) {
+                    stringBuilder.append(" <b>Places</b> : ").append(roomData.get().getPlaces()).append("\n");
+                }
+                stringBuilder
+                        .append(" <b>Floor</b> : ").append(roomData.get().getFloor()).append("\n")
+                        .append(" <b>Area</b> : ").append(roomData.get().getType()).append("\n")
+                        .append(" <b>Plan</b> : <a href=\"")
+                        .append(roomData.get().getPlanLink()).append("\">link</a>\n")
+                ;
+                if (!Objects.equals(roomData.get().getPdfLink(), "")) {
+                    stringBuilder.append(" <b>PDF</b> : <a href=\"")
+                            .append(roomData.get().getPdfLink()).append("\">link</a>\n");
+                }
+                stringBuilder.append("<b> Room availability</b>");
+
+                if (dataJson.get(room).getSource().equals("EPFL")) {
+                    stringBuilder.append(" (Source <a href=\"https://occupancy.epfl.ch\">EPFL</a>) \n");
+                } else if (dataJson.get(room).getSource().equals("FLEP")) {
+                    stringBuilder.append(" (Source <a href=\"https://occupancy.FLEP.ch\">FLEP</a>) \n");
+                }
+                stringBuilder
+                        .append("<code>|  Schedule |⬜| Availability  |\n")
+                        .append(      "|-----------|⬜|---------------|\n");
+                for (int i = 7; i < 19; i++) {
+                    stringBuilder.append("| ");
+                    if(i<10){
+                        stringBuilder.append("0");
+                    }
+                    stringBuilder
+                            .append(i)
+                            .append("h - ");
+                    if(i<9){
+                        stringBuilder.append("0");
+                    }
+                    stringBuilder.append(i+1)
+                            .append("h |");
+                    if (dataJson.get(room).getHoraire().contains(i)) {
+                        stringBuilder.append("🟥| Occupied      |\n");
+                    } else {
+                        stringBuilder.append("🟩| Available     |\n");
+                    }
+                }
+                stringBuilder.append("</code>");
+            }
+
+            EditMessageText editMessageText =
+                    new EditMessageText(
+                            callbackQuery.message().chat().id(),
+                            callbackQuery.message().messageId(),
+                            stringBuilder.toString())
+                            .parseMode(ParseMode.HTML)
+                            .disableWebPagePreview(true)
+                            .replyMarkup(new InlineKeyboardMarkup(
+                                    new InlineKeyboardButton(back).callbackData("Go Back To roomMid " + room)));
+            bot.execute(editMessageText);
+                    userOnWait.add(
+                    new MessageData(
+                            callbackQuery.from().id(),
+                            callbackQuery.message().date(),
+                            callbackQuery.message().chat().id(), "roomInlined",
+                            List.of(callbackQuery.message().messageId().toString())));
+        } else {
+            System.out.println("HEIN?????");
+        }
     }
 
     private static void addRoom(CallbackQuery callbackQuery, String room) {
@@ -660,15 +794,15 @@ public class TelegramBotForOccupancy {
         String success;
         String failure;
         String messageText;
-        String validRoom= validRoomData.stream()
+        String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
-            success = "La salle "+validRoom+" a été ajoutée avec succès à votre liste";
+            back = "Revenir en arrière";
+            success = "La salle " + validRoom + " a été ajoutée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The room "+validRoom+" has been successfully added to your list";
+            success = "The room " + validRoom + " has been successfully added to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
@@ -702,15 +836,15 @@ public class TelegramBotForOccupancy {
         String success;
         String failure;
         String messageText;
-        String validRoom= validRoomData.stream()
+        String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            back = "revenir en arrière";
-            success = "La salle "+validRoom+" a été supprimée avec succès à votre liste";
+            back = "Revenir en arrière";
+            success = "La salle " + validRoom + " a été supprimée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
             back = "Go Back";
-            success = "The rooms "+validRoom+" has been successfully removed to your list";
+            success = "The rooms " + validRoom + " has been successfully removed to your list";
             failure = "You don't have a list, please create one with /create";
         }
         if (rooms.containsKey(callbackQuery.from().id())) {
