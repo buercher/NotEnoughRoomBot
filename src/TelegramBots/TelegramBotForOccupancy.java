@@ -101,51 +101,82 @@ public class TelegramBotForOccupancy {
                                 } else if (Objects.equals(update.callbackQuery().data(), "Go Back")) {
                                     buildingBackStart(update.callbackQuery());
 
-                                } else if (update.callbackQuery().data().startsWith("Go Back To buildingMid")) {
+                                } else if (update.callbackQuery().data().startsWith("Go Back To buildingMid ")) {
                                     buildingMid(update.callbackQuery(),
                                             update.callbackQuery().data()
                                                     .replaceAll("Go Back To buildingMid ", ""));
 
-                                } else if (update.callbackQuery().data().startsWith("HaveListOfRoom")) {
+                                } else if (update.callbackQuery().data().startsWith("HaveListOfRoom ")) {
                                     HaveListOfRoom(update.callbackQuery(),
                                             update.callbackQuery().data()
                                                     .replaceAll("HaveListOfRoom ", ""));
 
-                                } else if (update.callbackQuery().data().startsWith("AddBuildingToList")) {
+                                } else if (update.callbackQuery().data().startsWith("AddBuildingToList ")) {
                                     AddBuildingToList(update.callbackQuery(),
                                             update.callbackQuery().data()
                                                     .replaceAll("AddBuildingToList ", ""));
 
-                                } else if (update.callbackQuery().data().startsWith("RemoveBuildingToList")) {
+                                } else if (update.callbackQuery().data().startsWith("RemoveBuildingToList ")) {
                                     RemoveBuildingToList(update.callbackQuery(),
                                             update.callbackQuery().data()
                                                     .replaceAll("RemoveBuildingToList ", ""));
 
+                                } else if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
+                                    ViewRoomInfo(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("ViewRoomInfo ", ""),
+                                            "building", "HaveListOfRoom ");
+
+                                } else if (update.callbackQuery().data().startsWith("addRoomFromViewRoomInfo ")) {
+                                    addRoom(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("addRoomFromViewRoomInfo ", ""),
+                                            "building", "ViewRoomInfo ");
+                                } else if (update.callbackQuery().data().startsWith("removeRoomFromViewRoomInfo ")) {
+                                    removeRoom(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("removeRoomFromViewRoomInfo ", ""),
+                                            "building", "ViewRoomInfo ");
                                 } else {
-                                    System.out.println("error");
+                                    throw new IllegalArgumentException(
+                                            update.callbackQuery().data() + " is not a valid parameter for building");
                                 }
                             }
                             case "roomInlined" -> {
                                 userOnWait.remove(request.get());
-                                if (update.callbackQuery().data().startsWith("ViewRoomInfo")) {
+                                if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
                                     ViewRoomInfo(update.callbackQuery(),
                                             update.callbackQuery().data()
-                                                    .replaceAll("ViewRoomInfo ", ""));
+                                                    .replaceAll("ViewRoomInfo ", ""),
+                                            "roomInlined", "Go Back To roomMid ");
 
-                                } else if (update.callbackQuery().data().startsWith("Go Back To roomMid")) {
+                                } else if (update.callbackQuery().data().startsWith("Go Back To roomMid ")) {
                                     roomMidBack(update.callbackQuery(),
                                             update.callbackQuery().data()
                                                     .replaceAll("Go Back To roomMid ", ""));
-                                } else if (update.callbackQuery().data().startsWith("addRoom")) {
+                                } else if (update.callbackQuery().data().startsWith("addRoom ")) {
                                     addRoom(update.callbackQuery(),
                                             update.callbackQuery().data()
-                                                    .replaceAll("addRoom ", ""));
-                                } else if (update.callbackQuery().data().startsWith("removeRoom")) {
+                                                    .replaceAll("addRoom ", ""),
+                                            "roomInlined", "Go Back To roomMid ");
+                                } else if (update.callbackQuery().data().startsWith("removeRoom ")) {
                                     removeRoom(update.callbackQuery(),
                                             update.callbackQuery().data()
-                                                    .replaceAll("removeRoom ", ""));
+                                                    .replaceAll("removeRoom ", ""),
+                                            "roomInlined", "Go Back To roomMid ");
+                                } else if (update.callbackQuery().data().startsWith("addRoomFromViewRoomInfo ")) {
+                                    addRoom(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("addRoomFromViewRoomInfo ", ""),
+                                            "roomInlined", "ViewRoomInfo ");
+                                } else if (update.callbackQuery().data().startsWith("removeRoomFromViewRoomInfo ")) {
+                                    removeRoom(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("removeRoomFromViewRoomInfo ", ""),
+                                            "roomInlined", "ViewRoomInfo ");
                                 } else {
-                                    System.out.println("error");
+                                    throw new IllegalArgumentException(
+                                            update.callbackQuery().data() + " is not a valid parameter for room");
                                 }
                             }
                             default -> System.out.println("default");
@@ -179,7 +210,8 @@ public class TelegramBotForOccupancy {
                                     String command = request.get().command;
                                     switch (command) {
                                         case "room" -> roomMid(message, request.get());
-                                        case "buildingMid" -> System.out.println("Vraiment pas Normal");
+                                        case "reset" -> resetConfirm(message);
+                                        case "delete" -> deleteConfirm(message);
                                         default -> System.out.println("Salut");
                                     }
                                 }
@@ -235,14 +267,44 @@ public class TelegramBotForOccupancy {
             }
 
         } else {
+            userOnWait.add(
+                    new MessageData(
+                            message.from().id(),
+                            message.date(),
+                            message.chat().id(), "delete"));
+            if (Objects.equals(message.from().languageCode(), "fr")) {
+                request = new SendMessage(message.chat().id(),
+                        "Envoyez \"CONFIRM\" (en majuscule) pour valider la suppression");
+            } else {
+                request = new SendMessage(
+                        message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the deletion");
+            }
+        }
+        bot.execute(request);
+    }
+
+    private static void deleteConfirm(Message message) {
+        removeKeyboard(message);
+        SendMessage request;
+        if (message.text().equals("CONFIRM")) {
             rooms.remove(message.from().id());
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 request = new SendMessage(
                         message.chat().id(),
-                        "Votre liste a été supprimée");
+                        "Votre liste a été supprimée avec succès");
             } else {
                 request = new SendMessage(
-                        message.chat().id(), "Your list has been deleted");
+                        message.chat().id(), "Your list has been successfully deleted");
+            }
+
+        } else {
+            if (Objects.equals(message.from().languageCode(), "fr")) {
+                request = new SendMessage(
+                        message.chat().id(),
+                        "Erreur, refaites /delete pour réessayer");
+            } else {
+                request = new SendMessage(
+                        message.chat().id(), "Error, redo /delete to try again");
             }
         }
         bot.execute(request);
@@ -262,14 +324,44 @@ public class TelegramBotForOccupancy {
             }
 
         } else {
+            userOnWait.add(
+                    new MessageData(
+                            message.from().id(),
+                            message.date(),
+                            message.chat().id(), "reset"));
+            if (Objects.equals(message.from().languageCode(), "fr")) {
+                request = new SendMessage(message.chat().id(),
+                        "Envoyez \"CONFIRM\" (en majuscule) pour valider la réinitialisation");
+            } else {
+                request = new SendMessage(
+                        message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the reset");
+            }
+        }
+        bot.execute(request);
+    }
+
+    private static void resetConfirm(Message message) {
+        removeKeyboard(message);
+        SendMessage request;
+        if (message.text().equals("CONFIRM")) {
             rooms.get(message.from().id()).clear();
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 request = new SendMessage(
                         message.chat().id(),
-                        "Votre liste a été réinitialisée");
+                        "Votre liste a été réinitialisée avec succès");
             } else {
                 request = new SendMessage(
-                        message.chat().id(), "Your list has been reset");
+                        message.chat().id(), "Your list has been successfully reset");
+            }
+
+        } else {
+            if (Objects.equals(message.from().languageCode(), "fr")) {
+                request = new SendMessage(
+                        message.chat().id(),
+                        "Erreur, refaites /reset pour réessayer");
+            } else {
+                request = new SendMessage(
+                        message.chat().id(), "Error, redo /reset to try again");
             }
         }
         bot.execute(request);
@@ -421,29 +513,59 @@ public class TelegramBotForOccupancy {
             stringBuilder
                     .append("Voici une listes des salles disponible dans le bâtiment ")
                     .append(building)
-                    .append(": \n");
+                    .append(": \n")
+                    .append("Vous pouvez sélectionner une salle pour avoir plus d'information");
         } else {
             back = "Go Back";
             stringBuilder
                     .append("Here is a list of the rooms available in the building ")
                     .append(building)
-                    .append(": \n");
+                    .append(": \n")
+                    .append("You can select a room to get more information");
         }
         stringBuilder.append("\n");
-        stringBuilder.append("<strong>");
-        List<String> roomsOfThatBuilding = new ArrayList<>();
+
+        Map<String, String> roomSearchToRoomName = new TreeMap<>();
         validRoomData
                 .stream()
                 .filter(l -> l.getBuildings().equals(building))
-                .forEach(l -> roomsOfThatBuilding.add(l.getPlanName()));
-        Collections.sort(roomsOfThatBuilding);
-        roomsOfThatBuilding.forEach(l -> stringBuilder.append(l).append("\n"));
-        stringBuilder.append("\n</strong>");
-        if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
-            stringBuilder.append("/room to get information about a certain room");
-        } else {
-            stringBuilder.append("/room pour avoir des informations sur une certaine salle");
+                .forEach(l -> roomSearchToRoomName.put(l.getRooms(), l.getPlanName()));
+
+        InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[roomSearchToRoomName.size() / 4][4];
+        int count = 0;
+        InlineKeyboardButton[] inlineKeyboardButtonSmall =
+                new InlineKeyboardButton[roomSearchToRoomName.size() - inlineKeyboardButtonBig.length * 4];
+        for (String room : roomSearchToRoomName.keySet()) {
+            if (!((count >>> 2) == inlineKeyboardButtonBig.length)) {
+                inlineKeyboardButtonBig[count >>> 2][count & 3] =
+                        new InlineKeyboardButton(
+                                roomSearchToRoomName.get(room)).callbackData("ViewRoomInfo " + room);
+            } else {
+                inlineKeyboardButtonSmall[count & 3] =
+                        new InlineKeyboardButton(roomSearchToRoomName.get(room)).callbackData("ViewRoomInfo " + room);
+            }
+            count++;
         }
+        InlineKeyboardButton[][] inlineKeyboardButton;
+        if (inlineKeyboardButtonSmall.length != 0) {
+            inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 2][];
+            System.arraycopy(
+                    inlineKeyboardButtonBig, 0,
+                    inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
+            inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
+            inlineKeyboardButton[inlineKeyboardButtonBig.length + 1] =
+                    new InlineKeyboardButton[]{
+                            new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)};
+        } else {
+            inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
+            System.arraycopy(
+                    inlineKeyboardButtonBig, 0,
+                    inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
+            inlineKeyboardButton[inlineKeyboardButtonBig.length] =
+                    new InlineKeyboardButton[]{
+                            new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)};
+        }
+        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardButton);
 
         EditMessageText editMessageText =
                 new EditMessageText(
@@ -451,8 +573,7 @@ public class TelegramBotForOccupancy {
                         callbackQuery.message().messageId(),
                         stringBuilder.toString())
                         .parseMode(ParseMode.HTML)
-                        .replyMarkup(new InlineKeyboardMarkup(
-                                new InlineKeyboardButton(back).callbackData("Go Back To buildingMid " + building)));
+                        .replyMarkup(inlineKeyboard);
         bot.execute(editMessageText);
         userOnWait.add(
                 new MessageData(
@@ -660,10 +781,11 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
-    private static void ViewRoomInfo(CallbackQuery callbackQuery, String room) {
+    private static void ViewRoomInfo(CallbackQuery callbackQuery, String room, String command, String backTo) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
-
+        String add;
+        String remove;
         Optional<JsonRoomArchitecture> roomData =
                 validRoomData
                         .stream().filter(l -> l.getRooms().equals(room))
@@ -671,6 +793,8 @@ public class TelegramBotForOccupancy {
 
         if (roomData.isPresent()) {
             if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+                add = "Ajouter la salle";
+                remove = "Supprimer la salle";
                 back = "Revenir en arrière";
                 stringBuilder
                         .append("<b>Information sur la salle ").append(roomData.get().getPlanName()).append("</b> :\n")
@@ -697,32 +821,36 @@ public class TelegramBotForOccupancy {
                 }
                 stringBuilder
                         .append("<code>|  Horaire  |⬜| Disponibilité |\n")
-                        .append(      "|-----------|⬜|---------------|\n");
+                        .append("|-----------|⬜|---------------|\n");
                 for (int i = 7; i < 19; i++) {
-                        stringBuilder.append("| ");
-                        if(i<10){
-                            stringBuilder.append("0");
-                        }
-                        stringBuilder
-                                .append(i)
-                                .append("h - ");
-                        if(i<9){
-                            stringBuilder.append("0");
-                        }
-                        stringBuilder.append(i+1)
-                                .append("h |");
-                        if (dataJson.get(room).getHoraire().contains(i)) {
-                            stringBuilder.append("🟥| Occupé        |\n");
-                        } else {
-                            stringBuilder.append("🟩| Disponible    |\n");
-                        }
+                    stringBuilder.append("| ");
+                    if (i < 10) {
+                        stringBuilder.append("0");
+                    }
+                    stringBuilder
+                            .append(i)
+                            .append("h - ");
+                    if (i < 9) {
+                        stringBuilder.append("0");
+                    }
+                    stringBuilder.append(i + 1)
+                            .append("h |");
+                    if (dataJson.get(room).getHoraire().contains(i)) {
+                        stringBuilder.append("🟥| Occupé        |\n");
+                    } else {
+                        stringBuilder.append("🟩| Disponible    |\n");
+                    }
                 }
                 stringBuilder.append("</code>");
             } else {
+                add = "Add the room";
+                remove = "Remove the room";
                 back = "Go Back";
                 stringBuilder
-                        .append("<b>Information about the room ").append(roomData.get().getPlanName()).append("</b> :\n")
-                        .append(" <b>Building</b> : ").append(roomData.get().getBuildings()).append("\n");
+                        .append("<b>Information about the room ")
+                        .append(roomData.get().getPlanName()).append("</b> :\n")
+                        .append(" <b>Building</b> : ")
+                        .append(roomData.get().getBuildings()).append("\n");
                 if (!Objects.equals(roomData.get().getPlaces(), "")) {
                     stringBuilder.append(" <b>Places</b> : ").append(roomData.get().getPlaces()).append("\n");
                 }
@@ -745,19 +873,19 @@ public class TelegramBotForOccupancy {
                 }
                 stringBuilder
                         .append("<code>|  Schedule |⬜| Availability  |\n")
-                        .append(      "|-----------|⬜|---------------|\n");
+                        .append("|-----------|⬜|---------------|\n");
                 for (int i = 7; i < 19; i++) {
                     stringBuilder.append("| ");
-                    if(i<10){
+                    if (i < 10) {
                         stringBuilder.append("0");
                     }
                     stringBuilder
                             .append(i)
                             .append("h - ");
-                    if(i<9){
+                    if (i < 9) {
                         stringBuilder.append("0");
                     }
-                    stringBuilder.append(i+1)
+                    stringBuilder.append(i + 1)
                             .append("h |");
                     if (dataJson.get(room).getHoraire().contains(i)) {
                         stringBuilder.append("🟥| Occupied      |\n");
@@ -768,6 +896,17 @@ public class TelegramBotForOccupancy {
                 stringBuilder.append("</code>");
             }
 
+            String keyboardButtonText;
+
+            if (command.equals("building")) {
+                keyboardButtonText = backTo + roomData.get().getBuildings();
+            } else if (command.equals("roomInlined")) {
+                keyboardButtonText = backTo + room;
+            } else {
+                throw new IllegalArgumentException(
+                        command + " is not a valid command for ViewRoomInfo");
+            }
+
             EditMessageText editMessageText =
                     new EditMessageText(
                             callbackQuery.message().chat().id(),
@@ -776,20 +915,30 @@ public class TelegramBotForOccupancy {
                             .parseMode(ParseMode.HTML)
                             .disableWebPagePreview(true)
                             .replyMarkup(new InlineKeyboardMarkup(
-                                    new InlineKeyboardButton(back).callbackData("Go Back To roomMid " + room)));
+                                    new InlineKeyboardButton[][]{
+                                            {
+                                            new InlineKeyboardButton(add)
+                                                    .callbackData("addRoomFromViewRoomInfo " + room),
+                                            new InlineKeyboardButton(remove)
+                                                    .callbackData("removeRoomFromViewRoomInfo " + room)
+                                    },
+                                            {
+                                                    new InlineKeyboardButton(back).callbackData(keyboardButtonText)
+                                            }
+                                    }));
             bot.execute(editMessageText);
-                    userOnWait.add(
+            userOnWait.add(
                     new MessageData(
                             callbackQuery.from().id(),
                             callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(), "roomInlined",
+                            callbackQuery.message().chat().id(), command,
                             List.of(callbackQuery.message().messageId().toString())));
         } else {
-            System.out.println("HEIN?????");
+            throw new NoSuchElementException("Room" + room + " exist but data not (Weird)");
         }
     }
 
-    private static void addRoom(CallbackQuery callbackQuery, String room) {
+    private static void addRoom(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
         String success;
         String failure;
@@ -820,18 +969,18 @@ public class TelegramBotForOccupancy {
                         messageText)
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(new InlineKeyboardMarkup(
-                                new InlineKeyboardButton(back).callbackData("Go Back To roomMid " + room)));
+                                new InlineKeyboardButton(back).callbackData(backTo + room)));
         bot.execute(editMessageText);
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "roomInlined",
+                        callbackQuery.message().chat().id(), command,
                         List.of(callbackQuery.message().messageId().toString())));
 
     }
 
-    private static void removeRoom(CallbackQuery callbackQuery, String room) {
+    private static void removeRoom(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
         String success;
         String failure;
@@ -862,13 +1011,13 @@ public class TelegramBotForOccupancy {
                         messageText)
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(new InlineKeyboardMarkup(
-                                new InlineKeyboardButton(back).callbackData("Go Back To roomMid " + room)));
+                                new InlineKeyboardButton(back).callbackData(backTo + room)));
         bot.execute(editMessageText);
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "roomInlined",
+                        callbackQuery.message().chat().id(), command,
                         List.of(callbackQuery.message().messageId().toString())));
 
     }
