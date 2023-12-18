@@ -41,7 +41,8 @@ public class EPFL {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(
                 new File("resources/allValidRooms.json"),
-                new TypeReference<>() {});
+                new TypeReference<>() {
+                });
 
     }
 

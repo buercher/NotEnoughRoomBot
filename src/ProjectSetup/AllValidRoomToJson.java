@@ -14,6 +14,13 @@ import java.util.*;
 
 public class AllValidRoomToJson {
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private AllValidRoomToJson() {
+
+    }
+
     private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
     private static final String FLEP_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromFLEP/";
 

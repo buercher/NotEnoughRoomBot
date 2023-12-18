@@ -58,7 +58,7 @@ public class RoomJsonToList {
     public static void RoomToJson() throws IOException {
         File roomToConvert = new File("database/SetupData/RoomToConvert");
 
-        File roomsDataJson= new File("database/SetupData/roomsDataJson.json");
+        File roomsDataJson = new File("database/SetupData/roomsDataJson.json");
 
         if (!roomToConvert.exists()) {
             if (!roomToConvert.mkdir()) {
@@ -178,6 +178,12 @@ public class RoomJsonToList {
         }
     }
 
+    /**
+     * Extracts the PDF link from the given input.
+     *
+     * @param input The input from which the PDF link is extracted
+     * @return The PDF link
+     */
     public static String extractPdfLink(String input) {
         String patternString = "<a target=\"_blank\" href=\"(.*?)\">lien</a>";
         Pattern pattern = Pattern.compile(patternString);
@@ -190,6 +196,12 @@ public class RoomJsonToList {
         }
     }
 
+    /**
+     * Extracts the plan link from the given input.
+     *
+     * @param input The input from which the plan link is extracted
+     * @return The plan link
+     */
     public static String extractPlanLink(String input) {
         String patternString =
                 "<div><button class=\"clipboard\" data-clipboard-text=\"(.*?)\" translate>Copier le lien</div>";
@@ -202,13 +214,20 @@ public class RoomJsonToList {
             return "";
         }
     }
+
+    /**
+     * Extracts the building from the given input.
+     *
+     * @param input The input from which the building is extracted
+     * @return The building
+     */
     public static String extractBuilding(String input) {
 
-        for(String building:BUILDINGS){
-            if(input.contains(building)){
+        for (String building : BUILDINGS) {
+            if (input.contains(building)) {
                 return building;
             }
         }
-        throw new NoSuchElementException("la Salle"+input+"est dans aucun bâtiment");
+        throw new NoSuchElementException("la Salle" + input + "est dans aucun bâtiment");
     }
 }

@@ -10,8 +10,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * The GetRoomAvailability class provides method for getting the availability of rooms (Will possibly remove later).
+ */
 public class GetRoomAvailability {
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private GetRoomAvailability() {
+    }
+
+    /**
+     * Gets the availability of rooms.
+     *
+     * @param Start The start hour
+     * @param End   The end hour
+     * @return The availability of rooms
+     * @throws IOException If an I/O error occurs
+     */
     public static Map<String, List<String>> search(int Start, int End) throws IOException {
         Map<String, List<String>> roomsList = new TreeMap<>(Map.of(
                 "EPFL", new ArrayList<>(),

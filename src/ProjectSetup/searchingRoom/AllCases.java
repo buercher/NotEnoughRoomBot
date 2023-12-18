@@ -11,15 +11,15 @@ import java.util.*;
  */
 public class AllCases {
 
-    private static List<String> outputList;
-    private static int inputLength = 0;
-    private static int outputLength = 0;
-
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private AllCases() {
     }
+
+    private static List<String> outputList;
+    private static int inputLength = 0;
+    private static int outputLength = 0;
 
     /**
      * Creates a list of all possible cases of room names.

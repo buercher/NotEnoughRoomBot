@@ -44,7 +44,7 @@ public class TestEPFL {
      * @throws IOException If an I/O error occurs
      * @see UrlFetcher#EPFL(String)
      */
-    public static void test(String buildingName,ProgressBar pbEPFL) throws IOException {
+    public static void test(String buildingName, ProgressBar pbEPFL) throws IOException {
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
         List<String> paths = fetchStringsFromFile("database/SetupData/RoomList/" + buildingName);

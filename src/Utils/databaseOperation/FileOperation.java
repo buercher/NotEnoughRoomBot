@@ -61,6 +61,13 @@ public class FileOperation {
         }
     }
 
+    /**
+     * <p>Creates a new file or replaces it if it already exists and writes the specified content to it.</p>
+     * <p>If the file does not exist, it creates a new file and writes the content.</p>
+     *
+     * @param filePath The path of the file to which the content will be written.
+     * @throws IOException If an I/O error occurs
+     */
     public static void FinalFileCreation(ProgressBar progressBar, String path, String filePath) throws IOException {
         File file = new File(filePath);
         if (file.exists()) {

@@ -22,10 +22,33 @@ import java.util.*;
 
 public class TelegramBotForOccupancy {
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private TelegramBotForOccupancy() {
+    }
+
     private static final Set<MessageData> userOnWait = new HashSet<>();
 
+    /**
+     * A record that encapsulates the data related to a message.
+     *
+     * @param UserId               The unique identifier of the user who sent the message.
+     * @param date                 The date when the message was sent.
+     * @param ChatId               The unique identifier of the chat where the message was sent.
+     * @param command              The command associated with the message.
+     * @param additionalProperties A list of additional properties related to the message and/or command.
+     */
     public record MessageData(
             Long UserId, Integer date, Long ChatId, String command, List<String> additionalProperties) {
+        /**
+         * Constructs of MessageData when there are no Additional Properties.
+         *
+         * @param UserId  The unique identifier of the user who sent the message.
+         * @param date    The date when the message was sent.
+         * @param ChatId  The unique identifier of the chat where the message was sent.
+         * @param command The command associated with the message.
+         */
         public MessageData(Long UserId, Integer date, Long ChatId, String command) {
             this(UserId, date, ChatId, command, new ArrayList<>());
         }
@@ -44,6 +67,9 @@ public class TelegramBotForOccupancy {
     public static List<String> AllBuildingList = new ArrayList<>();
 
 
+    /**
+     * Main method for the Telegram Bot.
+     */
     public static void main(String[] args) throws IOException {
 
         File validRoomDataFile = new File("database/validRoomData.json");
@@ -83,7 +109,8 @@ public class TelegramBotForOccupancy {
             rooms = new HashMap<>();
         }
 
-        // Set up a listener for updates
+        // Set up a listener for updates from the Telegram Bot API.
+        // Processes each update and performs actions based on the type of update.
         bot.setUpdatesListener(updates -> {
             for (Update update : updates) {
                 if (update.callbackQuery() != null) {
@@ -225,6 +252,14 @@ public class TelegramBotForOccupancy {
 
     }
 
+    /**
+     * This method is used to create a new list of rooms for a user.
+     * If the user already has a list, it sends a message notifying them of this.
+     * Otherwise, it creates a new list and sends a message notifying the user of the successful creation.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void create(Message message) {
         removeKeyboard(message);
 
@@ -253,6 +288,14 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is used to delete a user's list of rooms.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it adds the user to the userOnWait set and sends a message asking them to confirm the deletion.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void delete(Message message) {
         removeKeyboard(message);
 
@@ -283,6 +326,16 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is a continuation from the delete method.
+     * It is used to confirm the deletion of a user's list of rooms.
+     * If the user confirms the deletion by sending "CONFIRM", it deletes the list and sends a message
+     * notifying the user of the successful deletion.
+     * Otherwise, it sends a message notifying the user of the failed deletion.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void deleteConfirm(Message message) {
         removeKeyboard(message);
         SendMessage request;
@@ -310,6 +363,14 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is used to reset a user's list of rooms.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it adds the user to the userOnWait set and sends a message asking them to confirm the reset.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void reset(Message message) {
         removeKeyboard(message);
 
@@ -340,6 +401,15 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is a continuation from the delete method. It is used to confirm the reset of a user's list of rooms.
+     * If the user confirms the reset by sending "CONFIRM",
+     * it resets the list and sends a message notifying the user of the successful reset.
+     * Otherwise, it sends a message notifying the user of the failed reset.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void resetConfirm(Message message) {
         removeKeyboard(message);
         SendMessage request;
@@ -367,6 +437,15 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * Semi-Useless tbf since /building does the same thing and more.
+     * This method is used to send a message to the user with a list
+     * of all buildings that offer rooms with public schedules.
+     * The list is sorted in alphabetical order.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void allBuildings(Message message) {
         removeKeyboard(message);
 
@@ -392,6 +471,14 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is used to start the building selection process for the user.
+     * It sends a message to the user asking them to choose a building.
+     * The buildings are presented as inline keyboard buttons for the user to select.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void buildingStart(Message message) {
         removeKeyboard(message);
 
@@ -423,6 +510,15 @@ public class TelegramBotForOccupancy {
                         List.of(response.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to go back to the start of the building selection process.
+     * This method is specifically designed to handle CallbackQuery, which is different from Message.
+     * It edits the previous message sent to the user and asks them to choose a building again.
+     * The buildings are presented as inline keyboard buttons for the user to select.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     */
     private static void buildingBackStart(CallbackQuery callbackQuery) {
         String messageText;
         if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
@@ -455,6 +551,15 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to handle the middle part of the building selection process.
+     * It sends a message to the user asking them to choose an option for the selected building.
+     * The options are presented as inline keyboard buttons for the user to select.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param building      The building that the user has selected.
+     */
     private static void buildingMid(CallbackQuery callbackQuery, String building) {
         String messageText;
         String back;
@@ -505,6 +610,15 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to display a list of rooms available in a selected building.
+     * It sends a message to the user with the list of rooms and allows the user to select a room for more information.
+     * The rooms are presented as inline keyboard buttons for the user to select.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param building      The building that the user has selected.
+     */
     private static void HaveListOfRoom(CallbackQuery callbackQuery, String building) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
@@ -583,6 +697,16 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to add all rooms in a selected building to the user's list.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it adds all rooms in the building to the user's list
+     * and sends a message notifying the user of the successful addition.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param building      The building that the user has selected.
+     */
     private static void AddBuildingToList(CallbackQuery callbackQuery, String building) {
         String back;
         String success;
@@ -622,6 +746,16 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to remove all rooms in a selected building from the user's list.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it removes all rooms in the building from the user's list
+     * and sends a message notifying the user of the successful removal.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param building      The building that the user has selected.
+     */
     private static void RemoveBuildingToList(CallbackQuery callbackQuery, String building) {
         String back;
         String success;
@@ -661,6 +795,13 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to initiate the room selection process for the user.
+     * It sends a message to the user asking them to provide a room name.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void room(Message message) {
         removeKeyboard(message);
         userOnWait.add(
@@ -679,6 +820,16 @@ public class TelegramBotForOccupancy {
         bot.execute(request);
     }
 
+    /**
+     * This method is used to handle the middle part of the room selection process.
+     * It checks if the provided room name exists and if it does, it sends a message to the user with the room details.
+     * If the room does not exist, it sends a message to the user notifying them of this.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param message     The message received from the user. It contains the user's ID and chat ID.
+     * @param messageData The data related to the message. It contains the user's ID, chat ID,
+     *                    command, and additional properties.
+     */
     private static void roomMid(Message message, MessageData messageData) {
         String room = message.text().replaceAll("[^A-Za-z0-9]", "").toUpperCase();
         String messageText;
@@ -737,6 +888,15 @@ public class TelegramBotForOccupancy {
         }
     }
 
+    /**
+     * This method is used to go back to the middle part of the room selection process.
+     * It edits the previous message sent to the user and asks them to provide a room name again.
+     * This method is specifically designed to handle CallbackQuery, which is different from Message.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param room          The room that the user has selected.
+     */
     private static void roomMidBack(CallbackQuery callbackQuery, String room) {
         String messageText;
         EditMessageText editMessageText;
@@ -781,6 +941,22 @@ public class TelegramBotForOccupancy {
                         List.of(callbackQuery.message().messageId().toString())));
     }
 
+    /**
+     * This method is used to display detailed information about a selected room to the user.
+     * It retrieves the room details from the validRoomData and dataJson data structures.
+     * The room details include its
+     * usage type, building, floor, plan link, PDF link, number of places, and availability.
+     * It also provides options to the user to add or remove the room from their list.
+     * These options are presented as inline keyboard buttons for the user to select.
+     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param room          The room that the user has selected.
+     * @param command       The command associated with the callback query.
+     *                      This is used to determine the next steps based on the user's selection.
+     * @param backTo        The command to go back to the previous state.
+     *                      This is used to create the "Go Back" button in the inline keyboard.
+     */
     private static void ViewRoomInfo(CallbackQuery callbackQuery, String room, String command, String backTo) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
@@ -917,11 +1093,11 @@ public class TelegramBotForOccupancy {
                             .replyMarkup(new InlineKeyboardMarkup(
                                     new InlineKeyboardButton[][]{
                                             {
-                                            new InlineKeyboardButton(add)
-                                                    .callbackData("addRoomFromViewRoomInfo " + room),
-                                            new InlineKeyboardButton(remove)
-                                                    .callbackData("removeRoomFromViewRoomInfo " + room)
-                                    },
+                                                    new InlineKeyboardButton(add)
+                                                            .callbackData("addRoomFromViewRoomInfo " + room),
+                                                    new InlineKeyboardButton(remove)
+                                                            .callbackData("removeRoomFromViewRoomInfo " + room)
+                                            },
                                             {
                                                     new InlineKeyboardButton(back).callbackData(keyboardButtonText)
                                             }
@@ -938,6 +1114,18 @@ public class TelegramBotForOccupancy {
         }
     }
 
+    /**
+     * This method is used to add a selected room to the user's list.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it adds the room to the user's list and sends a message notifying the user of the successful addition.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param room          The room that the user has selected.
+     * @param command       The command associated with the callback query.
+     *                      This is used to determine the next steps based on the user's selection.
+     * @param backTo        The command to go back to the previous state.
+     *                      This is used to create the "Go Back" button in the inline keyboard.
+     */
     private static void addRoom(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
         String success;
@@ -980,6 +1168,18 @@ public class TelegramBotForOccupancy {
 
     }
 
+    /**
+     * This method is used to remove a selected room from the user's list.
+     * If the user does not have a list, it sends a message notifying them of this.
+     * Otherwise, it removes the room from the user's list and sends a message notifying the user of the successful removal.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param room          The room that the user has selected.
+     * @param command       The command associated with the callback query.
+     *                      This is used to determine the next steps based on the user's selection.
+     * @param backTo        The command to go back to the previous state.
+     *                      This is used to create the "Go Back" button in the inline keyboard.
+     */
     private static void removeRoom(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
         String success;
@@ -1022,6 +1222,16 @@ public class TelegramBotForOccupancy {
 
     }
 
+    /**
+     * This method is used to remove the inline keyboard from the user's chat.
+     * It iterates over the userOnWait set to find any messages from the user that have an inline keyboard.
+     * If such messages are found, it removes them from the userOnWait set
+     * and edits the messages to remove the inline keyboard.
+     * It is used to avoid the user using multiple inline keyboards at the same time
+     * and clean up the chat since some inline keyboards can be quite long.
+     *
+     * @param message The message received from the user. It contains the user's ID and chat ID.
+     */
     private static void removeKeyboard(Message message) {
         List<MessageData> replyMarkup = userOnWait.stream().filter(l ->
                 Objects.equals(l.UserId(), message.from().id()) &&
