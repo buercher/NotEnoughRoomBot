@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/intellij-javadocs-4.0.1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/github_pengrad_java_telegram_bot_api.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_annotation_api.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_validation_api.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/json.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Horraire.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Horraire.iml" afterDir="false" />
-    </list>
+    <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="Added .idea to gitignore" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,11 +51,40 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1702975711155</updated>
-      <workItem from="1702975714382" duration="111000" />
+      <workItem from="1702975714382" duration="199000" />
     </task>
+    <task id="LOCAL-00001" summary="Added .idea to gitignore">
+      <option name="closed" value="true" />
+      <created>1702975854561</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702975854561</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added .idea to gitignore">
+      <option name="closed" value="true" />
+      <created>1702975872225</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702975872225</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added .idea to gitignore">
+      <option name="closed" value="true" />
+      <created>1702975899563</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702975899563</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added .idea to gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added .idea to gitignore" />
   </component>
 </project>
