@@ -1,25 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="Added .idea to gitignore">
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/AllBuildings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Building.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Create.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Delete.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Method.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Reset.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Horraire.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Horraire.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/AllValidRoomToJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/AllValidRoomToJson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/EPFLRoomDataFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/EPFLRoomDataFetcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/EntireProjectSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/EntireProjectSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/SearchRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/SearchRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/plan/PlanDataFetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/plan/PlanDataFetch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/plan/RoomJsonToList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/plan/RoomJsonToList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/AllCases.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/AllCases.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/TestEPFL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/TestEPFL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/TestFLEP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/TestFLEP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/DatabaseSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/DatabaseSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/GetRoomAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/GetRoomAvailability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/TelegramBotForOccupancy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/TelegramBotForOccupancy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/EPFL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/EPFL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/FLEP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/FLEP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/MergeRanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/MergeRanges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/FileOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/FileOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/FolderOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/FolderOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/JsonOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/JsonOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/UrlFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/UrlFetcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/Datajson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/Datajson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/JsonRoomArchitecture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/JsonRoomArchitecture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlBoundedBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlBoundedBy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlBoundedBy__1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlBoundedBy__1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlEnvelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlEnvelope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlEnvelope__1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlEnvelope__1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlExterior.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlExterior.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlFeatureMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlFeatureMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlLinearRing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlLinearRing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlMultiSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlMultiSurface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlPolygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlPolygon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlPosList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlPosList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlSurfaceMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlSurfaceMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/JsonRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/JsonRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/MsBatimentsWmsquery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/MsBatimentsWmsquery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/MsGeom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/MsGeom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/WfsFeatureCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/WfsFeatureCollection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;buercher&quot;,
+      &quot;fullname&quot;: &quot;Nicolas Martin Bürcher&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://gitlab.epfl.ch/buercher/horaire.git&quot;,
+    &quot;second&quot;: &quot;12ff4697-575f-40af-b2c0-a39cc4e98518&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/TelegramBots/TelegramBotForOccupancy.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2Zkp0ctEAGTc2GgIEBrnvUOzPg0" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -27,12 +107,15 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.EntireProjectSetup.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TelegramBotForOccupancy.executor&quot;: &quot;Run&quot;,
     &quot;Maven.Horraire [verify].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mrred/Desktop/Cours Finit/java code/javafx-sdk-20/lib&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mrred/Downloads/github-copilot-intellij-1.4.2.3864.zip&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -41,22 +124,41 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Confirmation&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="TelegramBots.commands" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn verify" />
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.TelegramBotForOccupancy">
     <configuration name="EntireProjectSetup" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ProjectSetup.EntireProjectSetup" />
+      <option name="MAIN_CLASS_NAME" value="projectSetup.EntireProjectSetup" />
       <module name="Horraire" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ProjectSetup.*" />
+          <option name="PATTERN" value="projectSetup.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TelegramBotForOccupancy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="telegramBots.TelegramBotForOccupancy" />
+      <module name="Horraire" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="telegramBots.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -66,6 +168,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TelegramBotForOccupancy" />
         <item itemvalue="Application.EntireProjectSetup" />
       </list>
     </recent_temporary>
@@ -91,6 +194,38 @@
       <workItem from="1702976949920" duration="30000" />
       <workItem from="1702976998954" duration="91000" />
       <workItem from="1702977114282" duration="36000" />
+      <workItem from="1702977172159" duration="1017000" />
+      <workItem from="1702978232378" duration="264000" />
+      <workItem from="1702978766059" duration="113000" />
+      <workItem from="1702978950889" duration="1000" />
+      <workItem from="1702978964071" duration="4000" />
+      <workItem from="1702979089498" duration="74000" />
+      <workItem from="1702979672069" duration="94000" />
+      <workItem from="1702979827480" duration="193000" />
+      <workItem from="1702980077864" duration="303000" />
+      <workItem from="1702980389143" duration="155000" />
+      <workItem from="1702980554785" duration="75000" />
+      <workItem from="1702980637469" duration="51000" />
+      <workItem from="1702980698706" duration="43000" />
+      <workItem from="1702980749472" duration="34000" />
+      <workItem from="1702980795522" duration="25000" />
+      <workItem from="1702980827042" duration="15000" />
+      <workItem from="1702980873066" duration="23000" />
+      <workItem from="1702980904673" duration="21000" />
+      <workItem from="1702980933598" duration="46000" />
+      <workItem from="1702980990702" duration="26000" />
+      <workItem from="1702981102194" duration="17000" />
+      <workItem from="1702981131816" duration="23000" />
+      <workItem from="1702981179181" duration="40000" />
+      <workItem from="1702981229352" duration="34000" />
+      <workItem from="1702981272838" duration="606000" />
+      <workItem from="1702983821552" duration="1000" />
+      <workItem from="1702983983573" duration="25000" />
+      <workItem from="1702984018306" duration="1761000" />
+      <workItem from="1702988705201" duration="6434000" />
+      <workItem from="1702999165482" duration="915000" />
+      <workItem from="1703000092375" duration="2641000" />
+      <workItem from="1703002746127" duration="2027000" />
     </task>
     <task id="LOCAL-00001" summary="Added .idea to gitignore">
       <option name="closed" value="true" />
@@ -148,14 +283,37 @@
       <option name="project" value="LOCAL" />
       <updated>1702977011836</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added .idea to gitignore">
+      <option name="closed" value="true" />
+      <created>1702977191000</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1702977191000</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added .idea to gitignore" />
     <option name="LAST_COMMIT_MESSAGE" value="Added .idea to gitignore" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
