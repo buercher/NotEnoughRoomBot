@@ -9,6 +9,7 @@ import java.util.TreeSet;
 import static telegramBots.TelegramBotForOccupancy.bot;
 import static telegramBots.TelegramBotForOccupancy.rooms;
 import static telegramBots.commands.Method.removeKeyboard;
+import static telegramBots.commands.Method.updateUserFile;
 
 /**
  * This class implements the /create command.
@@ -43,6 +44,7 @@ public class Create {
 
         } else {
             rooms.put(message.from().id(), new TreeSet<>());
+            updateUserFile();
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 request = new SendMessage(
                         message.chat().id(),

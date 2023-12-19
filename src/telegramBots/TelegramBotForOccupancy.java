@@ -49,8 +49,8 @@ public class TelegramBotForOccupancy {
         }
     }
 
-    public static List<JsonRoomArchitecture> validRoomData;
     public static Map<Long, Set<String>> rooms;
+    public static List<JsonRoomArchitecture> validRoomData;
     public static Map<String, Datajson> dataJson;
 
     // Replace "YOUR_BOT_TOKEN" with your actual bot token
@@ -61,6 +61,7 @@ public class TelegramBotForOccupancy {
     public static Set<String> AllRooms = new TreeSet<>();
     public static List<String> AllBuildingList = new ArrayList<>();
 
+    public static File UserDataJson = new File("database/UserData/UserData.json");
 
     /**
      * Main method for the Telegram Bot.
@@ -94,7 +95,6 @@ public class TelegramBotForOccupancy {
             throw new IOException("Failed to create folder '" + directory.getPath() + "'");
         }
 
-        File UserDataJson = new File("database/UserData/rooms.json");
         if (Files.exists(UserDataJson.toPath())) {
             String jsonString = Files.readString(UserDataJson.toPath());
             TypeReference<HashMap<Long, Set<String>>> typeRef = new TypeReference<>() {

@@ -1,14 +1,15 @@
 package telegramBots.commands;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import telegramBots.TelegramBotForOccupancy;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import static telegramBots.TelegramBotForOccupancy.bot;
-import static telegramBots.TelegramBotForOccupancy.userOnWait;
+import static telegramBots.TelegramBotForOccupancy.*;
 
 /**
  * This class contains methods that are used by multiple commands.
@@ -46,6 +47,15 @@ public class Method {
                     bot.execute(editMessageReplyMarkup);
                 }
             }
+        }
+    }
+
+    public static void updateUserFile(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(UserDataJson, rooms);
+        } catch (IOException e) {
+            e.fillInStackTrace();
         }
     }
 }

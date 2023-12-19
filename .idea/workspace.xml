@@ -8,7 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="Separated all the command into classes to make the main class smaller (also added method to avoid duplicate code)">
-      <change beforePath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/telegramBots/TelegramBotForOccupancy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/TelegramBotForOccupancy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/telegramBots/commands/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/commands/Method.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +54,7 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2Zkp0ctEAGTc2GgIEBrnvUOzPg0" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -131,7 +133,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-temurin-17.0.9-3183f394aec4-842bf14d" />
+        <option value="jdk-17.0.9-corretto-17.0.9-3183f394aec4-8f899f12" />
       </set>
     </attachedChunks>
   </component>
@@ -181,6 +183,7 @@
       <workItem from="1702999165482" duration="915000" />
       <workItem from="1703000092375" duration="2641000" />
       <workItem from="1703002746127" duration="3239000" />
+      <workItem from="1703019323317" duration="1038000" />
     </task>
     <task id="LOCAL-00001" summary="Added .idea to gitignore">
       <option name="closed" value="true" />

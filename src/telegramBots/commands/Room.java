@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.commands.Method.removeKeyboard;
+import static telegramBots.commands.Method.updateUserFile;
 
 /**
  * This class implements the /room command.
@@ -363,6 +364,7 @@ public class Room {
             validRoomData.stream()
                     .filter(l -> l.getRooms().equals(room))
                     .forEachOrdered(l -> rooms.get(UserId).add(l.getRooms()));
+            updateUserFile();
             return success;
         } else {
             return failure;
@@ -422,6 +424,7 @@ public class Room {
             validRoomData.stream()
                     .filter(l -> l.getRooms().equals(room))
                     .forEachOrdered(l -> rooms.get(UserId).remove(l.getRooms()));
+            updateUserFile();
             return success;
         } else {
             return failure;

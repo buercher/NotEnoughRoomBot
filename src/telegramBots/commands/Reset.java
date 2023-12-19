@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.commands.Method.removeKeyboard;
+import static telegramBots.commands.Method.updateUserFile;
 
 /**
  * This class implements the /reset command.
@@ -71,6 +72,7 @@ public class Reset {
         SendMessage request;
         if (message.text().equals("CONFIRM")) {
             rooms.get(message.from().id()).clear();
+            updateUserFile();
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 request = new SendMessage(
                         message.chat().id(),

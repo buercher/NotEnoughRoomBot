@@ -17,6 +17,7 @@ import java.util.TreeMap;
 
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.commands.Method.removeKeyboard;
+import static telegramBots.commands.Method.updateUserFile;
 
 /**
  * This class implements the /building command.
@@ -248,6 +249,7 @@ public class Building {
             validRoomData.stream()
                     .filter(l -> l.getBuildings().equals(building))
                     .forEachOrdered(l -> rooms.get(UserId).add(l.getRooms()));
+            updateUserFile();
             return success;
         } else {
             return failure;
@@ -302,6 +304,7 @@ public class Building {
             validRoomData.stream()
                     .filter(l -> l.getBuildings().equals(building))
                     .forEachOrdered(l -> rooms.get(UserId).remove(l.getRooms()));
+            updateUserFile();
             return success;
         } else {
             return failure;

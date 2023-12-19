@@ -6,10 +6,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import java.util.Objects;
 
-import static telegramBots.TelegramBotForOccupancy.bot;
+import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.TelegramBotForOccupancy.rooms;
 import static telegramBots.commands.Method.removeKeyboard;
 import static telegramBots.TelegramBotForOccupancy.userOnWait;
+import static telegramBots.commands.Method.updateUserFile;
 
 /**
  * This class implements the /delete command.
@@ -75,6 +76,7 @@ public class Delete {
         SendMessage request;
         if (message.text().equals("CONFIRM")) {
             rooms.remove(message.from().id());
+            updateUserFile();
             if (Objects.equals(message.from().languageCode(), "fr")) {
                 request = new SendMessage(
                         message.chat().id(),
