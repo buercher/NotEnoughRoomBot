@@ -115,9 +115,13 @@ public class TelegramBotForOccupancy {
             for (Update update : updates) {
                 if (update.callbackQuery() != null) {
 
-                    Optional<MessageData> request = userOnWait.stream().filter(l ->
-                            Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
-                                    Objects.equals(l.ChatId, update.callbackQuery().message().chat().id())).findFirst();
+                    Optional<MessageData> request = userOnWait.stream()
+                            .filter(l ->
+                                    Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
+                                            Objects.equals(l.ChatId, update.callbackQuery().message().chat().id()) &&
+                                            l.additionalProperties.get(0).equals(
+                                                    update.callbackQuery().message().messageId().toString()))
+                            .findFirst();
                     if (request.isPresent()) {
                         switch (request.get().command) {
                             case "building" -> {
