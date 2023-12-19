@@ -7,53 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="Added .idea to gitignore">
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/AllBuildings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Building.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Create.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Delete.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Method.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Reset.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Horraire.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Horraire.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/AllValidRoomToJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/AllValidRoomToJson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/EPFLRoomDataFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/EPFLRoomDataFetcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/EntireProjectSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/EntireProjectSetup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/SearchRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/SearchRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/plan/PlanDataFetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/plan/PlanDataFetch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/plan/RoomJsonToList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/plan/RoomJsonToList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/AllCases.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/AllCases.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/TestEPFL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/TestEPFL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProjectSetup/searchingRoom/TestFLEP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectSetup/searchingRoom/TestFLEP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/DatabaseSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/DatabaseSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/GetRoomAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/GetRoomAvailability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/TelegramBotForOccupancy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/TelegramBotForOccupancy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/EPFL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/EPFL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/FLEP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/FLEP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TelegramBots/hoursSearch/MergeRanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/hoursSearch/MergeRanges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/FileOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/FileOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/FolderOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/FolderOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/JsonOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/JsonOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/databaseOperation/UrlFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/databaseOperation/UrlFetcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/Datajson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/Datajson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/JsonRoomArchitecture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/JsonRoomArchitecture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlBoundedBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlBoundedBy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlBoundedBy__1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlBoundedBy__1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlEnvelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlEnvelope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlEnvelope__1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlEnvelope__1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlExterior.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlExterior.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlFeatureMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlFeatureMember.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlLinearRing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlLinearRing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlMultiSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlMultiSurface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlPolygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlPolygon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlPosList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlPosList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/GmlSurfaceMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/GmlSurfaceMember.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/JsonRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/JsonRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/MsBatimentsWmsquery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/MsBatimentsWmsquery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/MsGeom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/MsGeom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/jsonObjects/planJsonArchtecture/WfsFeatureCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/jsonObjects/planJsonArchtecture/WfsFeatureCollection.java" afterDir="false" />
+    <list default="true" id="935d7a31-62f4-499e-98f1-bdce6e6d7520" name="Changes" comment="Separated all the command into classes to make the main class smaller (also added method to avoid duplicate code)">
+      <change beforePath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/telegramBots/commands/Room.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +180,7 @@
       <workItem from="1702988705201" duration="6434000" />
       <workItem from="1702999165482" duration="915000" />
       <workItem from="1703000092375" duration="2641000" />
-      <workItem from="1703002746127" duration="2027000" />
+      <workItem from="1703002746127" duration="3239000" />
     </task>
     <task id="LOCAL-00001" summary="Added .idea to gitignore">
       <option name="closed" value="true" />
@@ -291,7 +246,23 @@
       <option name="project" value="LOCAL" />
       <updated>1702977191000</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Removed the Uppercase in the first char of package names">
+      <option name="closed" value="true" />
+      <created>1703005777232</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1703005777233</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Separated all the command into classes to make the main class smaller (also added method to avoid duplicate code)">
+      <option name="closed" value="true" />
+      <created>1703005939442</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1703005939442</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,7 +281,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added .idea to gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added .idea to gitignore" />
+    <MESSAGE value="Removed the Uppercase in the first char of package names" />
+    <MESSAGE value="Separated all the command into classes to make the main class smaller (also added method to avoid duplicate code)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Separated all the command into classes to make the main class smaller (also added method to avoid duplicate code)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

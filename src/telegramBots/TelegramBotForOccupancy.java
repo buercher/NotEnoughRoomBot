@@ -108,7 +108,6 @@ public class TelegramBotForOccupancy {
         // Processes each update and performs actions based on the type of update.
         bot.setUpdatesListener(updates -> {
             for (Update update : updates) {
-                System.out.println(rooms);
                 if (update.callbackQuery() != null) {
 
                     Optional<MessageData> request = userOnWait.stream()

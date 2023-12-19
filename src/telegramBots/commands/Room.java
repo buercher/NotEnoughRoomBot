@@ -69,8 +69,6 @@ public class Room {
 
         SendMessage sendMessage;
         if (AllRooms.contains(room)) {
-            String validRoom = validRoomData.stream()
-                    .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
             userOnWait.remove(messageData);
             sendMessage = new SendMessage(message.chat().id(), midMessageText(message.from().languageCode(), room));
             sendMessage.replyMarkup(new InlineKeyboardMarkup(
