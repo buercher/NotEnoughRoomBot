@@ -1,6 +1,5 @@
 package telegramBots.commands;
 
-import telegramBots.TelegramBotForOccupancy;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -9,6 +8,7 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import telegramBots.TelegramBotForOccupancy;
 
 import java.util.List;
 import java.util.Map;

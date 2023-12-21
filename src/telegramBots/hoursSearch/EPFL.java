@@ -4,18 +4,21 @@ import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import utils.databaseOperation.FileOperation;
-import utils.databaseOperation.FolderOperation;
-import utils.databaseOperation.UrlFetcher;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.StringUtils;
+import utils.databaseOperation.FileOperation;
+import utils.databaseOperation.FolderOperation;
+import utils.databaseOperation.UrlFetcher;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static utils.databaseOperation.JsonOperation.JsonFileWrite;
 
@@ -118,7 +121,7 @@ public class EPFL {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        JsonFileWrite(roomWithIssue, "roomWithIssue",FOLDER_PATH);
-        JsonFileWrite(fromEPFL, "fromEPFL",FOLDER_PATH);
+        JsonFileWrite(roomWithIssue, "roomWithIssue", FOLDER_PATH);
+        JsonFileWrite(fromEPFL, "fromEPFL", FOLDER_PATH);
     }
 }

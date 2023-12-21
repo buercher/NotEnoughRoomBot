@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.tongfei.progressbar.ProgressBar;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -22,6 +25,7 @@ import static utils.databaseOperation.JsonOperation.JsonFileWrite;
 public class TestFLEP {
 
     private static final String FOLDER_PATH = "database/SetupData/roomChecking/";
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -65,7 +69,7 @@ public class TestFLEP {
             pbFLEP.setExtraMessage(StringUtils.rightPad(" FLEP: " + path, 20));
             pbFLEP.refresh();
         }
-        JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName,FOLDER_PATH);
-        JsonFileWrite(fromFLEP, "fromFLEP/" + buildingName,FOLDER_PATH);
+        JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName, FOLDER_PATH);
+        JsonFileWrite(fromFLEP, "fromFLEP/" + buildingName, FOLDER_PATH);
     }
 }

@@ -33,12 +33,13 @@ public class AllBuildings {
         removeKeyboard(message);
         String[] language = new String[3];
         if (message.from().languageCode().equals("fr")) {
-            language[0]="Voici une liste de bâtiments qui proposent des salles avec des horaires publics: ";
-            language[2]="Utilisez /bâtiment pour obtenir des infos sur un bâtiment spécifique.";
+            language[0] = "Voici une liste de bâtiments qui proposent des salles avec des horaires publics: ";
+            language[2] = "Utilisez /bâtiment pour obtenir des infos sur un bâtiment spécifique.";
         } else {
-            language[0]="Here is a list of buildings that offer rooms with public schedules: ";
-            language[2]="Use /building to retrieve details about a specific building.";}
-        language[1]=String.join(" ", AllBuilding);
+            language[0] = "Here is a list of buildings that offer rooms with public schedules: ";
+            language[2] = "Use /building to retrieve details about a specific building.";
+        }
+        language[1] = String.join(" ", AllBuilding);
         String responseMessage =
                 String.format("%s\n<strong>%s</strong>\n%s", (Object[]) language);
 

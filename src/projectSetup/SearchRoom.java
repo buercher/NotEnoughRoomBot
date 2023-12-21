@@ -1,18 +1,21 @@
 package projectSetup;
 
-import utils.databaseOperation.FolderOperation;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.StringUtils;
 import projectSetup.searchingRoom.TestEPFL;
 import projectSetup.searchingRoom.TestFLEP;
+import utils.databaseOperation.FolderOperation;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.stream.Stream;
 
 /**
@@ -27,10 +30,10 @@ public class SearchRoom {
             "ELA", "ELD", "ELE", "ELG", "GC", "GR", "INF", "INJ", "INM", "INR", "MA",
             "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
     private static final Queue<File> fileQueue = new LinkedList<>();
+    private static final int AllCASES_ROOMS_COUNT = 31156;
     private static Thread EPFLThread;
     private static Thread FLEPThread;
 
-    private static final int AllCASES_ROOMS_COUNT=31156;
     /**
      * Private constructor to prevent instantiation of this utility class.
      */

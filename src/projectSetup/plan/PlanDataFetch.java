@@ -6,7 +6,10 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.jetbrains.annotations.NotNull;
 import org.json.XML;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -32,18 +35,6 @@ public class PlanDataFetch {
      * This class is not meant to be instantiated.
      */
     private PlanDataFetch() {
-    }
-
-    /**
-     * This class is used to represent a coordinate.
-     */
-    public record Coordinate(double x, double y) {
-    }
-
-    /**
-     * This class is used to represent the area to search in.
-     */
-    public record Area(Coordinate upperCorner, Coordinate lowerCorner) {
     }
 
     /**
@@ -162,5 +153,17 @@ public class PlanDataFetch {
         // Enable output and write the request body
         connection.setDoOutput(true);
         return connection;
+    }
+
+    /**
+     * This class is used to represent a coordinate.
+     */
+    public record Coordinate(double x, double y) {
+    }
+
+    /**
+     * This class is used to represent the area to search in.
+     */
+    public record Area(Coordinate upperCorner, Coordinate lowerCorner) {
     }
 }

@@ -3,8 +3,8 @@ package projectSetup;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import utils.jsonObjects.JsonRoomArchitecture;
 import org.jetbrains.annotations.NotNull;
+import utils.jsonObjects.JsonRoomArchitecture;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,16 +15,14 @@ import java.util.*;
 
 public class AllValidRoomToJson {
 
+    private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
+    private static final String FLEP_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromFLEP/";
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private AllValidRoomToJson() {
 
     }
-
-    private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
-    private static final String FLEP_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromFLEP/";
-
 
     public static void find() throws IOException {
         List<JsonRoomArchitecture> jsonRoomArchitecture;

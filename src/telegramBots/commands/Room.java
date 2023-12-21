@@ -1,7 +1,5 @@
 package telegramBots.commands;
 
-import telegramBots.TelegramBotForOccupancy;
-import utils.jsonObjects.JsonRoomArchitecture;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -10,6 +8,8 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import telegramBots.TelegramBotForOccupancy;
+import utils.jsonObjects.JsonRoomArchitecture;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -212,7 +212,8 @@ public class Room {
                         .append("<code>|  Horaire  |⬜| Disponibilité |\n")
                         .append("|-----------|⬜|---------------|\n");
                 for (int i = 7; i < 19; i++) {
-                    stringBuilder.append(String.format("| %02dh - %02dh |", i, i + 1));                    if (dataJson.get(room).getHoraire().contains(i)) {
+                    stringBuilder.append(String.format("| %02dh - %02dh |", i, i + 1));
+                    if (dataJson.get(room).getHoraire().contains(i)) {
                         stringBuilder.append("🟥| Occupé        |\n");
                     } else {
                         stringBuilder.append("🟩| Disponible    |\n");

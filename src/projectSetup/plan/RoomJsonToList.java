@@ -18,16 +18,10 @@ import java.util.regex.Pattern;
  */
 public class RoomJsonToList {
 
-    /**
-     * The RoomJsonToList constructor is private because this class is not meant to be instantiated.
-     */
-    private RoomJsonToList() {
-
-    }
-
+    public static final List<String> rooms = new ArrayList<>();
+    public static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
     private static final int MAX_FLOOR = 8;
     private static final int MIN_FLOOR = -4;
-
     private static final List<String> WHITE_LIST = Arrays.asList(
             "LABO", "DETENTE", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
             "LOCAUX SECOND", "AUDIO-VISUEL", "ABRI BUREAU", "BIBLIOTHEQUE", "SALLE TP", "MAGASIN",
@@ -37,7 +31,6 @@ public class RoomJsonToList {
             "VENTE", "ESPACE FORUM", "ACCUEIL", "LABO INFORM", "REUNION-ATTENTE", "HOSTDESK", "STUDIOS",
             "HELP DESK", "PATIENTS", "ATTENTE", "CHAMBRE NOIRE", "SECRETARIAT",
             "AUMONERIE", "DESSIN", "REUNION", "LIBRAIRIE", "CULTURE");
-
     private static final List<String> BUILDINGS = Arrays.asList(
             "AAB", "AAC", "AAD", "AI", "ALO", "ALP", "ART", "AST", "AU", "B25A", "BAC", "BAF", "BAH", "BAP", "BAR",
             "BCH", "BFFA", "BI", "BM", "BP", "BSP", "BS", "CAPU", "CCT", "CE", "CH", "CM", "COV", "CO", "CP1", "CRR",
@@ -49,9 +42,12 @@ public class RoomJsonToList {
             "SG", "SKIL", "SOS1", "SOS2", "SPN", "SPP", "SSH", "SS", "B3", "STCC", "STF", "STT", "SV", "TCV", "TRIC",
             "TRIE", "TRIH", "VOR", "ZC", "ZD", "ZP", "AN");
 
-    public static final List<String> rooms = new ArrayList<>();
+    /**
+     * The RoomJsonToList constructor is private because this class is not meant to be instantiated.
+     */
+    private RoomJsonToList() {
 
-    public static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
+    }
 
     /**
      * Extracts the valid rooms from the JSON files and stores them in the database according to their building.
@@ -134,7 +130,7 @@ public class RoomJsonToList {
                                                 .orElseThrow(() ->
                                                         new NoSuchElementException(
                                                                 "la Salle" + room +
-                                                                "est dans aucun bâtiment")),
+                                                                        "est dans aucun bâtiment")),
                                         room,
                                         extractPdfLink(gmlFeatureMember.getMsBatimentsWmsquery().getMsPdfLink()),
                                         extractPlanLink(gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomAbrLink()),

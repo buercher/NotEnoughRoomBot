@@ -1,8 +1,8 @@
 package projectSetup.searchingRoom;
 
-import utils.databaseOperation.UrlFetcher;
 import me.tongfei.progressbar.ProgressBar;
 import org.apache.commons.lang.StringUtils;
+import utils.databaseOperation.UrlFetcher;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -61,7 +61,7 @@ public class TestEPFL {
             pbEPFL.setExtraMessage(StringUtils.rightPad(" EPFL: " + path, 20));
             pbEPFL.refresh();
         }
-        JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName,FOLDER_PATH);
-        JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName,FOLDER_PATH);
+        JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName, FOLDER_PATH);
+        JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName, FOLDER_PATH);
     }
 }

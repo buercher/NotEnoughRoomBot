@@ -3,7 +3,8 @@ package projectSetup.searchingRoom;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The AllCases class processes creates a list of all possible cases of room names.
@@ -11,13 +12,13 @@ import java.util.*;
  */
 public class AllCases {
 
+    private static List<String> outputList;
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private AllCases() {
     }
-
-    private static List<String> outputList;
 
     /**
      * Creates a list of all possible cases of room names.

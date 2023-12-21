@@ -1,14 +1,14 @@
 package telegramBots;
 
-import telegramBots.commands.*;
-import utils.jsonObjects.Datajson;
-import utils.jsonObjects.JsonRoomArchitecture;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.UpdatesListener;
+import telegramBots.commands.*;
+import utils.jsonObjects.Datajson;
+import utils.jsonObjects.JsonRoomArchitecture;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,51 +17,21 @@ import java.util.*;
 
 public class TelegramBotForOccupancy {
 
+    public static final Set<MessageData> userOnWait = new HashSet<>();
+    public static Map<Long, Set<String>> rooms;
+    public static List<JsonRoomArchitecture> validRoomData;
+    public static Map<String, Datajson> dataJson;
+    // Replace "YOUR_BOT_TOKEN" with your actual bot token
+    public static TelegramBot bot = new TelegramBot("6944730251:AAFZSgdQfUYKU8r17WOBPzZSgLQ3ogH7rro");
+    public static Set<String> AllBuilding = new TreeSet<>();
+    public static Set<String> AllRooms = new TreeSet<>();
+    public static List<String> AllBuildingList = new ArrayList<>();
+    public static File UserDataJson = new File("database/UserData/UserData.json");
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private TelegramBotForOccupancy() {
     }
-
-    public static final Set<MessageData> userOnWait = new HashSet<>();
-
-    /**
-     * A record that encapsulates the data related to a message.
-     *
-     * @param UserId               The unique identifier of the user who sent the message.
-     * @param date                 The date when the message was sent.
-     * @param ChatId               The unique identifier of the chat where the message was sent.
-     * @param command              The command associated with the message.
-     * @param additionalProperties A list of additional properties related to the message and/or command.
-     */
-    public record MessageData(
-            Long UserId, Integer date, Long ChatId, String command, List<String> additionalProperties) {
-        /**
-         * Constructs of MessageData when there are no Additional Properties.
-         *
-         * @param UserId  The unique identifier of the user who sent the message.
-         * @param date    The date when the message was sent.
-         * @param ChatId  The unique identifier of the chat where the message was sent.
-         * @param command The command associated with the message.
-         */
-        public MessageData(Long UserId, Integer date, Long ChatId, String command) {
-            this(UserId, date, ChatId, command, new ArrayList<>());
-        }
-    }
-
-    public static Map<Long, Set<String>> rooms;
-    public static List<JsonRoomArchitecture> validRoomData;
-    public static Map<String, Datajson> dataJson;
-
-    // Replace "YOUR_BOT_TOKEN" with your actual bot token
-    public static TelegramBot bot = new TelegramBot("6944730251:AAFZSgdQfUYKU8r17WOBPzZSgLQ3ogH7rro");
-
-    public static Set<String> AllBuilding = new TreeSet<>();
-
-    public static Set<String> AllRooms = new TreeSet<>();
-    public static List<String> AllBuildingList = new ArrayList<>();
-
-    public static File UserDataJson = new File("database/UserData/UserData.json");
 
     /**
      * Main method for the Telegram Bot.
@@ -257,5 +227,29 @@ public class TelegramBotForOccupancy {
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
 
+    }
+
+    /**
+     * A record that encapsulates the data related to a message.
+     *
+     * @param UserId               The unique identifier of the user who sent the message.
+     * @param date                 The date when the message was sent.
+     * @param ChatId               The unique identifier of the chat where the message was sent.
+     * @param command              The command associated with the message.
+     * @param additionalProperties A list of additional properties related to the message and/or command.
+     */
+    public record MessageData(
+            Long UserId, Integer date, Long ChatId, String command, List<String> additionalProperties) {
+        /**
+         * Constructs of MessageData when there are no Additional Properties.
+         *
+         * @param UserId  The unique identifier of the user who sent the message.
+         * @param date    The date when the message was sent.
+         * @param ChatId  The unique identifier of the chat where the message was sent.
+         * @param command The command associated with the message.
+         */
+        public MessageData(Long UserId, Integer date, Long ChatId, String command) {
+            this(UserId, date, ChatId, command, new ArrayList<>());
+        }
     }
 }

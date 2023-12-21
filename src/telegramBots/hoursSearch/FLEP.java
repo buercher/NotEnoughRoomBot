@@ -2,19 +2,19 @@ package telegramBots.hoursSearch;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import utils.databaseOperation.FileOperation;
-import utils.databaseOperation.UrlFetcher;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
+import utils.databaseOperation.FileOperation;
+import utils.databaseOperation.UrlFetcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The FLEP class provides multiple methods for fetching data from the FLEP website.

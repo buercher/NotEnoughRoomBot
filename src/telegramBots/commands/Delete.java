@@ -1,13 +1,11 @@
 package telegramBots.commands;
 
-import telegramBots.TelegramBotForOccupancy;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.SendMessage;
+import telegramBots.TelegramBotForOccupancy;
 
 import static telegramBots.TelegramBotForOccupancy.*;
-import static telegramBots.TelegramBotForOccupancy.rooms;
 import static telegramBots.commands.Method.removeKeyboard;
-import static telegramBots.TelegramBotForOccupancy.userOnWait;
 import static telegramBots.commands.Method.updateUserFile;
 
 /**
