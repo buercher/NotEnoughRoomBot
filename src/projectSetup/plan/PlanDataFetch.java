@@ -23,6 +23,11 @@ public class PlanDataFetch {
     private static final String API_URL =
             "https://plan.epfl.ch/mapserv_proxy?ogcserver=source%20for%20image%2Fpng&floor=";
 
+    private static final int MAX_FLOOR = 8;
+    private static final int MIN_FLOOR = -4;
+
+    private static final int FLOOR_COUNT = MAX_FLOOR - MIN_FLOOR + 1;
+
     /**
      * This class is not meant to be instantiated.
      */
@@ -45,7 +50,6 @@ public class PlanDataFetch {
      * Searches all the floors in the given area.
      */
     public static void searchAllFloor() {
-
         ProgressBarBuilder pbb = ProgressBar.builder()
                 .setStyle(ProgressBarStyle.builder()
                         .refreshPrompt("\r")
@@ -60,9 +64,9 @@ public class PlanDataFetch {
                 ).continuousUpdate().setTaskName("Plan").setMaxRenderedLength(86);
 
         try (ProgressBar pb = pbb.build()) {
-            pb.maxHint(13);
+            pb.maxHint(FLOOR_COUNT);
             Area area = new Area(new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
-            for (int i = -4; i < 9; i++) {
+            for (int i = MIN_FLOOR; i <= MAX_FLOOR; i++) {
                 search(area, i);
                 pb.step();
                 pb.refresh();
@@ -101,31 +105,27 @@ public class PlanDataFetch {
         try {
             // Create connection
             HttpURLConnection connection = getHttpURLConnection(floor);
-            DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-            outputStream.writeBytes(requestBody);
-            outputStream.flush();
-            outputStream.close();
+            try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
+                outputStream.writeBytes(requestBody);
+                outputStream.flush();
+            }
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                // Read response
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
                 StringBuilder response = new StringBuilder();
 
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
                 }
-                reader.close();
 
-                // Write response to file
                 Path jsonPath = Path.of("database/SetupData/PlanJson/plan floor " + floor + ".json");
-                Files.deleteIfExists(jsonPath);
                 String jsonString = XML.toJSONObject(response.toString()).toString();
                 Files.write(jsonPath, Collections.singleton(jsonString), Charset.defaultCharset());
             } else {
-                System.out.println("HTTP POST request failed with response code: " + responseCode);
+                throw new IOException("HTTP POST request failed with response code: " + responseCode);
             }
             connection.disconnect();
         } catch (IOException e) {

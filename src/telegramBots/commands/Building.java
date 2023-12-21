@@ -12,7 +12,6 @@ import com.pengrad.telegrambot.response.SendResponse;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 import static telegramBots.TelegramBotForOccupancy.*;
@@ -107,7 +106,7 @@ public class Building {
     public static void mid(CallbackQuery callbackQuery, String building) {
         String messageText;
         String back;
-        if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+        if (callbackQuery.from().languageCode().equals("fr")) {
             back = "Revenir en arrière";
             messageText = String.format("""
                     Veuillez sélectionner une option pour continuer :
@@ -147,7 +146,7 @@ public class Building {
     public static void haveListOfRoom(CallbackQuery callbackQuery, String building) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
-        if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+        if (callbackQuery.from().languageCode().equals("fr")) {
             back = "Revenir en arrière";
             stringBuilder
                     .append("Voici une listes des salles disponible dans le bâtiment ")

@@ -3,7 +3,6 @@ package telegramBots.commands;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import java.util.Objects;
 import java.util.TreeSet;
 
 import static telegramBots.TelegramBotForOccupancy.bot;
@@ -34,7 +33,7 @@ public class Create {
         removeKeyboard(message);
         SendMessage request;
         if (rooms.containsKey(message.from().id())) {
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(), "Vous avez déjà une liste de salles");
             } else {
@@ -45,7 +44,7 @@ public class Create {
         } else {
             rooms.put(message.from().id(), new TreeSet<>());
             updateUserFile();
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Liste de salles créée. \n" +

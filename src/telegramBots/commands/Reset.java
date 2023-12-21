@@ -3,8 +3,6 @@ package telegramBots.commands;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import java.util.Objects;
-
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.commands.Method.removeKeyboard;
 import static telegramBots.commands.Method.updateUserFile;
@@ -33,7 +31,7 @@ public class Reset {
 
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste");
             } else {
@@ -47,7 +45,7 @@ public class Reset {
                             message.from().id(),
                             message.date(),
                             message.chat().id(), "reset"));
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la réinitialisation");
             } else {
@@ -73,7 +71,7 @@ public class Reset {
         if (message.text().equals("CONFIRM")) {
             rooms.get(message.from().id()).clear();
             updateUserFile();
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Votre liste a été réinitialisée avec succès");
@@ -83,7 +81,7 @@ public class Reset {
             }
 
         } else {
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Erreur, refaites /reset pour réessayer");

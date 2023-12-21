@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class AllValidRoomToJson {
@@ -24,9 +25,9 @@ public class AllValidRoomToJson {
     private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
     private static final String FLEP_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromFLEP/";
 
-    private static final List<JsonRoomArchitecture> jsonRoomArchitecture = new ArrayList<>();
 
     public static void find() throws IOException {
+        List<JsonRoomArchitecture> jsonRoomArchitecture;
         File epflDirectory = new File(EPFL_ROOM_LIST_PATH);
         File flepDirectory = new File(FLEP_ROOM_LIST_PATH);
 
@@ -39,12 +40,8 @@ public class AllValidRoomToJson {
         // Create ObjectMapper
         try {
             Set<String> smallString = new HashSet<>();
-            for (String room : AllString) {
-                smallString.add(room.replaceAll("-", "")
-                        .replaceAll(" ", "")
-                        .replaceAll("\\.", "")
-                        .replaceAll("_", ""));
-            }
+            AllString.forEach(l ->
+                    smallString.add(l.replaceAll("[^A-Za-z0-9]", "")));
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
@@ -54,21 +51,18 @@ public class AllValidRoomToJson {
                             .readValue(
                                     roomsDataJson,
                                     JsonRoomArchitecture[].class);
-
-            for (JsonRoomArchitecture room : jsonRoomsDataJson) {
-                if (smallString.contains(room.getRooms())) {
-                    jsonRoomArchitecture.add(room);
-                }
-            }
+            jsonRoomArchitecture = new ArrayList<>(
+                    Arrays.stream(jsonRoomsDataJson)
+                            .filter(l -> smallString.contains(l.getRooms()))
+                            .toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        File jsonFile = new File("resources/allValidRooms.json");
-        Files.deleteIfExists(jsonFile.toPath());
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(AllString);
-        Files.write(jsonFile.toPath(), Collections.singleton(jsonString), Charset.defaultCharset());
+        Files.write(Paths.get("resources/allValidRooms.json"),
+                Collections.singleton(jsonString), Charset.defaultCharset());
 
         try {
             File validRoomData = new File("database/validRoomData.json");

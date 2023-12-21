@@ -1,6 +1,5 @@
 package telegramBots.hoursSearch;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,35 +14,31 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static utils.databaseOperation.JsonOperation.JsonFileWrite;
+
 
 /**
  * The EPFL class provides multiple methods for fetching data from the EPFL website.
  */
 public class EPFL {
 
+    private static final String DATABASE_PATH = "database/";
+    private static final String EPFL_PREFIX = "EPFL-";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String EVENTS_START = "v.events = ";
+    private static final String NO_INFO_MESSAGE = "Pas d'information pour cette salle";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final String FOLDER_PATH = "database/DataFromDailySteps/";
+
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
     private EPFL() {
-    }
-
-    /**
-     * Reads the file containing the list of rooms and returns it as a list of strings.
-     *
-     * @return The list of rooms as a list of strings
-     * @throws IOException If an I/O error occurs while reading the file
-     */
-    private static List<String> fetchStringListFromFile() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(
-                new File("resources/allValidRooms.json"),
-                new TypeReference<>() {
-                });
-
     }
 
     /**
@@ -57,11 +52,15 @@ public class EPFL {
     public static void scrap() throws IOException {
 
         Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String currentDateString = dateFormat.format(currentDate);
         FolderOperation.deleteFoldersExcept(currentDateString);
 
-        List<String> paths = fetchStringListFromFile();
+        List<String> paths = objectMapper.readValue(
+                new File("resources/allValidRooms.json"),
+                new TypeReference<>() {
+                });
+
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
 
@@ -81,22 +80,21 @@ public class EPFL {
             pb.maxHint(paths.size());
 
             for (String path : paths) {
-                String filePath = "database/" + "EPFL-" + currentDateString + "/" + path;
+                String filePath = DATABASE_PATH + EPFL_PREFIX + currentDateString + "/" + path;
                 String data = UrlFetcher.EPFL(path);
 
-                if (data.contains("Pas d'information pour cette salle")) {
+                if (data.contains(NO_INFO_MESSAGE)) {
                     roomWithIssue.add(path);
                 } else {
                     fromEPFL.add(path);
                 }
 
-                int startIndex = data.indexOf("v.events = ");
+                int startIndex = data.indexOf(EVENTS_START);
                 int endIndex = data.indexOf(";", startIndex);
 
                 if (startIndex != -1 && endIndex != -1) {
 
                     String json = data.substring(startIndex + 11, endIndex).trim();
-                    ObjectMapper objectMapper = new ObjectMapper();
                     objectMapper.configure(
                             JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
                     JsonNode eventsArray = objectMapper.readTree(json);
@@ -120,30 +118,7 @@ public class EPFL {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        JsonFileWrite(roomWithIssue, "roomWithIssue");
-        JsonFileWrite(fromEPFL, "fromEPFL");
-    }
-
-    /**
-     * Writes a json file with the given name containing the given set of strings.
-     *
-     * @param JsonSet The set of strings to write in the json file
-     * @param name    The name of the json file
-     * @throws IOException If an I/O error occurs
-     */
-    private static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException {
-        if (!JsonSet.isEmpty()) {
-            File jsonFile = new File("database/DataFromDailySteps" + name + ".json");
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                String jsonString = objectMapper.writeValueAsString(JsonSet);
-
-                FileOperation.create(jsonFile);
-                Files.write(jsonFile.toPath(), Collections.singleton(jsonString), Charset.defaultCharset());
-
-            } catch (JsonProcessingException e) {
-                e.fillInStackTrace();
-            }
-        }
+        JsonFileWrite(roomWithIssue, "roomWithIssue",FOLDER_PATH);
+        JsonFileWrite(fromEPFL, "fromEPFL",FOLDER_PATH);
     }
 }

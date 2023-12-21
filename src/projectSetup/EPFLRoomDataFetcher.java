@@ -27,18 +27,18 @@ public class EPFLRoomDataFetcher {
      */
     public static void fetch() throws IOException {
         File directory = new File("database");
+        File subDirectory = new File("database/SetupData");
+        File planJson = new File("database/SetupData/PlanJson");
+
+
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Failed to create folder '" + directory.getPath() + "'");
         }
-        File subDirectory = new File("database/SetupData");
         if (!subDirectory.exists() && !subDirectory.mkdirs()) {
             throw new IOException("Failed to create folder '" + directory.getPath() + "'");
         }
-        File planJson = new File("database/SetupData/PlanJson");
-        if (!planJson.exists()) {
-            if (!planJson.mkdir()) {
-                throw new IOException("Failed to create folder '" + planJson.getPath() + "'");
-            }
+        if (!planJson.exists() && !planJson.mkdir()) {
+            throw new IOException("Failed to create folder '" + planJson.getPath() + "'");
         }
         PlanDataFetch.searchAllFloor();
         RoomJsonToList.RoomToJson();

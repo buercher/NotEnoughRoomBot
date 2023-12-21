@@ -1,12 +1,10 @@
 package telegramBots.commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import telegramBots.TelegramBotForOccupancy;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 import static telegramBots.TelegramBotForOccupancy.*;
@@ -34,23 +32,26 @@ public class Method {
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
     public static void removeKeyboard(Message message) {
-        List<TelegramBotForOccupancy.MessageData> replyMarkup = userOnWait.stream().filter(l ->
-                Objects.equals(l.UserId(), message.from().id()) &&
-                        Objects.equals(l.ChatId(), message.chat().id())).toList();
-        if (!replyMarkup.isEmpty()) {
-            replyMarkup.forEach(userOnWait::remove);
-            for (TelegramBotForOccupancy.MessageData messageData : replyMarkup) {
-                if (!messageData.additionalProperties().isEmpty()) {
-                    EditMessageReplyMarkup editMessageReplyMarkup = new
-                            EditMessageReplyMarkup(messageData.ChatId(),
-                            Integer.parseInt(messageData.additionalProperties().get(0)));
-                    bot.execute(editMessageReplyMarkup);
-                }
+        userOnWait.removeIf(messageData -> {
+            boolean shouldRemove =
+                    Objects.equals(messageData.UserId(), message.from().id()) &&
+                            Objects.equals(messageData.ChatId(), message.chat().id());
+            if (shouldRemove && !messageData.additionalProperties().isEmpty()) {
+                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup(
+                        messageData.ChatId(),
+                        Integer.parseInt(messageData.additionalProperties().get(0))
+                );
+                bot.execute(editMessageReplyMarkup);
             }
-        }
+            return shouldRemove;
+        });
     }
 
-    public static void updateUserFile(){
+    /**
+     * This method is used to update the user's file.
+     * It is used to avoid code duplication.
+     */
+    public static void updateUserFile() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(UserDataJson, rooms);

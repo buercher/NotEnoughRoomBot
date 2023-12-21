@@ -38,10 +38,8 @@ public class GetRoomAvailability {
         String jsonString = Files.readString(jsonFile.toPath());
         List<String> rooms = new ArrayList<>();
         Files.readAllLines(Path.of("resources/list")).forEach(room ->
-                rooms.add(room.replaceAll("-", "")
-                        .replaceAll(" ", "")
-                        .replaceAll("\\.", "")
-                        .replaceAll("_", "")));
+                rooms.add(room.replaceAll("[^A-Za-z0-9]", "")
+                ));
         TypeReference<Map<String, Datajson>> typeRef = new TypeReference<>() {
         };
         Map<String, Datajson> result = new ObjectMapper().readValue(jsonString, typeRef);
@@ -55,7 +53,7 @@ public class GetRoomAvailability {
             }
         }
         for (String room : result.keySet()) {
-            if (Objects.equals(result.get(room).getSource(), "EPFL")) {
+            if (result.get(room).getSource().equals("EPFL")) {
                 roomsList.get("EPFL").add(room);
             }
         }
@@ -65,7 +63,7 @@ public class GetRoomAvailability {
             Collections.sort(roomsList.get("EPFL"));
         }
         for (String room : result.keySet()) {
-            if (Objects.equals(result.get(room).getSource(), "FLEP")) {
+            if (result.get(room).getSource().equals("FLEP")) {
                 roomsList.get("FLEP").add(room);
             }
         }

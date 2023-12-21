@@ -21,6 +21,7 @@ import static utils.databaseOperation.JsonOperation.JsonFileWrite;
  */
 public class TestFLEP {
 
+    private static final String FOLDER_PATH = "database/SetupData/roomChecking/";
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -34,27 +35,25 @@ public class TestFLEP {
      * @throws IOException If an I/O error occurs
      */
     public static void test(String buildingName, ProgressBar pbFLEP) throws IOException {
-        String First = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
+        String BASE_URL = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
         Set<String> roomNoSearchable = new HashSet<>();
         Set<String> fromFLEP = new HashSet<>();
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
-                new File(
-                        "database/SetupData/roomChecking/roomWithIssue/" + buildingName + ".json")
-                , new TypeReference<>() {
+                new File("database/SetupData/roomChecking/roomWithIssue/" + buildingName + ".json"),
+                new TypeReference<>() {
                 }
         );
         if (Files.exists(Path.of("database/SetupData/roomChecking/fromEPFL/" + buildingName + ".json"))) {
             List<String> temp = objectMapper.readValue(
-                    new File(
-                            "database/SetupData/roomChecking/fromEPFL/" + buildingName + ".json")
-                    , new TypeReference<>() {
+                    new File("database/SetupData/roomChecking/fromEPFL/" + buildingName + ".json"),
+                    new TypeReference<>() {
                     }
             );
             pbFLEP.stepBy(temp.size());
         }
         for (String path : paths) {
-            URL url = new URL(First + path);
+            URL url = new URL(BASE_URL + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             try (BufferedReader ignored = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -66,7 +65,7 @@ public class TestFLEP {
             pbFLEP.setExtraMessage(StringUtils.rightPad(" FLEP: " + path, 20));
             pbFLEP.refresh();
         }
-        JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName);
-        JsonFileWrite(fromFLEP, "fromFLEP/" + buildingName);
+        JsonFileWrite(roomNoSearchable, "roomNotSearchable/" + buildingName,FOLDER_PATH);
+        JsonFileWrite(fromFLEP, "fromFLEP/" + buildingName,FOLDER_PATH);
     }
 }

@@ -124,7 +124,7 @@ public class TelegramBotForOccupancy {
                                 if (AllBuilding.contains(update.callbackQuery().data())) {
                                     Building.mid(update.callbackQuery(),
                                             update.callbackQuery().data());
-                                } else if (Objects.equals(update.callbackQuery().data(), "Go Back")) {
+                                } else if (update.callbackQuery().data().equals("Go Back")) {
                                     Building.backToStart(update.callbackQuery());
 
                                 } else if (update.callbackQuery().data().startsWith("Go Back To buildingMid ")) {

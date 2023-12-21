@@ -30,6 +30,7 @@ public class SearchRoom {
     private static Thread EPFLThread;
     private static Thread FLEPThread;
 
+    private static final int AllCASES_ROOMS_COUNT=31156;
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -66,7 +67,7 @@ public class SearchRoom {
                 .setMaxRenderedLength(111);
 
         try (ProgressBar pb = pbb.build()) {
-            pb.maxHint(31156 * 2);
+            pb.maxHint(AllCASES_ROOMS_COUNT * 2);
 
             EPFLThread = new Thread(() -> {
                 try {

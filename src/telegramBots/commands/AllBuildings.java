@@ -5,8 +5,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import java.util.Objects;
-
 import static telegramBots.TelegramBotForOccupancy.AllBuilding;
 import static telegramBots.TelegramBotForOccupancy.bot;
 import static telegramBots.commands.Method.removeKeyboard;
@@ -33,23 +31,18 @@ public class AllBuildings {
      */
     public static void command(Message message) {
         removeKeyboard(message);
+        String[] language = new String[3];
+        if (message.from().languageCode().equals("fr")) {
+            language[0]="Voici une liste de bâtiments qui proposent des salles avec des horaires publics: ";
+            language[2]="Utilisez /bâtiment pour obtenir des infos sur un bâtiment spécifique.";
+        } else {
+            language[0]="Here is a list of buildings that offer rooms with public schedules: ";
+            language[2]="Use /building to retrieve details about a specific building.";}
+        language[1]=String.join(" ", AllBuilding);
+        String responseMessage =
+                String.format("%s\n<strong>%s</strong>\n%s", (Object[]) language);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        if (Objects.equals(message.from().languageCode(), "fr")) {
-            stringBuilder.append("Voici une liste de bâtiments qui proposent des salles avec des horaires publics: ");
-        } else {
-            stringBuilder.append("Here is a list of buildings that offer rooms with public schedules: ");
-        }
-        stringBuilder.append("\n<strong>");
-        AllBuilding.forEach(l -> stringBuilder.append(l).append(" "));
-        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(" "))
-                .append("\n</strong>");
-        if (Objects.equals(message.from().languageCode(), "fr")) {
-            stringBuilder.append("Use /building to retrieve details about a specific building.");
-        } else {
-            stringBuilder.append("Utilisez /bâtiment pour obtenir des infos sur un bâtiment spécifique.");
-        }
-        SendMessage request = new SendMessage(message.chat().id(), stringBuilder.toString());
+        SendMessage request = new SendMessage(message.chat().id(), responseMessage);
         request.parseMode(ParseMode.HTML);
         bot.execute(request);
     }

@@ -4,8 +4,6 @@ import telegramBots.TelegramBotForOccupancy;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import java.util.Objects;
-
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.TelegramBotForOccupancy.rooms;
 import static telegramBots.commands.Method.removeKeyboard;
@@ -36,7 +34,7 @@ public class Delete {
 
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste");
             } else {
@@ -50,7 +48,7 @@ public class Delete {
                             message.from().id(),
                             message.date(),
                             message.chat().id(), "delete"));
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la suppression");
             } else {
@@ -77,7 +75,7 @@ public class Delete {
         if (message.text().equals("CONFIRM")) {
             rooms.remove(message.from().id());
             updateUserFile();
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Votre liste a été supprimée avec succès");
@@ -87,7 +85,7 @@ public class Delete {
             }
 
         } else {
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Erreur, refaites /delete pour réessayer");

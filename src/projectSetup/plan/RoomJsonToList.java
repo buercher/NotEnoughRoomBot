@@ -8,6 +8,7 @@ import utils.jsonObjects.planJsonArchtecture.JsonRoom;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +24,9 @@ public class RoomJsonToList {
     private RoomJsonToList() {
 
     }
+
+    private static final int MAX_FLOOR = 8;
+    private static final int MIN_FLOOR = -4;
 
     private static final List<String> WHITE_LIST = Arrays.asList(
             "LABO", "DETENTE", "CONFERENCES", "BUREAU", "ATELIERS", "ATELIER", "BIBLIOTHEQUE NEBIS",
@@ -65,35 +69,28 @@ public class RoomJsonToList {
                 throw new IOException("Failed to create folder '" + roomToConvert.getPath() + "'");
             }
         }
-
-        for (int i = -4; i < 9; i++) {
-            extractValidRooms(i);
-        }
-        for (String building : BUILDINGS) {
-            List<String> outputList = new ArrayList<>();
-            File output = new File("database/SetupData/RoomToConvert/" + building);
-            Files.deleteIfExists(output.toPath());
-            for (String room : rooms) {
-                if (room.contains(building)) {
-                    outputList.add(room);
+        try {
+            for (int i = MIN_FLOOR; i <= MAX_FLOOR; i++) {
+                extractValidRooms(i);
+            }
+            for (String building : BUILDINGS) {
+                List<String> outputList = new ArrayList<>(rooms.stream()
+                        .filter(room -> room.contains(building))
+                        .toList());
+                rooms.removeAll(outputList);
+                if (building.equals("BC")) {
+                    outputList.add("BC 07-08");
+                }
+                if (!outputList.isEmpty()) {
+                    Collections.sort(outputList);
+                    Files.write(Paths.get("database/SetupData/RoomToConvert/" + building), outputList);
                 }
             }
-            rooms.removeAll(outputList);
-            if (Objects.equals(building, "BC")) {
-                outputList.add("BC 07-08");
-            }
-            if (!outputList.isEmpty()) {
-                Collections.sort(outputList);
-                Files.write(output.toPath(), outputList);
-            }
-        }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
+            ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writeValue(roomsDataJson, jsonRoomArchitecture);
-            System.out.println("JSON file created successfully.");
         } catch (IOException e) {
-            e.fillInStackTrace();
+            throw new IOException("An error occurred while processing the rooms: " + e.getMessage());
         }
     }
 
@@ -105,7 +102,7 @@ public class RoomJsonToList {
      * @see JsonRoom
      * @see ObjectMapper
      */
-    public static void extractValidRooms(int floor) throws IOException {
+    private static void extractValidRooms(int floor) throws IOException {
         // Load JSON file
         File jsonFile = new File("database/SetupData/PlanJson/plan floor " + floor + ".json");
 
@@ -113,68 +110,61 @@ public class RoomJsonToList {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-        JsonRoom jsonRoom = objectMapper.readValue(jsonFile, JsonRoom.class);
+        try {
+            JsonRoom jsonRoom = objectMapper.readValue(jsonFile, JsonRoom.class);
 
+            // Now you can work with the parsed Java objects
+            jsonRoom.getWfsFeatureCollection()
+                    .getGmlFeatureMember().stream()
+                    .filter(gmlFeatureMember ->
+                            WHITE_LIST.contains(gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomUtiA()))
+                    .forEach(gmlFeatureMember -> {
+                        String room = extractRoomText(
+                                gmlFeatureMember
+                                        .getMsBatimentsWmsquery()
+                                        .getMsRoomAbrLink());
+                        rooms.add(room);
+                        jsonRoomArchitecture.add(
+                                new JsonRoomArchitecture(
+                                        room.replaceAll("[^A-Za-z0-9]", ""),
+                                        BUILDINGS
+                                                .stream()
+                                                .filter(room::contains)
+                                                .findFirst()
+                                                .orElseThrow(() ->
+                                                        new NoSuchElementException(
+                                                                "la Salle" + room +
+                                                                "est dans aucun bâtiment")),
+                                        room,
+                                        extractPdfLink(gmlFeatureMember.getMsBatimentsWmsquery().getMsPdfLink()),
+                                        extractPlanLink(gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomAbrLink()),
+                                        gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomUtiA(),
+                                        gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomPlace(),
+                                        String.valueOf(floor)
+                                ));
+                    });
 
-        // Now you can work with the parsed Java objects
-        jsonRoom.
-                getWfsFeatureCollection().
-                getGmlFeatureMember().forEach(gmlFeatureMember -> {
-                            if (WHITE_LIST.contains(gmlFeatureMember.getMsBatimentsWmsquery().getMsRoomUtiA())) {
-                                String room = extractRoomText(
-                                        gmlFeatureMember
-                                                .getMsBatimentsWmsquery()
-                                                .getMsRoomAbrLink());
-                                rooms.add(room);
-                                JsonRoomArchitecture jsonRoomArchitecture1 = new JsonRoomArchitecture();
-                                jsonRoomArchitecture1.setRooms(room
-                                        .replaceAll("-", "")
-                                        .replaceAll(" ", "")
-                                        .replaceAll("\\.", "")
-                                        .replaceAll("_", ""));
-                                jsonRoomArchitecture1.setBuildings(
-                                        extractBuilding(room));
-                                jsonRoomArchitecture1.setPlanName(room);
-                                jsonRoomArchitecture1.setPdfLink(
-                                        extractPdfLink(
-                                                gmlFeatureMember
-                                                        .getMsBatimentsWmsquery()
-                                                        .getMsPdfLink()));
-                                jsonRoomArchitecture1.setPlanLink(
-                                        extractPlanLink(
-                                                gmlFeatureMember
-                                                        .getMsBatimentsWmsquery()
-                                                        .getMsRoomAbrLink()));
-                                jsonRoomArchitecture1.setType(
-                                        gmlFeatureMember
-                                                .getMsBatimentsWmsquery()
-                                                .getMsRoomUtiA());
-                                jsonRoomArchitecture1.setPlaces(
-                                        gmlFeatureMember
-                                                .getMsBatimentsWmsquery()
-                                                .getMsRoomPlace());
-                                jsonRoomArchitecture1.setFloor(String.valueOf(floor));
-                                jsonRoomArchitecture.add(jsonRoomArchitecture1);
-                            }
-                        }
-                );
+        } catch (IOException e) {
+            throw new IOException("An error occurred while processing the rooms: " + e.getMessage());
+        }
     }
 
     /**
      * Extracts the room text from the given input.
      *
-     * @param input The input from which the room text is extracted
+     * @param input The input string from which the room text is extracted
      * @return The room text
+     * @throws NoSuchElementException If the room text cannot be found in the input string
      */
-    public static String extractRoomText(String input) {
-        String patternString = "<div class=\"room\">(.*?)</div>";
-        Pattern pattern = Pattern.compile(patternString);
+    private static String extractRoomText(String input) {
+        final String ROOM_TEXT_REGEX = "<div class=\"room\">(.*?)</div>";
+        Pattern pattern = Pattern.compile(ROOM_TEXT_REGEX);
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
             return matcher.group(1).trim();
         } else {
-            return "No match found";
+            throw new NoSuchElementException("No room text found in the input string");
         }
     }
 
@@ -184,9 +174,9 @@ public class RoomJsonToList {
      * @param input The input from which the PDF link is extracted
      * @return The PDF link
      */
-    public static String extractPdfLink(String input) {
-        String patternString = "<a target=\"_blank\" href=\"(.*?)\">lien</a>";
-        Pattern pattern = Pattern.compile(patternString);
+    private static String extractPdfLink(String input) {
+        final String PDF_LINK_REGEX = "<a target=\"_blank\" href=\"(.*?)\">lien</a>";
+        Pattern pattern = Pattern.compile(PDF_LINK_REGEX);
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
@@ -202,10 +192,10 @@ public class RoomJsonToList {
      * @param input The input from which the plan link is extracted
      * @return The plan link
      */
-    public static String extractPlanLink(String input) {
-        String patternString =
+    private static String extractPlanLink(String input) {
+        final String PLAN_LINK_REGEX =
                 "<div><button class=\"clipboard\" data-clipboard-text=\"(.*?)\" translate>Copier le lien</div>";
-        Pattern pattern = Pattern.compile(patternString);
+        Pattern pattern = Pattern.compile(PLAN_LINK_REGEX);
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
@@ -213,21 +203,5 @@ public class RoomJsonToList {
         } else {
             return "";
         }
-    }
-
-    /**
-     * Extracts the building from the given input.
-     *
-     * @param input The input from which the building is extracted
-     * @return The building
-     */
-    public static String extractBuilding(String input) {
-
-        for (String building : BUILDINGS) {
-            if (input.contains(building)) {
-                return building;
-            }
-        }
-        throw new NoSuchElementException("la Salle" + input + "est dans aucun bâtiment");
     }
 }

@@ -170,9 +170,9 @@ public class JsonOperation {
      * @param name    The name of the file
      * @throws IOException If an I/O error occurs
      */
-    public static void JsonFileWrite(Set<String> JsonSet, String name) throws IOException {
+    public static void JsonFileWrite(Set<String> JsonSet, String name, String folderPath) throws IOException {
         if (!JsonSet.isEmpty()) {
-            File jsonFile = new File("database/SetupData/roomChecking/" + name + ".json");
+            File jsonFile = new File(folderPath + name + ".json");
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonString = objectMapper.writeValueAsString(JsonSet);

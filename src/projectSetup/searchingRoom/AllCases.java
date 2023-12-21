@@ -18,8 +18,6 @@ public class AllCases {
     }
 
     private static List<String> outputList;
-    private static int inputLength = 0;
-    private static int outputLength = 0;
 
     /**
      * Creates a list of all possible cases of room names.
@@ -37,22 +35,15 @@ public class AllCases {
         File[] files = input.listFiles();
         if (files != null) {
             for (File file : files) {
-
-                outputList = new ArrayList<>();
-
                 List<String> inputList = Files.readAllLines(file.toPath());
-
-                inputLength += inputList.size();
+                outputList = new ArrayList<>();
                 for (String inputString : inputList) {
                     recursiveDash(inputString);
                 }
-                outputLength += outputList.size();
                 File output = new File("database/SetupData/RoomList/" + file.getName());
                 Files.write(output.toPath(), outputList);
             }
         }
-        System.out.println("Room before recursive search : " + inputLength);
-        System.out.println("Room after recursive search  : " + outputLength);
     }
 
     /**
@@ -60,7 +51,7 @@ public class AllCases {
      *
      * @param roomString The string to be processed
      */
-    public static void recursiveDash(String roomString) {
+    private static void recursiveDash(String roomString) {
         if (roomString.contains("-")) {
             recursiveDash(roomString.replaceFirst("-", ""));
         }
@@ -72,7 +63,7 @@ public class AllCases {
      *
      * @param roomString The string to be processed
      */
-    public static void recursivePoint(String roomString) {
+    private static void recursivePoint(String roomString) {
         if (roomString.contains(".")) {
             recursivePoint(roomString.replaceFirst("\\.", ""));
             recursivePoint(roomString.replaceFirst("\\.", "-"));
@@ -85,7 +76,7 @@ public class AllCases {
      *
      * @param roomString The string to be processed
      */
-    public static void recursiveUnderscore(String roomString) {
+    private static void recursiveUnderscore(String roomString) {
         if (roomString.contains("_")) {
             recursiveUnderscore(roomString.replaceFirst("_", ""));
             recursiveUnderscore(roomString.replaceFirst("_", "-"));
@@ -99,7 +90,7 @@ public class AllCases {
      *
      * @param roomString The string to be processed
      */
-    public static void recursiveSpace(String roomString) {
+    private static void recursiveSpace(String roomString) {
         if (roomString.contains(" ")) {
             recursiveSpace(roomString.replaceFirst(" ", ""));
             recursiveSpace(roomString.replaceFirst(" ", "-"));

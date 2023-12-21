@@ -19,6 +19,8 @@ import static utils.databaseOperation.JsonOperation.JsonFileWrite;
  */
 public class TestEPFL {
 
+    private static final String FOLDER_PATH = "database/SetupData/roomChecking/";
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -59,7 +61,7 @@ public class TestEPFL {
             pbEPFL.setExtraMessage(StringUtils.rightPad(" EPFL: " + path, 20));
             pbEPFL.refresh();
         }
-        JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName);
-        JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName);
+        JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName,FOLDER_PATH);
+        JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName,FOLDER_PATH);
     }
 }

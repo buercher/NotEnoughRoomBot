@@ -13,7 +13,6 @@ import com.pengrad.telegrambot.response.SendResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Optional;
 
 import static telegramBots.TelegramBotForOccupancy.*;
@@ -45,7 +44,7 @@ public class Room {
                         message.date(),
                         message.chat().id(), "room"));
         SendMessage request;
-        if (Objects.equals(message.from().languageCode(), "fr")) {
+        if (message.from().languageCode().equals("fr")) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner une salle");
         } else {
@@ -89,7 +88,7 @@ public class Room {
                             List.of(response.message().messageId().toString())));
         } else {
             String messageText;
-            if (Objects.equals(message.from().languageCode(), "fr")) {
+            if (message.from().languageCode().equals("fr")) {
                 messageText = "Cette salle n'existe pas ou n'a pas d'horaire public\n" +
                         "/building pour plus d'info";
             } else {
@@ -182,7 +181,7 @@ public class Room {
                         .findFirst();
 
         if (roomData.isPresent()) {
-            if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+            if (callbackQuery.from().languageCode().equals("fr")) {
                 add = "Ajouter la salle";
                 remove = "Supprimer la salle";
                 back = "Revenir en arrière";
@@ -190,7 +189,7 @@ public class Room {
                         .append("<b>Information sur la salle ").append(roomData.get().getPlanName()).append("</b> :\n")
                         .append(" <b>Utilisation</b> : ").append(roomData.get().getType()).append("\n")
                         .append(" <b>Batiment</b> : ").append(roomData.get().getBuildings()).append("\n");
-                if (!Objects.equals(roomData.get().getPlaces(), "")) {
+                if (!roomData.get().getPlaces().isEmpty()) {
                     stringBuilder.append(" <b>Places</b> : ").append(roomData.get().getPlaces()).append("\n");
                 }
                 stringBuilder
@@ -198,7 +197,7 @@ public class Room {
                         .append(" <b>Plan</b> : <a href=\"")
                         .append(roomData.get().getPlanLink()).append("\">lien</a>\n")
                 ;
-                if (!Objects.equals(roomData.get().getPdfLink(), "")) {
+                if (!roomData.get().getPdfLink().isEmpty()) {
                     stringBuilder.append(" <b>PDF</b> : <a href=\"")
                             .append(roomData.get().getPdfLink()).append("\">lien</a>\n");
                 }
@@ -213,19 +212,7 @@ public class Room {
                         .append("<code>|  Horaire  |⬜| Disponibilité |\n")
                         .append("|-----------|⬜|---------------|\n");
                 for (int i = 7; i < 19; i++) {
-                    stringBuilder.append("| ");
-                    if (i < 10) {
-                        stringBuilder.append("0");
-                    }
-                    stringBuilder
-                            .append(i)
-                            .append("h - ");
-                    if (i < 9) {
-                        stringBuilder.append("0");
-                    }
-                    stringBuilder.append(i + 1)
-                            .append("h |");
-                    if (dataJson.get(room).getHoraire().contains(i)) {
+                    stringBuilder.append(String.format("| %02dh - %02dh |", i, i + 1));                    if (dataJson.get(room).getHoraire().contains(i)) {
                         stringBuilder.append("🟥| Occupé        |\n");
                     } else {
                         stringBuilder.append("🟩| Disponible    |\n");
@@ -241,7 +228,7 @@ public class Room {
                         .append(roomData.get().getPlanName()).append("</b> :\n")
                         .append(" <b>Building</b> : ")
                         .append(roomData.get().getBuildings()).append("\n");
-                if (!Objects.equals(roomData.get().getPlaces(), "")) {
+                if (!roomData.get().getPlaces().isEmpty()) {
                     stringBuilder.append(" <b>Places</b> : ").append(roomData.get().getPlaces()).append("\n");
                 }
                 stringBuilder
@@ -250,7 +237,7 @@ public class Room {
                         .append(" <b>Plan</b> : <a href=\"")
                         .append(roomData.get().getPlanLink()).append("\">link</a>\n")
                 ;
-                if (!Objects.equals(roomData.get().getPdfLink(), "")) {
+                if (!roomData.get().getPdfLink().isEmpty()) {
                     stringBuilder.append(" <b>PDF</b> : <a href=\"")
                             .append(roomData.get().getPdfLink()).append("\">link</a>\n");
                 }
@@ -265,18 +252,7 @@ public class Room {
                         .append("<code>|  Schedule |⬜| Availability  |\n")
                         .append("|-----------|⬜|---------------|\n");
                 for (int i = 7; i < 19; i++) {
-                    stringBuilder.append("| ");
-                    if (i < 10) {
-                        stringBuilder.append("0");
-                    }
-                    stringBuilder
-                            .append(i)
-                            .append("h - ");
-                    if (i < 9) {
-                        stringBuilder.append("0");
-                    }
-                    stringBuilder.append(i + 1)
-                            .append("h |");
+                    stringBuilder.append(String.format("| %02dh - %02dh |", i, i + 1));
                     if (dataJson.get(room).getHoraire().contains(i)) {
                         stringBuilder.append("🟥| Occupied      |\n");
                     } else {
@@ -325,7 +301,7 @@ public class Room {
      */
     public static void add(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
-        if (Objects.equals(callbackQuery.from().languageCode(), "fr")) {
+        if (callbackQuery.from().languageCode().equals("fr")) {
             back = "Revenir en arrière";
         } else {
             back = "Go Back";

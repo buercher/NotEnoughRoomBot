@@ -21,6 +21,11 @@ import java.util.Date;
  */
 public class FLEP {
 
+    private static final String DATABASE_PATH = "database/";
+    private static final String FLEP_PREFIX = "FLEP-";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String JSON_FILE_PATH = "database/DataFromDailySteps/roomWithIssue.json";
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -38,12 +43,13 @@ public class FLEP {
     public static void scrap() throws IOException {
 
         Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String currentDateString = dateFormat.format(currentDate);
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> paths = objectMapper.readValue(
-                new File("database/DataFromDailySteps/roomWithIssue.json"), new TypeReference<>() {
+                new File(JSON_FILE_PATH),
+                new TypeReference<>() {
                 });
 
         ProgressBarBuilder pbb = ProgressBar.builder()
@@ -62,7 +68,7 @@ public class FLEP {
             pb.maxHint(paths.size());
 
             for (String path : paths) {
-                String filePath = "database/" + "FLEP-" + currentDateString + "/" + path;
+                String filePath = DATABASE_PATH + FLEP_PREFIX + currentDateString + "/" + path;
                 List<JSONObject> schedules = UrlFetcher.FLEP(path);
 
                 for (JSONObject schedule : schedules) {
