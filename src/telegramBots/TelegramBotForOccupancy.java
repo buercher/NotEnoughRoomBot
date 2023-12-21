@@ -226,6 +226,10 @@ public class TelegramBotForOccupancy {
                             case "/allbuildings" -> AllBuildings.command(message);
                             case "/building" -> Building.command(message);
                             case "/room" -> Room.command(message);
+                            case "/addroom" -> AddRoom.command(message);
+                            case "/addbuilding" -> AddBuilding.command(message);
+                            case "/removeroom", "/deleteroom" -> RemoveRoom.command(message);
+                            case "/removebuilding", "/deletebuilding" -> RemoveBuilding.command(message);
                             default -> {
                                 Optional<MessageData> request =
                                         userOnWait.stream().filter(l ->
@@ -238,6 +242,10 @@ public class TelegramBotForOccupancy {
                                         case "room" -> Room.mid(message, request.get());
                                         case "reset" -> Reset.confirm(message);
                                         case "delete" -> Delete.confirm(message);
+                                        case "addroom" -> AddRoom.complete(message);
+                                        case "addbuilding" -> AddBuilding.complete(message);
+                                        case "removeroom" -> RemoveRoom.complete(message);
+                                        case "removebuilding" -> RemoveBuilding.complete(message);
                                         default -> System.out.println("Salut");
                                     }
                                 }
