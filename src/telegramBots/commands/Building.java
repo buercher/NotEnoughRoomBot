@@ -167,9 +167,9 @@ public class Building {
                 .forEach(l -> roomSearchToRoomName.put(l.getRooms(), l.getPlanName()));
 
         InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[roomSearchToRoomName.size() / 4][4];
-        int count = 0;
         InlineKeyboardButton[] inlineKeyboardButtonSmall =
                 new InlineKeyboardButton[roomSearchToRoomName.size() - inlineKeyboardButtonBig.length * 4];
+        int count = 0;
         for (String room : roomSearchToRoomName.keySet()) {
             if (!((count >>> 2) == inlineKeyboardButtonBig.length)) {
                 inlineKeyboardButtonBig[count >>> 2][count & 3] =

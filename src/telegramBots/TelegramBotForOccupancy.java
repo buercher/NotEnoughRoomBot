@@ -175,7 +175,26 @@ public class TelegramBotForOccupancy {
                                             update.callbackQuery().data() + " is not a valid parameter for room");
                                 }
                             }
-                            default -> System.out.println("default");
+                            case "search" ->{
+                                userOnWait.remove(request.get());
+                                if (update.callbackQuery().data().startsWith("SearchStart ")) {
+                                    Search.endTime(update.callbackQuery(),
+                                            Integer.parseInt(update.callbackQuery().data()
+                                                    .replaceAll("SearchStart ", "")));
+                                } else if (update.callbackQuery().data().startsWith("SearchMid ")) {
+                                    try {
+                                        Search.searchResult(update.callbackQuery(),
+                                                Integer.parseInt(request.get().additionalProperties.get(1)),
+                                                Integer.parseInt(update.callbackQuery().data()
+                                                        .replaceAll("SearchMid ", "")));
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                } else {
+                                    throw new IllegalArgumentException(
+                                            update.callbackQuery().data() + " is not a valid parameter for search");
+                                }
+                            }
                         }
                     }
                 }
@@ -203,6 +222,8 @@ public class TelegramBotForOccupancy {
                             case "/gethash" -> GetHash.command(message);
                             case "/copyhash" -> CopyHash.command(message);
                             case "/mylist" -> Mylist.command(message);
+                            case "/search" -> Search.command(message);
+                            case "/addall" -> AddAll.command(message);
                             default -> {
                                 Optional<MessageData> request =
                                         userOnWait.stream().filter(l ->
@@ -220,8 +241,9 @@ public class TelegramBotForOccupancy {
                                         case "removeroom" -> RemoveRoom.complete(message);
                                         case "removebuilding" -> RemoveBuilding.complete(message);
                                         case "copyhash" -> CopyHash.mid(message);
+                                        case "addall" -> AddAll.confirm(message);
                                         case "copyhashmid" -> CopyHash.confirm(message,
-                                                Integer.parseInt(request.get().additionalProperties.get(0)));}
+                                                Integer.parseInt(request.get().additionalProperties.get(1)));}
                                 }
                             }
                         }

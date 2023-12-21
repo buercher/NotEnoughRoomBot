@@ -37,11 +37,13 @@ public class Method {
                     Objects.equals(messageData.UserId(), message.from().id()) &&
                             Objects.equals(messageData.ChatId(), message.chat().id());
             if (shouldRemove && !messageData.additionalProperties().isEmpty()) {
-                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup(
-                        messageData.ChatId(),
-                        Integer.parseInt(messageData.additionalProperties().get(0))
-                );
-                bot.execute(editMessageReplyMarkup);
+                if (!Objects.equals(messageData.additionalProperties().get(0), "")) {
+                    EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup(
+                            messageData.ChatId(),
+                            Integer.parseInt(messageData.additionalProperties().get(0))
+                    );
+                    bot.execute(editMessageReplyMarkup);
+                }
             }
             return shouldRemove;
         });

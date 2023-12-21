@@ -76,7 +76,7 @@ public class CopyHash {
                             message.date(),
                             message.chat().id(),
                             "copyhashmid",
-                            List.of(String.valueOf(hash))));
+                            List.of("",String.valueOf(hash))));
             if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la copie"
