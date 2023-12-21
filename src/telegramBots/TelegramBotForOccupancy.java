@@ -202,6 +202,7 @@ public class TelegramBotForOccupancy {
                             case "/removebuilding", "/deletebuilding" -> RemoveBuilding.command(message);
                             case "/gethash" -> GetHash.command(message);
                             case "/copyhash" -> CopyHash.command(message);
+                            case "/mylist" -> Mylist.command(message);
                             default -> {
                                 Optional<MessageData> request =
                                         userOnWait.stream().filter(l ->
@@ -220,9 +221,7 @@ public class TelegramBotForOccupancy {
                                         case "removebuilding" -> RemoveBuilding.complete(message);
                                         case "copyhash" -> CopyHash.mid(message);
                                         case "copyhashmid" -> CopyHash.confirm(message,
-                                                Integer.parseInt(request.get().additionalProperties.get(0)));
-                                        default -> System.out.println("Salut");
-                                    }
+                                                Integer.parseInt(request.get().additionalProperties.get(0)));}
                                 }
                             }
                         }

@@ -1,6 +1,7 @@
 package telegramBots.commands;
 
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import telegramBots.TelegramBotForOccupancy;
 
@@ -23,6 +24,12 @@ public class CopyHash {
     private CopyHash() {
     }
 
+    /**
+     * This method is used to initiate the /copyhash command. It removes the keyboard from the user's view if it exists,
+     * adds the user to the waiting list, and sends a message requesting the hash of the list they want to copy.
+     *
+     * @param message The message object containing details about the chat and the user.
+     */
     public static void command(Message message) {
         removeKeyboard(message);
         userOnWait.add(
@@ -41,6 +48,14 @@ public class CopyHash {
         bot.execute(request);
     }
 
+    /**
+     * This method is used to handle the mid-stage of the /copyhash command. It checks if the provided hash exists
+     * in the rooms map. If it does, it adds the user to the waiting list and sends a message
+     * to confirm the copy operation. If it doesn't, it sends a message indicating that no list was found
+     * with the provided hash.
+     *
+     * @param message The message object containing details about the chat and the user.
+     */
     public static void mid(Message message) {
         removeKeyboard(message);
         int hash = Integer.parseInt(message.text());
@@ -65,16 +80,26 @@ public class CopyHash {
             if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la copie"
-                                + "\n ⚠️Attention⚠️, cela va totalement remplacer votre liste actuelle");
+                                + "\n ⚠️<b>Attention⚠️, cela va totalement remplacer votre liste actuelle</b>");
             } else {
                 request = new SendMessage(
                         message.chat().id(), "Send \"CONFIRM\" (in upper case) to validate the copy"
-                        + "\n ⚠️Warning⚠️, this will completely replace your current list");
+                        + "\n <b>⚠️Warning⚠️, this will completely replace your current list</b>");
             }
         }
+        request.parseMode(ParseMode.HTML);
         bot.execute(request);
     }
 
+    /**
+     * This method is used to finalize the /copyhash command. If the user confirms the operation, it copies
+     * the list with the provided hash to the user's room, updates the user file, and sends a message indicating
+     * the successful copy operation.
+     * If the user doesn't confirm the operation, it sends a message indicating the cancellation of the copy operation.
+     *
+     * @param message The message object containing details about the chat and the user.
+     * @param hash The hash of the list to be copied.
+     */
     public static void confirm(Message message, int hash) {
         removeKeyboard(message);
         SendMessage request;
