@@ -44,12 +44,12 @@ public class GetHash {
                 request = new SendMessage(
                         message.chat().id(),
                         "Voici votre hash, vous pouvez l'utiliser pour partager votre liste \n<code>" +
-                        rooms.get(message.from().id()).hashCode()+" </code>");
+                                rooms.get(message.from().id()).hashCode() + " </code>");
             } else {
                 request = new SendMessage(
                         message.chat().id(),
                         "Here's your hash, you can use it to share your list \n<code>" +
-                                rooms.get(message.from().id()).hashCode()+" </code>");
+                                rooms.get(message.from().id()).hashCode() + " </code>");
             }
         }
         request.parseMode(ParseMode.HTML);

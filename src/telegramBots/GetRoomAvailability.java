@@ -28,7 +28,7 @@ public class GetRoomAvailability {
      * @return The availability of rooms
      * @throws IOException If an I/O error occurs
      */
-    public static Map<String, List<String>> search(Set<String> listOfRoom,int Start, int End) throws IOException {
+    public static Map<String, List<String>> search(Set<String> listOfRoom, int Start, int End) throws IOException {
         Map<String, List<String>> roomsList = new TreeMap<>(Map.of(
                 "EPFL", new ArrayList<>(),
                 "FLEP", new ArrayList<>()));

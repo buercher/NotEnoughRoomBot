@@ -76,7 +76,7 @@ public class CopyHash {
                             message.date(),
                             message.chat().id(),
                             "copyhashmid",
-                            List.of("",String.valueOf(hash))));
+                            List.of("", String.valueOf(hash))));
             if (message.from().languageCode().equals("fr")) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la copie"
@@ -98,7 +98,7 @@ public class CopyHash {
      * If the user doesn't confirm the operation, it sends a message indicating the cancellation of the copy operation.
      *
      * @param message The message object containing details about the chat and the user.
-     * @param hash The hash of the list to be copied.
+     * @param hash    The hash of the list to be copied.
      */
     public static void confirm(Message message, int hash) {
         removeKeyboard(message);

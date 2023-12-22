@@ -27,6 +27,7 @@ public class TelegramBotForOccupancy {
     public static Set<String> AllRooms = new TreeSet<>();
     public static List<String> AllBuildingList = new ArrayList<>();
     public static File UserDataJson = new File("database/UserData/UserData.json");
+
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
@@ -175,7 +176,7 @@ public class TelegramBotForOccupancy {
                                             update.callbackQuery().data() + " is not a valid parameter for room");
                                 }
                             }
-                            case "search" ->{
+                            case "search" -> {
                                 userOnWait.remove(request.get());
                                 if (update.callbackQuery().data().startsWith("SearchStart ")) {
                                     Search.endTime(update.callbackQuery(),
@@ -243,7 +244,8 @@ public class TelegramBotForOccupancy {
                                         case "copyhash" -> CopyHash.mid(message);
                                         case "addall" -> AddAll.confirm(message);
                                         case "copyhashmid" -> CopyHash.confirm(message,
-                                                Integer.parseInt(request.get().additionalProperties.get(1)));}
+                                                Integer.parseInt(request.get().additionalProperties.get(1)));
+                                    }
                                 }
                             }
                         }

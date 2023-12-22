@@ -81,11 +81,9 @@ public class UrlFetcher {
                 while ((line = reader.readLine()) != null) {
                     content.append(line);
                 }
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 return null;
-            }
-            catch (IOException ignored) {
+            } catch (IOException ignored) {
             }
 
             return content.toString();

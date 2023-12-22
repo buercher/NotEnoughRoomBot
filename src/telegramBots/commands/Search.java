@@ -24,15 +24,14 @@ import static telegramBots.commands.Method.removeKeyboard;
  */
 public class Search {
 
+    private static final String EPFL = "EPFL";
+    private static final String FLEP = "FLEP";
+
     /**
      * This class should not be instantiated.
      */
     private Search() {
     }
-
-    private static final String EPFL = "EPFL";
-
-    private static final String FLEP = "FLEP";
 
     /**
      * This method is used to find for available room in a user's list.
@@ -135,7 +134,7 @@ public class Search {
                 stringBuilder.append("Here are the rooms on your list that suit your timeframe:\n");
             }
             if (!result.get(EPFL).isEmpty()) {
-                Map<String, Set<String>> map=buildingMap(result, EPFL);
+                Map<String, Set<String>> map = buildingMap(result, EPFL);
                 stringBuilder.append("<b>").append(source).append(" EPFL :</b>");
                 for (String key : map.keySet()) {
                     stringBuilder.append("\n");
@@ -143,7 +142,7 @@ public class Search {
                 }
             }
             if (!result.get(FLEP).isEmpty()) {
-                Map<String, Set<String>> map=buildingMap(result, FLEP);
+                Map<String, Set<String>> map = buildingMap(result, FLEP);
                 stringBuilder.append("<b>\n").append(source).append(" FLEP :</b>");
                 for (String key : map.keySet()) {
                     stringBuilder.append("\n");
@@ -191,8 +190,7 @@ public class Search {
         if (inlineKeyboardButtonSmall.length != 0) {
             inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
             inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
-        }
-        else {
+        } else {
             inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length][];
         }
         System.arraycopy(

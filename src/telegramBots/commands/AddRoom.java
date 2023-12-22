@@ -55,9 +55,9 @@ public class AddRoom {
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
     public static void complete(Message message) {
-        String[] rooms =message.text().split("\n");
+        String[] rooms = message.text().split("\n");
         SendMessage request;
-        String response="";
+        String response = "";
         for (String room : rooms) {
             room = room.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
             if (AllRooms.contains(room)) {
