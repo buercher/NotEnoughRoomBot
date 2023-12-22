@@ -191,9 +191,13 @@ public class Search {
         if (inlineKeyboardButtonSmall.length != 0) {
             inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
             inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
-        } else {
-            inlineKeyboardButton = inlineKeyboardButtonBig;
         }
+        else {
+            inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length][];
+        }
+        System.arraycopy(
+                inlineKeyboardButtonBig, 0,
+                inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
         return new InlineKeyboardMarkup(inlineKeyboardButton);
     }
 }

@@ -55,18 +55,22 @@ public class AddRoom {
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
     public static void complete(Message message) {
-        String room = message.text().replaceAll("[^A-Za-z0-9]", "").toUpperCase();
-        String response;
-        if (AllRooms.contains(room)) {
-            response = roomAddition(message.from().languageCode(), room, message.from().id());
-        } else {
-            if (message.from().languageCode().equals("fr")) {
-                response = "Cette salle n'existe pas ou n'est pas dans ma base de données";
+        String[] rooms =message.text().split("\n");
+        SendMessage request;
+        String response="";
+        for (String room : rooms) {
+            room = room.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
+            if (AllRooms.contains(room)) {
+                response = roomAddition(message.from().languageCode(), room, message.from().id());
             } else {
-                response = "This room doesn't exist or isn't in my database";
+                if (message.from().languageCode().equals("fr")) {
+                    response = "Cette salle n'existe pas ou n'est pas dans ma base de données";
+                } else {
+                    response = "This room doesn't exist or isn't in my database";
+                }
             }
         }
-        SendMessage request = new SendMessage(message.chat().id(), response);
+        request = new SendMessage(message.chat().id(), response);
         bot.execute(request);
     }
 }

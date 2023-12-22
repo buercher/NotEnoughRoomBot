@@ -4,12 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The UrlFetcher class provides multiple methods for fetching data from URLs.
@@ -45,7 +47,7 @@ public class UrlFetcher {
     public static List<JSONObject> FLEP(String roomName) throws IOException {
         String urlString = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
 
-        JSONObject data = new JSONObject(connect(urlString, roomName));
+        JSONObject data = new JSONObject(Objects.requireNonNull(connect(urlString, roomName)));
         JSONArray schedulesArray = data.getJSONArray("schedules");
 
         List<JSONObject> schedulesList = new ArrayList<>();
@@ -79,6 +81,11 @@ public class UrlFetcher {
                 while ((line = reader.readLine()) != null) {
                     content.append(line);
                 }
+            }
+            catch (FileNotFoundException e) {
+                return null;
+            }
+            catch (IOException ignored) {
             }
 
             return content.toString();

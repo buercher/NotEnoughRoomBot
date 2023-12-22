@@ -114,7 +114,7 @@ public class EPFL {
 
                 // Sort the file and merge adjacent ranges
                 FileOperation.FinalFileCreation(pb, path, filePath);
-                Thread.sleep(50);
+                Thread.sleep(100);
             }
             pb.setExtraMessage(StringUtils.rightPad(" done", 14));
             pb.refresh();

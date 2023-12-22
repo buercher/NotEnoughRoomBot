@@ -25,7 +25,7 @@ public class DatabaseSearch {
      * @see FLEP#scrap()
      * @see JsonOperation#makeFile()
      */
-    public static void fetch() throws IOException {
+    public static void main(String[] args) throws IOException {
         EPFL.scrap();
         FLEP.scrap();
         JsonOperation.makeFile();
