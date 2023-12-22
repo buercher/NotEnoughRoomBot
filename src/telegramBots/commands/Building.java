@@ -33,7 +33,8 @@ public class Building {
      * This method is used to start the building selection process for the user.
      * It sends a message to the user asking them to choose a building.
      * The buildings are presented as inline keyboard buttons for the user to select.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
@@ -55,12 +56,14 @@ public class Building {
      * This method is specifically designed to handle CallbackQuery, which is different from Message.
      * It edits the previous message sent to the user and asks them to choose a building again.
      * The buildings are presented as inline keyboard buttons for the user to select.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      */
     public static void backToStart(CallbackQuery callbackQuery) {
-        updateMessage(callbackQuery, messageStartText(callbackQuery.from().languageCode()), allBuildingInlineKeyboard());
+        updateMessage(callbackQuery, messageStartText(callbackQuery.from().languageCode()),
+                allBuildingInlineKeyboard());
     }
 
     /**
@@ -98,7 +101,8 @@ public class Building {
      * This method is used to handle the middle part of the building selection process.
      * It sends a message to the user asking them to choose an option for the selected building.
      * The options are presented as inline keyboard buttons for the user to select.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param building      The building that the user has selected.
@@ -138,7 +142,8 @@ public class Building {
      * This method is used to display a list of rooms available in a selected building.
      * It sends a message to the user with the list of rooms and allows the user to select a room for more information.
      * The rooms are presented as inline keyboard buttons for the user to select.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param building      The building that the user has selected.
@@ -166,7 +171,8 @@ public class Building {
                 .filter(l -> l.getBuildings().equals(building))
                 .forEach(l -> roomSearchToRoomName.put(l.getRooms(), l.getPlanName()));
 
-        InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[roomSearchToRoomName.size() / 4][4];
+        InlineKeyboardButton[][] inlineKeyboardButtonBig =
+                new InlineKeyboardButton[roomSearchToRoomName.size() / 4][4];
         InlineKeyboardButton[] inlineKeyboardButtonSmall =
                 new InlineKeyboardButton[roomSearchToRoomName.size() - inlineKeyboardButtonBig.length * 4];
         int count = 0;
@@ -204,7 +210,8 @@ public class Building {
      * If the user does not have a list, it sends a message notifying them of this.
      * Otherwise, it adds all rooms in the building to the user's list
      * and sends a message notifying the user of the successful addition.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param building      The building that the user has selected.
@@ -227,7 +234,8 @@ public class Building {
      * General method to add all rooms in a selected building to the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * Then it sends a String notifying the successful addition.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param languageCode The language code of the user (fr or else)
      * @param building     The building that the user has selected.
@@ -259,7 +267,8 @@ public class Building {
      * This method is used to remove all rooms in a selected building from the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * Then it sends a message notifying the user of the successful removal.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param building      The building that the user has selected.
@@ -282,7 +291,8 @@ public class Building {
      * General method to delete all rooms from a selected building from the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * and sends a String notifying the successful removal.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param languageCode The language code of the user (fr or else)
      * @param building     The building that the user has selected.

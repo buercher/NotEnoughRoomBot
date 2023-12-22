@@ -23,7 +23,8 @@ public class AddAll {
      * This method is used to delete a user's list of rooms.
      * If the user does not have a list, it sends a message notifying them of this.
      * Otherwise, it adds the user to the userOnWait set and sends a message asking them to confirm the deletion.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
@@ -64,7 +65,8 @@ public class AddAll {
      * If the user confirms the deletion by sending "CONFIRM", it deletes the list and sends a message
      * notifying the user of the successful deletion.
      * Otherwise, it sends a message notifying the user of the failed deletion.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */

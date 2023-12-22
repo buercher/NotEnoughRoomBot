@@ -56,7 +56,8 @@ public class PlanDataFetch {
 
         try (ProgressBar pb = pbb.build()) {
             pb.maxHint(FLOOR_COUNT);
-            Area area = new Area(new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
+            Area area = new Area(
+                    new Coordinate(2951582.0, 1016367.0), new Coordinate(2420000.0, 1350000.0));
             for (int i = MIN_FLOOR; i <= MAX_FLOOR; i++) {
                 search(area, i);
                 pb.step();

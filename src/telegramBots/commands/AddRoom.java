@@ -23,7 +23,8 @@ public class AddRoom {
      * This method is used to add a room to a user's list of rooms.
      * If the user does not have a list, it sends a message notifying them of this.
      * Otherwise, it adds the user to the userOnWait set and sends a message asking them to confirm the addition.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
@@ -49,7 +50,8 @@ public class AddRoom {
      * This method is used to complete the addition of a room to a user's list of rooms.
      * It is called when the user sends the room they want to add.
      * The method checks if the room exists and sends a message notifying the user of the result.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      * The methods continue to add rooms until the user sends another command.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.

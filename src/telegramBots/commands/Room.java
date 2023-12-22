@@ -32,7 +32,8 @@ public class Room {
     /**
      * This method is used to initiate the room selection process for the user.
      * It sends a message to the user asking them to provide a room name.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
@@ -58,7 +59,8 @@ public class Room {
      * This method is used to handle the middle part of the room selection process.
      * It checks if the provided room name exists and if it does, it sends a message to the user with the room details.
      * If the room does not exist, it sends a message to the user notifying them of this.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message     The message received from the user. It contains the user's ID and chat ID.
      * @param messageData The data related to the message. It contains the user's ID, chat ID,
@@ -105,7 +107,8 @@ public class Room {
      * This method is used to go back to the middle part of the room selection process.
      * It edits the previous message sent to the user and asks them to provide a room name again.
      * This method is specifically designed to handle CallbackQuery, which is different from Message.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param room          The room that the user has selected.
@@ -124,7 +127,8 @@ public class Room {
 
     /**
      * General method to generate the text for the middle part of the room selection process.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param languageCode The language code of the user (fr or else)
      * @param room         The room that the user has selected.
@@ -161,7 +165,8 @@ public class Room {
      * usage type, building, floor, plan link, PDF link, number of places, and availability.
      * It also provides options to the user to add or remove the room from their list.
      * These options are presented as inline keyboard buttons for the user to select.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param room          The room that the user has selected.
@@ -291,7 +296,8 @@ public class Room {
     /**
      * This method is used to add a selected room to the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
-     * Otherwise, it adds the room to the user's list and sends a message notifying the user of the successful addition.
+     * Otherwise, it adds the room to the user's list
+     * and sends a message notifying the user of the successful addition.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param room          The room that the user has selected.
@@ -318,7 +324,8 @@ public class Room {
      * General method to add a rooms to the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * and sends a String notifying the successful addition.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param languageCode The language code of the user (fr or else)
      * @param room         The room that the user has selected.
@@ -351,7 +358,8 @@ public class Room {
     /**
      * This method is used to remove a selected room from the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
-     * Otherwise, it removes the room from the user's list and sends a message notifying the user of the successful removal.
+     * Otherwise, it removes the room from the user's list
+     * and sends a message notifying the user of the successful removal.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param room          The room that the user has selected.
@@ -378,7 +386,8 @@ public class Room {
      * General method to delete a rooms from the user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * and sends a String notifying the successful removal.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param languageCode The language code of the user (fr or else)
      * @param room         The room that the user has selected.

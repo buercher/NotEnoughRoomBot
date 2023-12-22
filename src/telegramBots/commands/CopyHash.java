@@ -25,7 +25,8 @@ public class CopyHash {
     }
 
     /**
-     * This method is used to initiate the /copyhash command. It removes the keyboard from the user's view if it exists,
+     * This method is used to initiate the /copyhash command.
+     * It removes the keyboard from the user's view if it exists,
      * adds the user to the waiting list, and sends a message requesting the hash of the list they want to copy.
      *
      * @param message The message object containing details about the chat and the user.

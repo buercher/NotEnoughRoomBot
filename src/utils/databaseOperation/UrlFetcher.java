@@ -56,7 +56,6 @@ public class UrlFetcher {
         return schedulesList;
     }
 
-
     /**
      * Connects to the URL and returns the content of the website as a String.
      *

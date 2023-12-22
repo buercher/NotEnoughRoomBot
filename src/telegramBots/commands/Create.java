@@ -25,7 +25,8 @@ public class Create {
      * This method is used to create a new list of rooms for a user.
      * If the user already has a list, it sends a message notifying them of this.
      * Otherwise, it creates a new list and sends a message notifying the user of the successful creation.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */

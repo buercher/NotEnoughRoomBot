@@ -46,7 +46,6 @@ public class RoomJsonToList {
      * The RoomJsonToList constructor is private because this class is not meant to be instantiated.
      */
     private RoomJsonToList() {
-
     }
 
     /**

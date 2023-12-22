@@ -34,12 +34,13 @@ public class Search {
     }
 
     /**
-     * This method is used to find for available room in a user's list.
-     * If the user does not have a list, it sends a message notifying them of this.
-     * Otherwise, it adds the user to the userOnWait set
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * Handles the /search command in the Telegram bot.
+     * Checks if the user has any rooms stored in their list.
+     * If not, sends a message to the user to create a list.
+     * If the list is empty, sends a message to the user to add rooms.
+     * If the list is not empty, asks the user to choose a start hour for the room search.
      *
-     * @param message The message received from the user. It contains the user's ID and chat ID.
+     * @param message The message received from the user
      */
     public static void command(Message message) {
         removeKeyboard(message);
@@ -84,6 +85,14 @@ public class Search {
         }
     }
 
+    /**
+     * Handles the selection of the end time for the room search in the Telegram bot.
+     * This method is called after the user has selected a start hour for the room search.
+     * Sends a message to the user asking them to choose an end hour for the room search.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param startHour     The start hour for the room search selected by the user.
+     */
     public static void endTime(CallbackQuery callbackQuery, int startHour) {
         EditMessageText request;
 
@@ -107,6 +116,19 @@ public class Search {
 
     }
 
+    /**
+     * Handles the final stage of the room search in the Telegram bot.
+     * This method is called after the user has selected both a start hour and an end hour for the room search.
+     * Uses the {@link GetRoomAvailability#search} method to find rooms that are available
+     * during the selected time frame.
+     * If no rooms are found, sends a message to the user indicating that no rooms were found.
+     * If rooms are found, sends a message to the user listing the rooms that are available.
+     *
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param startHour     The start hour for the room search selected by the user.
+     * @param endHour       The end hour for the room search selected by the user.
+     * @throws IOException If an input or output exception occurred
+     */
     public static void searchResult(CallbackQuery callbackQuery, int startHour, int endHour) throws IOException {
         EditMessageText request;
 
@@ -157,6 +179,16 @@ public class Search {
         }
     }
 
+    /**
+     * Builds a map of buildings and their corresponding rooms.
+     * This method filters the valid room data based on the rooms
+     * present in the result map and groups them by building.
+     *
+     * @param result A map of results. The key is the source (either EPFL or FLEP)
+     *               and the value is a list of room names.
+     * @param epfl   A string representing the source (either EPFL or FLEP).
+     * @return A map where the key is the building name and the value is a set of room names.
+     */
     private static Map<String, Set<String>> buildingMap(Map<String, List<String>> result, String epfl) {
         Map<String, Set<String>> map = new TreeMap<>();
         validRoomData
@@ -171,6 +203,16 @@ public class Search {
         return map;
     }
 
+    /**
+     * Creates an inline keyboard markup for the Telegram bot.
+     * This keyboard is used to allow the user to select an hour.
+     * The method creates an array of inline keyboard buttons, each representing an hour from the lower limit to 24.
+     * Each button is associated with a callback data string that is a combination of the callback output and the hour.
+     *
+     * @param lowerHour      The lower limit for the hour selection.
+     * @param callbackOutput A string representing the callback output.
+     * @return An InlineKeyboardMarkup object representing the created keyboard.
+     */
     private static InlineKeyboardMarkup hourButton(int lowerHour, String callbackOutput) {
         InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[(25 - lowerHour) / 4][4];
         InlineKeyboardButton[] inlineKeyboardButtonSmall =

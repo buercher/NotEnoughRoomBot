@@ -23,7 +23,8 @@ public class GetHash {
      * This method is used to get the hash of a user's list.
      * If the user does not have a list, it sends a message notifying them of this.
      * Otherwise, it sends a message with the hash of the user's list.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */

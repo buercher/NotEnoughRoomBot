@@ -22,7 +22,8 @@ public class Reset {
      * This method is used to reset a user's list of rooms.
      * If the user does not have a list, it sends a message notifying them of this.
      * Otherwise, it adds the user to the userOnWait set and sends a message asking them to confirm the reset.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */
@@ -61,7 +62,8 @@ public class Reset {
      * If the user confirms the reset by sending "CONFIRM",
      * it resets the list and sends a message notifying the user of the successful reset.
      * Otherwise, it sends a message notifying the user of the failed reset.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */

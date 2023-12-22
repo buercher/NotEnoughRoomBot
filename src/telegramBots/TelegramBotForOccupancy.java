@@ -15,6 +15,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 
+/**
+ * Main class for the Telegram Bot.
+ * This class sets up the bot, loads the necessary data from JSON files, and sets up a listener for updates
+ * from the Telegram Bot API.
+ * It contains a set of static variables that are used throughout the bot's operation, such as the bot token,
+ * a list of all buildings and rooms, and a map of user data.
+ */
+
 public class TelegramBotForOccupancy {
 
     public static final Set<MessageData> userOnWait = new HashSet<>();

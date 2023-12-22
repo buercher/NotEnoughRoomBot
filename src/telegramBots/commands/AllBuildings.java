@@ -25,7 +25,8 @@ public class AllBuildings {
      * This method is used to send a message to the user with a list
      * of all buildings that offer rooms with public schedules.
      * The list is sorted in alphabetical order.
-     * The method is in two languages, English and French. The language is determined by the user's language preference.
+     * The method is in two languages, English and French.
+     * The language is determined by the user's language preference.
      *
      * @param message The message received from the user. It contains the user's ID and chat ID.
      */

@@ -13,6 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * The AllValidRoomToJson class processes creates a list of all valid rooms.
+ * Because the EPFL website does not have a consistent naming convention for rooms,
+ * this class is used to create a list of all possible cases of room names.
+ */
 public class AllValidRoomToJson {
 
     private static final String EPFL_ROOM_LIST_PATH = "database/SetupData/roomChecking/fromEPFL/";
@@ -25,6 +30,11 @@ public class AllValidRoomToJson {
 
     }
 
+    /**
+     * Creates a list of all valid rooms.
+     *
+     * @throws IOException If an I/O error occurs
+     */
     public static void find() throws IOException {
         List<JsonRoomArchitecture> jsonRoomArchitecture;
         File epflDirectory = new File(EPFL_ROOM_LIST_PATH);
@@ -71,6 +81,13 @@ public class AllValidRoomToJson {
         }
     }
 
+    /**
+     * Retrieves a list of all room names from the EPFL and FLEP directories.
+     *
+     * @param flepDirectory The directory containing the FLEP room data
+     * @param epflDirectory The directory containing the EPFL room data
+     * @return A list of all room names
+     */
     @NotNull
     private static List<String> getStringList(File flepDirectory, File epflDirectory) {
         List<File> allFiles = new ArrayList<>();
