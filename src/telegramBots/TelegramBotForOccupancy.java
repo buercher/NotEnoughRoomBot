@@ -30,7 +30,7 @@ public class TelegramBotForOccupancy {
     public static List<JsonRoomArchitecture> validRoomData;
     public static Map<String, Datajson> dataJson;
     // Replace "YOUR_BOT_TOKEN" with your actual bot token
-    public static TelegramBot bot = new TelegramBot("6944730251:AAFZSgdQfUYKU8r17WOBPzZSgLQ3ogH7rro");
+    public static TelegramBot bot = new TelegramBot("YOUR_BOT_TOKEN");
     public static Set<String> AllBuilding = new TreeSet<>();
     public static Set<String> AllRooms = new TreeSet<>();
     public static List<String> AllBuildingList = new ArrayList<>();
