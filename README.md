@@ -25,6 +25,5 @@ It is made using the [java-telegram-bot-api](https://github.com/pengrad/java-tel
 
 ## Usage
 
-- (USE THE RELEASE TO AVOID THIS STEP THAT TAKES A LOT OF TIMES) 
-  Set up the project using the `EntireProjectSetup` class to get different ressources.
+- (NOT NEEDED SINCE THE valisRoomData.json IS PROVIDED) Set up the project using the `EntireProjectSetup` class to get different ressources.
 - Run the main method in the `TelegramBotForOccupancy` class to start the bot.
