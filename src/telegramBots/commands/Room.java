@@ -278,7 +278,7 @@ public class Room {
             if (command.equals("search")) {// When you search for an available room, you don't want to add or remove it
                 updateMessage(callbackQuery, stringBuilder.toString(),
                         new InlineKeyboardMarkup(
-                                        new InlineKeyboardButton(back).callbackData(keyboardButtonText)),
+                                new InlineKeyboardButton(back).callbackData(keyboardButtonText)),
                         command);
             } else {
                 updateMessage(callbackQuery, stringBuilder.toString(),

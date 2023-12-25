@@ -14,7 +14,10 @@ import telegramBots.TelegramBotForOccupancy;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static telegramBots.TelegramBotForOccupancy.*;
 import static telegramBots.commands.Method.removeKeyboard;
@@ -228,7 +231,7 @@ public class Search {
             String messageText;
             if (callbackQuery.from().languageCode().equals("fr")) {
                 messageText = "Je n'ai pas pu trouver une seule salle dans votre liste qui satisfasse votre délai :( "
-                        +"\n Vous ne devriez pas voir ce message merci de signaler ce bug";
+                        + "\n Vous ne devriez pas voir ce message merci de signaler ce bug";
             } else {
                 messageText = "I couldn't find a single room on your list that satisfied your time frame :( " +
                         "\n You shouldn't see this message please report this bug";
