@@ -19,7 +19,7 @@ import java.util.*;
  * Main class for the Telegram Bot.
  * This class sets up the bot, loads the necessary data from JSON files, and sets up a listener for updates
  * from the Telegram Bot API.
- * It contains a set of static variables that are used throughout the bot's operation, such as the bot token,
+ * It contains a set of static variables that are used throughout the bot operation, such as the bot token,
  * a list of all buildings and rooms, and a map of user data.
  */
 
@@ -199,6 +199,23 @@ public class TelegramBotForOccupancy {
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
+                                } else if (update.callbackQuery().data().startsWith("SearchEnd ")) {
+                                    try {
+                                        Search.searchResultOfBuilding(update.callbackQuery(),
+                                                Integer.parseInt(request.get().additionalProperties.get(1)),
+                                                Integer.parseInt(request.get().additionalProperties.get(2)),
+                                                update.callbackQuery().data()
+                                                        .replaceAll("SearchEnd ", ""));
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+                                } else if (update.callbackQuery().data().startsWith("SearchResult ")) {
+                                    Room.viewInfo(update.callbackQuery(),
+                                            update.callbackQuery().data()
+                                                    .replaceAll("SearchResult ", ""),
+                                            "search", "SearchEnd ");
+                                    userOnWait.add(request.get());
                                 } else {
                                     throw new IllegalArgumentException(
                                             update.callbackQuery().data() + " is not a valid parameter for search");

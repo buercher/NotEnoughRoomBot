@@ -268,26 +268,29 @@ public class Room {
                 stringBuilder.append("</code>");
             }
 
-            String keyboardButtonText;
-
-            if (command.equals("building")) {
-                keyboardButtonText = backTo + roomData.get().getBuildings();
-            } else if (command.equals("roomInlined")) {
-                keyboardButtonText = backTo + room;
-            } else {
-                throw new IllegalArgumentException(
+            String keyboardButtonText = switch (command) {
+                case "building", "search" -> backTo + roomData.get().getBuildings();
+                case "roomInlined" -> backTo + room;
+                default -> throw new IllegalArgumentException(
                         command + " is not a valid command for ViewRoomInfo");
-            }
+            };
 
-            updateMessage(callbackQuery, stringBuilder.toString(),
-                    new InlineKeyboardMarkup(
-                            new InlineKeyboardButton[][]{{
-                                    new InlineKeyboardButton(add)
-                                            .callbackData("addRoomFromViewRoomInfo " + room),
-                                    new InlineKeyboardButton(remove)
-                                            .callbackData("removeRoomFromViewRoomInfo " + room)}, {
-                                    new InlineKeyboardButton(back).callbackData(keyboardButtonText)}}),
-                    command);
+            if (command.equals("search")) {// When you search for an available room, you don't want to add or remove it
+                updateMessage(callbackQuery, stringBuilder.toString(),
+                        new InlineKeyboardMarkup(
+                                        new InlineKeyboardButton(back).callbackData(keyboardButtonText)),
+                        command);
+            } else {
+                updateMessage(callbackQuery, stringBuilder.toString(),
+                        new InlineKeyboardMarkup(
+                                new InlineKeyboardButton[][]{{
+                                        new InlineKeyboardButton(add)
+                                                .callbackData("addRoomFromViewRoomInfo " + room),
+                                        new InlineKeyboardButton(remove)
+                                                .callbackData("removeRoomFromViewRoomInfo " + room)}, {
+                                        new InlineKeyboardButton(back).callbackData(keyboardButtonText)}}),
+                        command);
+            }
         } else {
             throw new NoSuchElementException("Room" + room + " exist but data not (Weird)");
         }
@@ -437,11 +440,13 @@ public class Room {
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(inlineKeyboard);
         bot.execute(editMessageText);
-        userOnWait.add(
-                new MessageData(
-                        callbackQuery.from().id(),
-                        callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), command,
-                        List.of(callbackQuery.message().messageId().toString())));
+        if (!command.equals("search")) { //search is a special case since we don't want to override the time
+            userOnWait.add(
+                    new MessageData(
+                            callbackQuery.from().id(),
+                            callbackQuery.message().date(),
+                            callbackQuery.message().chat().id(), command,
+                            List.of(callbackQuery.message().messageId().toString())));
+        }
     }
 }

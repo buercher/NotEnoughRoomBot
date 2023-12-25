@@ -1,13 +1,12 @@
 package telegramBots;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import utils.jsonObjects.Datajson;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
+
+import static telegramBots.TelegramBotForOccupancy.dataJson;
+import static telegramBots.TelegramBotForOccupancy.validRoomData;
 
 /**
  * The GetRoomAvailability class provides method for getting the availability of rooms (Will possibly remove later).
@@ -21,31 +20,37 @@ public class GetRoomAvailability {
     }
 
     /**
-     * Gets the availability of rooms.
+     * This method is used to search for available rooms within a given time range.
+     * It reads the data from a JSON file and filters out the rooms that are not available at the specified time.
+     * The method then sorts the rooms based on their source (EPFL or FLEP) and returns a map with the sorted rooms.
      *
-     * @param Start The start hour
-     * @param End   The end hour
-     * @return The availability of rooms
-     * @throws IOException If an I/O error occurs
+     * @param listOfRoom A set of room names to search for.
+     * @param Start      The start time for the search.
+     * @param End        The end time for the search.
+     * @return A map with two keys (EPFL and FLEP),
+     * each containing a list of available rooms from the respective source.
      */
     public static Map<String, List<String>> search(Set<String> listOfRoom, int Start, int End) throws IOException {
         Map<String, List<String>> roomsList = new TreeMap<>(Map.of(
                 "EPFL", new ArrayList<>(),
                 "FLEP", new ArrayList<>()));
 
-        File jsonFile = new File("database/data.json");
-        String jsonString = Files.readString(jsonFile.toPath());
-        List<String> rooms = listOfRoom.stream().toList();
-        TypeReference<Map<String, Datajson>> typeRef = new TypeReference<>() {
-        };
-        Map<String, Datajson> result = new ObjectMapper().readValue(jsonString, typeRef);
+        Map<String, Datajson> result = new TreeMap<>();
+        dataJson.forEach((k, v) -> {
+            if (listOfRoom.contains(k)) {
+                result.put(k, v);
+            }
+        });
 
+        Set<Integer> hours = new TreeSet<>();
         for (int i = Start; i < End; i++) {
-            Set<String> keys = Set.copyOf(result.keySet());
-            for (String room : keys) {
-                if (result.get(room).getHoraire().contains(i) || !rooms.contains(room)) {
-                    result.remove(room);
-                }
+            hours.add(i);
+        }
+
+        Set<String> keys = Set.copyOf(result.keySet());
+        for (String room : keys) {
+            if (!Collections.disjoint(result.get(room).getHoraire(), hours)) {
+                result.remove(room);
             }
         }
         for (String room : result.keySet()) {
@@ -62,5 +67,45 @@ public class GetRoomAvailability {
         }
         Collections.sort(roomsList.get("FLEP"));
         return roomsList;
+    }
+
+    /**
+     * This method is used to count the number of available rooms in each building within a given time range.
+     * It filters out the rooms that are not available at the specified time and counts the remaining rooms
+     * in each building.
+     *
+     * @param listOfRoom A set of room names to count for.
+     * @param Start      The start time for the count.
+     * @param End        The end time for the count.
+     * @return A map with building names as keys and the count of available rooms in each building as values.
+     */
+    public static Map<String, Integer> buildingCount(Set<String> listOfRoom, int Start, int End) {
+        Map<String, Integer> buildingCount = new TreeMap<>();
+        Map<String, Datajson> result = new TreeMap<>();
+
+        Set<Integer> hours = new TreeSet<>();
+        for (int i = Start; i < End; i++) {
+            hours.add(i);
+        }
+
+        dataJson.forEach((k, v) -> {
+            if (listOfRoom.contains(k)) {
+                result.put(k, v);
+            }
+        });
+        result.forEach((k, v) -> {
+            if (Collections.disjoint(v.getHoraire(), hours)) {
+                validRoomData
+                        .stream().filter(l -> l.getRooms().equals(k))
+                        .findFirst().ifPresent(m -> {
+                            if (buildingCount.containsKey(m.getBuildings())) {
+                                buildingCount.put(m.getBuildings(), buildingCount.get(m.getBuildings()) + 1);
+                            } else {
+                                buildingCount.put(m.getBuildings(), 1);
+                            }
+                        });
+            }
+        });
+        return buildingCount;
     }
 }

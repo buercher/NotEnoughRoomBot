@@ -117,24 +117,25 @@ public class Search {
     }
 
     /**
-     * Handles the final stage of the room search in the Telegram bot.
-     * This method is called after the user has selected both a start hour and an end hour for the room search.
-     * Uses the {@link GetRoomAvailability#search} method to find rooms that are available
-     * during the selected time frame.
-     * If no rooms are found, sends a message to the user indicating that no rooms were found.
-     * If rooms are found, sends a message to the user listing the rooms that are available.
+     * Handles the search results in the Telegram bot.
+     * This method is called after the user has selected a start hour and an end hour for the room search.
+     * It performs a building count operation and sends a message to the user with the results.
+     * If no buildings are found, it sends a message indicating that no rooms were found
+     * that satisfy the user's time frame.
+     * If buildings are found, it sends a message containing the buildings on the user's list that contain at least
+     * one room corresponding to the user's time frame.
      *
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param startHour     The start hour for the room search selected by the user.
      * @param endHour       The end hour for the room search selected by the user.
-     * @throws IOException If an input or output exception occurred
+     * @throws IOException If an I/O error occurs during the building count operation.
      */
     public static void searchResult(CallbackQuery callbackQuery, int startHour, int endHour) throws IOException {
         EditMessageText request;
 
-        Map<String, List<String>> result = GetRoomAvailability.search(
+        Map<String, Integer> buildingCount = GetRoomAvailability.buildingCount(
                 rooms.get(callbackQuery.from().id()), startHour, endHour);
-        if (result.get(EPFL).isEmpty() && result.get(FLEP).isEmpty()) {
+        if (buildingCount.isEmpty()) {
             String messageText;
             if (callbackQuery.from().languageCode().equals("fr")) {
                 messageText = "Je n'ai pas pu trouver une seule salle dans votre liste qui satisfasse votre délai :(";
@@ -147,60 +148,167 @@ public class Search {
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
-            String source;
             if (callbackQuery.from().languageCode().equals("fr")) {
-                source = "Source";
-                stringBuilder.append("Voici les pièces de votre liste qui correspondent à votre délai :\n");
+                stringBuilder.append("Voici les bâtiments de votre liste qui contiennent au moins une salle ")
+                        .append("correspondant à votre délai :\n");
             } else {
-                source = "From";
-                stringBuilder.append("Here are the rooms on your list that suit your timeframe:\n");
+                stringBuilder.append("Here are the buildings on your list that contain at least one room ")
+                        .append("corresponding to your timeframe:\n");
             }
-            if (!result.get(EPFL).isEmpty()) {
-                Map<String, Set<String>> map = buildingMap(result, EPFL);
-                stringBuilder.append("<b>").append(source).append(" EPFL :</b>");
-                for (String key : map.keySet()) {
-                    stringBuilder.append("\n");
-                    stringBuilder.append(String.join(", ", map.get(key)));
+            InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[buildingCount.size() / 4][4];
+            InlineKeyboardButton[] inlineKeyboardButtonSmall =
+                    new InlineKeyboardButton[buildingCount.size() - inlineKeyboardButtonBig.length * 4];
+            int count = 0;
+            for (String key : buildingCount.keySet()) {
+                if (!((count >>> 2) == inlineKeyboardButtonBig.length)) {
+                    inlineKeyboardButtonBig[count >>> 2][count & 3] =
+                            new InlineKeyboardButton(key + " (" + buildingCount.get(key) + ")")
+                                    .callbackData("SearchEnd " + key);
+                } else {
+                    inlineKeyboardButtonSmall[count & 3] =
+                            new InlineKeyboardButton(key + " (" + buildingCount.get(key) + ")")
+                                    .callbackData("SearchEnd " + key);
                 }
+                count++;
             }
-            if (!result.get(FLEP).isEmpty()) {
-                Map<String, Set<String>> map = buildingMap(result, FLEP);
-                stringBuilder.append("<b>\n").append(source).append(" FLEP :</b>");
-                for (String key : map.keySet()) {
-                    stringBuilder.append("\n");
-                    stringBuilder.append(String.join(", ", map.get(key)));
-                }
+            InlineKeyboardButton[][] inlineKeyboardButton;
+            if ((buildingCount.size() & 3) != 0) {
+                inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
+                inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
+            } else {
+                inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length][];
             }
+            System.arraycopy(
+                    inlineKeyboardButtonBig, 0,
+                    inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
+
             request = new EditMessageText(
                     callbackQuery.message().chat().id(),
                     callbackQuery.message().messageId(), stringBuilder.toString())
+                    .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
                     .parseMode(ParseMode.HTML);
             bot.execute(request);
+            userOnWait.add(
+                    new TelegramBotForOccupancy.MessageData(
+                            callbackQuery.from().id(),
+                            callbackQuery.message().date(),
+                            callbackQuery.message().chat().id(), "search",
+                            List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
+                                    String.valueOf(endHour))));
         }
     }
 
     /**
-     * Builds a map of buildings and their corresponding rooms.
-     * This method filters the valid room data based on the rooms
-     * present in the result map and groups them by building.
+     * Handles the search results for a specific building in the Telegram bot.
+     * This method is called after the user has selected a start hour, an end hour, and a building for the room search.
+     * It performs a room availability search operation and sends a message to the user with the results.
+     * If no rooms are found, it sends a message indicating that no rooms were found in the specified building
+     * that satisfy the user's time frame.
+     * If rooms are found, it sends a message containing the rooms in the specified building
+     * that are available during the user's time frame.
      *
-     * @param result A map of results. The key is the source (either EPFL or FLEP)
-     *               and the value is a list of room names.
-     * @param epfl   A string representing the source (either EPFL or FLEP).
-     * @return A map where the key is the building name and the value is a set of room names.
+     * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
+     * @param startHour     The start hour for the room search selected by the user.
+     * @param endHour       The end hour for the room search selected by the user.
+     * @param building      The building for the room search selected by the user.
+     * @throws IOException If an I/O error occurs during the room availability search operation.
      */
-    private static Map<String, Set<String>> buildingMap(Map<String, List<String>> result, String epfl) {
-        Map<String, Set<String>> map = new TreeMap<>();
-        validRoomData
-                .stream()
-                .filter(l -> result.get(epfl).contains(l.getRooms()))
-                .forEach(l -> {
-                    if (!map.containsKey(l.getBuildings())) {
-                        map.put(l.getBuildings(), new TreeSet<>());
-                    }
-                    map.get(l.getBuildings()).add(l.getPlanName());
-                });
-        return map;
+    public static void searchResultOfBuilding(CallbackQuery callbackQuery,
+                                              int startHour,
+                                              int endHour,
+                                              String building) throws IOException {
+        EditMessageText request;
+        Set<String> roomOfBuilding = new TreeSet<>();
+        validRoomData.stream().filter(r ->
+                        r.getBuildings().equals(building) &&
+                                rooms.get(callbackQuery.from().id()).contains(r.getRooms()))
+                .forEach(r -> roomOfBuilding.add(r.getRooms()));
+        Map<String, List<String>> result = GetRoomAvailability.search(roomOfBuilding, startHour, endHour);
+        if (result.isEmpty()) {
+            String messageText;
+            if (callbackQuery.from().languageCode().equals("fr")) {
+                messageText = "Je n'ai pas pu trouver une seule salle dans votre liste qui satisfasse votre délai :( "
+                        +"\n Vous ne devriez pas voir ce message merci de signaler ce bug";
+            } else {
+                messageText = "I couldn't find a single room on your list that satisfied your time frame :( " +
+                        "\n You shouldn't see this message please report this bug";
+            }
+            request = new EditMessageText(
+                    callbackQuery.message().chat().id(),
+                    callbackQuery.message().messageId(), messageText);
+            bot.execute(request);
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+            String source;
+            String back;
+            Set<String> roomsOfBuilding = new TreeSet<>();
+            if (callbackQuery.from().languageCode().equals("fr")) {
+                source = "Source";
+                back = "Retour";
+                stringBuilder.append("Voici les salles du bâtiments <b>")
+                        .append(building)
+                        .append("</b> qui sont disponibles : \n");
+            } else {
+                source = "From";
+                back = "Back";
+                stringBuilder
+                        .append("Here are the available rooms of the building <b>")
+                        .append(building)
+                        .append("</b> :\n");
+            }
+            if (!result.get(EPFL).isEmpty()) {
+                stringBuilder.append("<b>").append(source).append(" EPFL: </b>");
+                roomsOfBuilding.addAll(result.get(EPFL));
+                stringBuilder.append(String.join(", ", result.get(EPFL)));
+            }
+            if (!result.get(FLEP).isEmpty()) {
+                stringBuilder.append("<b>\n").append(source).append(" FLEP: </b>");
+                roomsOfBuilding.addAll(result.get(FLEP));
+                stringBuilder.append(String.join(", ", result.get(FLEP)));
+            }
+            InlineKeyboardButton[][] inlineKeyboardButtonBig = new InlineKeyboardButton[roomsOfBuilding.size() / 4][4];
+            InlineKeyboardButton[] inlineKeyboardButtonSmall =
+                    new InlineKeyboardButton[roomsOfBuilding.size() - inlineKeyboardButtonBig.length * 4];
+            int count = 0;
+            for (String key : roomsOfBuilding) {
+                if (!((count >>> 2) == inlineKeyboardButtonBig.length)) {
+                    inlineKeyboardButtonBig[count >>> 2][count & 3] =
+                            new InlineKeyboardButton(key)
+                                    .callbackData("SearchResult " + key);
+                } else {
+                    inlineKeyboardButtonSmall[count & 3] =
+                            new InlineKeyboardButton(key)
+                                    .callbackData("SearchResult " + key);
+                }
+                count++;
+            }
+            InlineKeyboardButton[][] inlineKeyboardButton;
+            if ((roomsOfBuilding.size() & 3) != 0) {
+                inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 2][];
+                inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
+            } else {
+                inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
+            }
+            inlineKeyboardButton[inlineKeyboardButton.length - 1] =
+                    new InlineKeyboardButton[]{
+                            new InlineKeyboardButton(back).callbackData("SearchMid " + endHour)};
+            System.arraycopy(
+                    inlineKeyboardButtonBig, 0,
+                    inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
+            request = new EditMessageText(
+                    callbackQuery.message().chat().id(),
+                    callbackQuery.message().messageId(), stringBuilder.toString())
+                    .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
+                    .parseMode(ParseMode.HTML);
+            userOnWait.add(
+                    new TelegramBotForOccupancy.MessageData(
+                            callbackQuery.from().id(),
+                            callbackQuery.message().date(),
+                            callbackQuery.message().chat().id(), "search",
+                            List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
+                                    String.valueOf(endHour), building)));
+            bot.execute(request);
+        }
     }
 
     /**
