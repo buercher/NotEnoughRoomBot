@@ -25,7 +25,9 @@ import java.util.*;
 
 public class TelegramBotForOccupancy {
 
-    public static final Set<MessageData> userOnWait = new HashSet<>();
+    public static Set<MessageData> userOnWait;
+    public static File userOnWaitJson = new File("database/UserData/UserOnWait.json");
+
     public static Map<Long, Set<String>> rooms;
     public static List<JsonRoomArchitecture> validRoomData;
     public static Map<String, Datajson> dataJson;
@@ -81,6 +83,15 @@ public class TelegramBotForOccupancy {
             rooms = new ObjectMapper().readValue(jsonString, typeRef);
         } else {
             rooms = new HashMap<>();
+        }
+
+        if (Files.exists(userOnWaitJson.toPath())) {
+            String jsonString = Files.readString(userOnWaitJson.toPath());
+            TypeReference<Set<MessageData>> typeRef = new TypeReference<>() {
+            };
+            userOnWait = new ObjectMapper().readValue(jsonString, typeRef);
+        } else {
+            userOnWait = new HashSet<>();
         }
 
         // Set up a listener for updates from the Telegram Bot API.
@@ -221,6 +232,12 @@ public class TelegramBotForOccupancy {
                                             update.callbackQuery().data() + " is not a valid parameter for search");
                                 }
                             }
+                        }
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            objectMapper.writeValue(userOnWaitJson, userOnWait);
+                        } catch (IOException e) {
+                            e.fillInStackTrace();
                         }
                     }
                 }
