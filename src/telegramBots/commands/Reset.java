@@ -32,7 +32,7 @@ public class Reset {
 
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste");
             } else {
@@ -46,7 +46,7 @@ public class Reset {
                             message.from().id(),
                             message.date(),
                             message.chat().id(), "reset"));
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la réinitialisation");
             } else {
@@ -71,10 +71,10 @@ public class Reset {
     public static void confirm(Message message) {
         removeKeyboard(message);
         SendMessage request;
-        if (message.text().equals("CONFIRM")) {
+        if ("CONFIRM".equals(message.text())) {
             rooms.get(message.from().id()).clear();
             updateUserFile();
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Votre liste a été réinitialisée avec succès");
@@ -84,7 +84,7 @@ public class Reset {
             }
 
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Erreur, refaites /reset pour réessayer");

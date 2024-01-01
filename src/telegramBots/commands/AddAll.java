@@ -33,7 +33,7 @@ public class AddAll {
 
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste /create pour en créer une");
             } else {
@@ -47,7 +47,7 @@ public class AddAll {
                             message.from().id(),
                             message.date(),
                             message.chat().id(), "addall"));
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider l'ajout de TOUTES les salles");
             } else {
@@ -74,10 +74,10 @@ public class AddAll {
     public static void confirm(Message message) {
         removeKeyboard(message);
         SendMessage request;
-        if (message.text().equals("CONFIRM")) {
+        if ("CONFIRM".equals(message.text())) {
             rooms.get(message.from().id()).addAll(AllRooms);
             updateUserFile();
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Toutes les salles ont été ajouté à votre liste avec succès");
@@ -87,7 +87,7 @@ public class AddAll {
             }
 
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Erreur, refaites /addall pour réessayer");

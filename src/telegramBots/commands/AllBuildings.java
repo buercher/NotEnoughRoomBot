@@ -33,7 +33,7 @@ public class AllBuildings {
     public static void command(Message message) {
         removeKeyboard(message);
         String[] language = new String[3];
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             language[0] = "Voici une liste de bâtiments qui proposent des salles avec des horaires publics: ";
             language[2] = "Utilisez /bâtiment pour obtenir des infos sur un bâtiment spécifique.";
         } else {

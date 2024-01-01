@@ -54,14 +54,14 @@ public class GetRoomAvailability {
             }
         }
         for (String room : result.keySet()) {
-            if (result.get(room).getSource().equals("EPFL")) {
+            if ("EPFL".equals(result.get(room).getSource())) {
                 roomsList.get("EPFL").add(room);
             }
         }
         Collections.sort(roomsList.get("EPFL"));
 
         for (String room : result.keySet()) {
-            if (result.get(room).getSource().equals("FLEP")) {
+            if ("FLEP".equals(result.get(room).getSource())) {
                 roomsList.get("FLEP").add(room);
             }
         }

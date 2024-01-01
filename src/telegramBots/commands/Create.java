@@ -34,7 +34,7 @@ public class Create {
         removeKeyboard(message);
         SendMessage request;
         if (rooms.containsKey(message.from().id())) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Vous avez déjà une liste de salles");
             } else {
@@ -45,7 +45,7 @@ public class Create {
         } else {
             rooms.put(message.from().id(), new TreeSet<>());
             updateUserFile();
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Liste de salles créée. \n" +

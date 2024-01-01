@@ -49,7 +49,7 @@ public class Search {
         removeKeyboard(message);
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste /create pour en créer une");
             } else {
@@ -60,7 +60,7 @@ public class Search {
                     .disableWebPagePreview(true);
             bot.execute(request);
         } else if (rooms.get(message.from().id()).isEmpty()) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Votre liste est vide, ajoutez des " +
                         "salles avec les différentes commandes");
@@ -73,7 +73,7 @@ public class Search {
         } else {
             int hour = Instant.now().atZone(ZoneId.of("Europe/Paris")).getHour();
             String messageText;
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 messageText = "Choisissez une heure de début: ";
             } else {
                 messageText = "Choose a start hour: ";
@@ -104,7 +104,7 @@ public class Search {
         EditMessageText request;
 
         String messageText;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             messageText = "Heure de départ: " + startHour + "h\nChoisissez une heure de fin: ";
         } else {
             messageText = "Starting hours: " + startHour + "h\nChoose an end hour ";
@@ -144,7 +144,7 @@ public class Search {
                 rooms.get(callbackQuery.from().id()), startHour, endHour);
         if (buildingCount.isEmpty()) {
             String messageText;
-            if (callbackQuery.from().languageCode().equals("fr")) {
+            if ("fr".equals(callbackQuery.from().languageCode())) {
                 messageText = "Je n'ai pas pu trouver une seule salle dans votre liste qui satisfasse votre délai :(";
             } else {
                 messageText = "I couldn't find a single room on your list that satisfied your time frame :(";
@@ -155,7 +155,7 @@ public class Search {
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
-            if (callbackQuery.from().languageCode().equals("fr")) {
+            if ("fr".equals(callbackQuery.from().languageCode())) {
                 stringBuilder.append("Voici les bâtiments de votre liste qui contiennent au moins une salle ")
                         .append("correspondant à votre délai :\n");
             } else {
@@ -233,7 +233,7 @@ public class Search {
         Map<String, List<String>> result = GetRoomAvailability.search(roomOfBuilding, startHour, endHour);
         if (result.isEmpty()) {
             String messageText;
-            if (callbackQuery.from().languageCode().equals("fr")) {
+            if ("fr".equals(callbackQuery.from().languageCode())) {
                 messageText = "Je n'ai pas pu trouver une seule salle dans votre liste qui satisfasse votre délai :( "
                         + "\n Vous ne devriez pas voir ce message merci de signaler ce bug";
             } else {
@@ -249,7 +249,7 @@ public class Search {
             String source;
             String back;
             Set<String> roomsOfBuilding = new TreeSet<>();
-            if (callbackQuery.from().languageCode().equals("fr")) {
+            if ("fr".equals(callbackQuery.from().languageCode())) {
                 source = "Source";
                 back = "Retour";
                 stringBuilder.append("Voici les salles du bâtiments <b>")

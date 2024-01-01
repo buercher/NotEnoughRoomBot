@@ -73,7 +73,7 @@ public class Building {
      * @return the message start text in the correct language
      */
     private static String messageStartText(String languageCode) {
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             return "Veuillez choisir un bâtiment";
         } else {
             return "Please choose a building";
@@ -110,7 +110,7 @@ public class Building {
     public static void mid(CallbackQuery callbackQuery, String building) {
         String messageText;
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
             messageText = String.format("""
                     Veuillez sélectionner une option pour continuer :
@@ -151,7 +151,7 @@ public class Building {
     public static void haveListOfRoom(CallbackQuery callbackQuery, String building) {
         StringBuilder stringBuilder = new StringBuilder();
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
             stringBuilder
                     .append("Voici une listes des salles disponible dans le bâtiment ")
@@ -218,7 +218,7 @@ public class Building {
      */
     public static void addToList(CallbackQuery callbackQuery, String building) {
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
         } else {
             back = "Go Back";
@@ -245,7 +245,7 @@ public class Building {
     public static String buildingToListAddition(String languageCode, String building, Long UserId) {
         String success;
         String failure;
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             success = "Les salles du bâtiment " + building + " ont été ajoutées avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
@@ -275,7 +275,7 @@ public class Building {
      */
     public static void removeFromList(CallbackQuery callbackQuery, String building) {
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
         } else {
             back = "Go Back";
@@ -302,7 +302,7 @@ public class Building {
     public static String buildingToListDeletion(String languageCode, String building, Long UserId) {
         String success;
         String failure;
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             success = "Les salles du bâtiment " + building + " ont été supprimés avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {

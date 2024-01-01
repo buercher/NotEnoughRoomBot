@@ -35,7 +35,7 @@ public class RemoveRoom {
                         message.date(),
                         message.chat().id(), "removeroom"));
         SendMessage request;
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner la salle que vous voulez supprimer");
         } else {
@@ -62,7 +62,7 @@ public class RemoveRoom {
         if (AllRooms.contains(room)) {
             response = roomDeletion(message.from().languageCode(), room, message.from().id());
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 response = "Cette salle n'existe pas ou n'est pas dans ma base de données";
             } else {
                 response = "This room doesn't exist or isn't in my database";

@@ -32,7 +32,7 @@ public class GetHash {
         removeKeyboard(message);
         SendMessage request;
         if (!rooms.containsKey(message.from().id())) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Vous n'avez pas de liste, merci d'en créer une avec /create");
             } else {
@@ -41,7 +41,7 @@ public class GetHash {
             }
 
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Voici votre hash, vous pouvez l'utiliser pour partager votre liste \n<code>" +

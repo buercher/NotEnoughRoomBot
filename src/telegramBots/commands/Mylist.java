@@ -40,7 +40,7 @@ public class Mylist {
                     .forEach(l -> list.add(l.getPlanName()));
             removeKeyboard(message);
             String[] language = new String[3];
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 language[0] = "Voici une liste de vos salles: ";
                 language[2] = "Utilisez /room ou /batiment pour obtenir des infos spécifique.";
             } else {
@@ -51,7 +51,7 @@ public class Mylist {
             responseMessage =
                     String.format("%s\n<strong>%s</strong>\n%s", (Object[]) language);
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 responseMessage = "Je n'ai trouvé aucune liste /create pour en créer une";
             } else {
                 responseMessage = "I couldn't find any list /create to create one";

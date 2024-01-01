@@ -104,7 +104,7 @@ public class TelegramBotForOccupancy {
                             .filter(l ->
                                     Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
                                             Objects.equals(l.ChatId, update.callbackQuery().message().chat().id()) &&
-                                            l.additionalProperties.get(0).equals(
+                                            Objects.equals(l.additionalProperties.get(0),
                                                     update.callbackQuery().message().messageId().toString()))
                             .findFirst();
                     if (request.isPresent()) {
@@ -114,7 +114,7 @@ public class TelegramBotForOccupancy {
                                 if (AllBuilding.contains(update.callbackQuery().data())) {
                                     Building.mid(update.callbackQuery(),
                                             update.callbackQuery().data());
-                                } else if (update.callbackQuery().data().equals("Go Back")) {
+                                } else if ("Go Back".equals(update.callbackQuery().data())) {
                                     Building.backToStart(update.callbackQuery());
 
                                 } else if (update.callbackQuery().data().startsWith("Go Back To buildingMid ")) {

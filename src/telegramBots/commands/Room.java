@@ -45,7 +45,7 @@ public class Room {
                         message.date(),
                         message.chat().id(), "room"));
         SendMessage request;
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner une salle");
         } else {
@@ -91,7 +91,7 @@ public class Room {
                             List.of(response.message().messageId().toString())));
         } else {
             String messageText;
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 messageText = "Cette salle n'existe pas ou n'a pas d'horaire public\n" +
                         "/building pour plus d'info";
             } else {
@@ -140,7 +140,7 @@ public class Room {
     private static String midMessageText(String languageCode, String room) {
         String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             return String.format("""
                     Veuillez sélectionner une option pour continuer :
 
@@ -189,7 +189,7 @@ public class Room {
                         .findFirst();
 
         if (roomData.isPresent()) {
-            if (callbackQuery.from().languageCode().equals("fr")) {
+            if ("fr".equals(callbackQuery.from().languageCode())) {
                 add = "Ajouter la salle";
                 remove = "Supprimer la salle";
                 back = "Revenir en arrière";
@@ -314,7 +314,7 @@ public class Room {
      */
     public static void add(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
         } else {
             back = "Go Back";
@@ -343,7 +343,7 @@ public class Room {
         String failure;
         String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             success = "La salle " + validRoom + " a été ajoutée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {
@@ -376,7 +376,7 @@ public class Room {
      */
     public static void remove(CallbackQuery callbackQuery, String room, String command, String backTo) {
         String back;
-        if (callbackQuery.from().languageCode().equals("fr")) {
+        if ("fr".equals(callbackQuery.from().languageCode())) {
             back = "Revenir en arrière";
         } else {
             back = "Go Back";
@@ -405,7 +405,7 @@ public class Room {
         String failure;
         String validRoom = validRoomData.stream()
                 .filter(l -> l.getRooms().equals(room)).toList().get(0).getPlanName();
-        if (languageCode.equals("fr")) {
+        if ("fr".equals(languageCode)) {
             success = "La salle " + validRoom + " a été supprimée avec succès à votre liste";
             failure = "Vous n'avez pas de liste, merci d'en créer une avec /create";
         } else {

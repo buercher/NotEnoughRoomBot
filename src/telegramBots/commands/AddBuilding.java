@@ -35,7 +35,7 @@ public class AddBuilding {
                         message.date(),
                         message.chat().id(), "addbuilding"));
         SendMessage request;
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner le bâtiment que vous voulez ajouter");
         } else {
@@ -62,7 +62,7 @@ public class AddBuilding {
         if (AllBuilding.contains(building)) {
             response = buildingToListAddition(message.from().languageCode(), building, message.from().id());
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 response = "Ce bâtiment n'existe pas ou n'est pas dans ma base de données";
             } else {
                 response = "This building doesn't exist or isn't in my database";

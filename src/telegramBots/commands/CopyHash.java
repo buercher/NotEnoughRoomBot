@@ -39,7 +39,7 @@ public class CopyHash {
                         message.date(),
                         message.chat().id(), "copyhash"));
         SendMessage request;
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner le hash de la liste que vous voulez copier");
         } else {
@@ -63,7 +63,7 @@ public class CopyHash {
         int hash = Integer.parseInt(message.text());
         SendMessage request;
         if (rooms.values().stream().noneMatch(set -> set.hashCode() == hash)) {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(), "Je n'ai trouvé aucune liste avec ce hash");
             } else {
@@ -79,7 +79,7 @@ public class CopyHash {
                             message.chat().id(),
                             "copyhashmid",
                             List.of("", String.valueOf(hash))));
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la copie"
                                 + "\n ⚠️<b>Attention⚠️, cela va totalement remplacer votre liste actuelle</b>");
@@ -105,13 +105,13 @@ public class CopyHash {
     public static void confirm(Message message, int hash) {
         removeKeyboard(message);
         SendMessage request;
-        if (message.text().equals("CONFIRM")) {
+        if ("CONFIRM".equals(message.text())) {
             Set<String> set = new TreeSet<>();
             rooms.values().stream()
                     .filter(s -> s.hashCode() == hash).forEach(set::addAll);
             rooms.put(message.from().id(), set);
             updateUserFile();
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "La liste a été copiée avec succès");
@@ -121,7 +121,7 @@ public class CopyHash {
             }
 
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(
                         message.chat().id(),
                         "Copie annulée, refaites /copyhash pour vous voulez réessayer");

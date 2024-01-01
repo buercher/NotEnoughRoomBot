@@ -35,7 +35,7 @@ public class RemoveBuilding {
                         message.date(),
                         message.chat().id(), "removebuilding"));
         SendMessage request;
-        if (message.from().languageCode().equals("fr")) {
+        if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
                     message.chat().id(), "Merci de donner le bâtiment que vous voulez supprimer");
         } else {
@@ -62,7 +62,7 @@ public class RemoveBuilding {
         if (AllBuilding.contains(building)) {
             response = buildingToListDeletion(message.from().languageCode(), building, message.from().id());
         } else {
-            if (message.from().languageCode().equals("fr")) {
+            if ("fr".equals(message.from().languageCode())) {
                 response = "Ce bâtiment n'existe pas ou n'est pas dans ma base de données";
             } else {
                 response = "This building doesn't exist or isn't in my database";
