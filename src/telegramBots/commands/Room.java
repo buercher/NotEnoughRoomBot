@@ -52,7 +52,7 @@ public class Room {
             request = new SendMessage(
                     message.chat().id(), "Please give a room");
         }
-        request.disableNotification(true);
+        request.disableNotification(true).disableWebPagePreview(true);
         bot.execute(request);
     }
 
@@ -81,7 +81,7 @@ public class Room {
                             .callbackData("addRoom " + room),
                     new InlineKeyboardButton("➖")
                             .callbackData("removeRoom " + room)
-            )).parseMode(ParseMode.HTML).disableNotification(true);
+            )).parseMode(ParseMode.HTML).disableNotification(true).disableWebPagePreview(true);
             SendResponse response = bot.execute(sendMessage);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
@@ -98,7 +98,9 @@ public class Room {
                 messageText = "This room does not exist or does not have a public schedule\n" +
                         "/building for more information";
             }
-            sendMessage = new SendMessage(message.chat().id(), messageText).disableNotification(true);
+            sendMessage = new SendMessage(message.chat().id(), messageText)
+                    .disableNotification(true)
+                    .disableWebPagePreview(true);
             bot.execute(sendMessage);
 
         }
@@ -439,7 +441,8 @@ public class Room {
                         callbackQuery.message().messageId(),
                         messageText)
                         .parseMode(ParseMode.HTML)
-                        .replyMarkup(inlineKeyboard);
+                        .replyMarkup(inlineKeyboard)
+                        .disableWebPagePreview(true);
         bot.execute(editMessageText);
         if (!command.equals("search")) { //search is a special case since we don't want to override the time
             userOnWait.add(

@@ -56,6 +56,8 @@ public class Search {
                 request = new SendMessage(
                         message.chat().id(), "I couldn't find any list /create to create one");
             }
+            request.disableNotification(true)
+                    .disableWebPagePreview(true);
             bot.execute(request);
         } else if (rooms.get(message.from().id()).isEmpty()) {
             if (message.from().languageCode().equals("fr")) {
@@ -66,7 +68,7 @@ public class Search {
                 request = new SendMessage(
                         message.chat().id(), "Your list is empty, add rooms with the different commands");
             }
-            request.disableNotification(true);
+            request.disableNotification(true).disableWebPagePreview(true);
             bot.execute(request);
         } else {
             int hour = Instant.now().atZone(ZoneId.of("Europe/Paris")).getHour();
@@ -78,7 +80,8 @@ public class Search {
             }
             request = new SendMessage(
                     message.chat().id(), messageText)
-                    .replyMarkup(hourButton(hour, "SearchStart ")).disableNotification(true);
+                    .replyMarkup(hourButton(hour, "SearchStart "))
+                    .disableNotification(true).disableWebPagePreview(true);
             SendResponse response = bot.execute(request);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
@@ -109,7 +112,7 @@ public class Search {
         request = new EditMessageText(
                 callbackQuery.message().chat().id(),
                 callbackQuery.message().messageId(), messageText)
-                .replyMarkup(hourButton(startHour + 1, "SearchMid "));
+                .replyMarkup(hourButton(startHour + 1, "SearchMid ")).disableWebPagePreview(true);
         bot.execute(request);
         userOnWait.add(
                 new TelegramBotForOccupancy.MessageData(
@@ -148,7 +151,7 @@ public class Search {
             }
             request = new EditMessageText(
                     callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), messageText);
+                    callbackQuery.message().messageId(), messageText).disableWebPagePreview(true);
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -190,7 +193,7 @@ public class Search {
                     callbackQuery.message().chat().id(),
                     callbackQuery.message().messageId(), stringBuilder.toString())
                     .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
-                    .parseMode(ParseMode.HTML);
+                    .parseMode(ParseMode.HTML).disableWebPagePreview(true);
             bot.execute(request);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
@@ -239,7 +242,7 @@ public class Search {
             }
             request = new EditMessageText(
                     callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), messageText);
+                    callbackQuery.message().messageId(), messageText).disableWebPagePreview(true);
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -303,7 +306,7 @@ public class Search {
                     callbackQuery.message().chat().id(),
                     callbackQuery.message().messageId(), stringBuilder.toString())
                     .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
-                    .parseMode(ParseMode.HTML);
+                    .parseMode(ParseMode.HTML).disableWebPagePreview(true);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
                             callbackQuery.from().id(),
