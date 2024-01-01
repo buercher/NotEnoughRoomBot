@@ -58,7 +58,7 @@ public class Mylist {
             }
         }
         SendMessage request = new SendMessage(message.chat().id(), responseMessage);
-        request.parseMode(ParseMode.HTML);
+        request.parseMode(ParseMode.HTML).disableNotification(true);
         bot.execute(request);
     }
 }

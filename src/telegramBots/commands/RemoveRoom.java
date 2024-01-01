@@ -42,6 +42,7 @@ public class RemoveRoom {
             request = new SendMessage(
                     message.chat().id(), "Please give the room you want to remove");
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -67,7 +68,7 @@ public class RemoveRoom {
                 response = "This room doesn't exist or isn't in my database";
             }
         }
-        SendMessage request = new SendMessage(message.chat().id(), response);
+        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true);
         bot.execute(request);
     }
 }

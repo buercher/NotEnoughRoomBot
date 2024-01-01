@@ -42,6 +42,7 @@ public class AddBuilding {
             request = new SendMessage(
                     message.chat().id(), "Please give the building you want to add");
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -67,7 +68,7 @@ public class AddBuilding {
                 response = "This building doesn't exist or isn't in my database";
             }
         }
-        SendMessage request = new SendMessage(message.chat().id(), response);
+        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true);
         bot.execute(request);
     }
 }

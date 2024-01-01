@@ -46,6 +46,7 @@ public class CopyHash {
             request = new SendMessage(
                     message.chat().id(), "Please give the hash of the list you want to copy");
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -88,7 +89,7 @@ public class CopyHash {
                         + "\n <b>⚠️Warning⚠️, this will completely replace your current list</b>");
             }
         }
-        request.parseMode(ParseMode.HTML);
+        request.parseMode(ParseMode.HTML).disableNotification(true);
         bot.execute(request);
     }
 
@@ -129,6 +130,7 @@ public class CopyHash {
                         message.chat().id(), "Copy cancelled, redo /copyhash if you want to try again");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 }

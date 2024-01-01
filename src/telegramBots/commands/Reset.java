@@ -54,6 +54,7 @@ public class Reset {
                         message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the reset");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -92,6 +93,7 @@ public class Reset {
                         message.chat().id(), "Error, redo /reset to try again");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 }

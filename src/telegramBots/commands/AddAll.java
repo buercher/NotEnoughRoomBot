@@ -56,6 +56,7 @@ public class AddAll {
                         "Send \"CONFIRM\" (in all caps) to validate the addition of ALL rooms");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -95,6 +96,7 @@ public class AddAll {
                         message.chat().id(), "Error, redo /addall to try again");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 }

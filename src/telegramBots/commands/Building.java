@@ -41,7 +41,7 @@ public class Building {
     public static void command(Message message) {
         removeKeyboard(message);
         SendMessage request = new SendMessage(message.chat().id(), messageStartText(message.from().languageCode()));
-        request.replyMarkup(allBuildingInlineKeyboard());
+        request.replyMarkup(allBuildingInlineKeyboard()).disableNotification(true);
         SendResponse response = bot.execute(request);
         userOnWait.add(
                 new TelegramBotForOccupancy.MessageData(

@@ -52,6 +52,7 @@ public class Room {
             request = new SendMessage(
                     message.chat().id(), "Please give a room");
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -80,7 +81,7 @@ public class Room {
                             .callbackData("addRoom " + room),
                     new InlineKeyboardButton("➖")
                             .callbackData("removeRoom " + room)
-            )).parseMode(ParseMode.HTML);
+            )).parseMode(ParseMode.HTML).disableNotification(true);
             SendResponse response = bot.execute(sendMessage);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
@@ -97,7 +98,7 @@ public class Room {
                 messageText = "This room does not exist or does not have a public schedule\n" +
                         "/building for more information";
             }
-            sendMessage = new SendMessage(message.chat().id(), messageText);
+            sendMessage = new SendMessage(message.chat().id(), messageText).disableNotification(true);
             bot.execute(sendMessage);
 
         }

@@ -55,6 +55,7 @@ public class Delete {
                         message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the deletion");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -94,6 +95,7 @@ public class Delete {
                         message.chat().id(), "Error, redo /delete to try again");
             }
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 }

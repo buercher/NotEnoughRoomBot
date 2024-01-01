@@ -43,6 +43,7 @@ public class AddRoom {
             request = new SendMessage(
                     message.chat().id(), "Please give the room you want to add");
         }
+        request.disableNotification(true);
         bot.execute(request);
     }
 
@@ -72,7 +73,7 @@ public class AddRoom {
                 }
             }
         }
-        request = new SendMessage(message.chat().id(), response);
+        request = new SendMessage(message.chat().id(), response).disableNotification(true);
         bot.execute(request);
     }
 }

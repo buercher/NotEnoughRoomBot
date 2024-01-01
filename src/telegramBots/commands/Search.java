@@ -66,6 +66,7 @@ public class Search {
                 request = new SendMessage(
                         message.chat().id(), "Your list is empty, add rooms with the different commands");
             }
+            request.disableNotification(true);
             bot.execute(request);
         } else {
             int hour = Instant.now().atZone(ZoneId.of("Europe/Paris")).getHour();
@@ -77,7 +78,7 @@ public class Search {
             }
             request = new SendMessage(
                     message.chat().id(), messageText)
-                    .replyMarkup(hourButton(hour, "SearchStart "));
+                    .replyMarkup(hourButton(hour, "SearchStart ")).disableNotification(true);
             SendResponse response = bot.execute(request);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
