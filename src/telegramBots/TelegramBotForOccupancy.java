@@ -138,10 +138,15 @@ public class TelegramBotForOccupancy {
                                                     .replaceAll("RemoveBuildingToList ", ""));
 
                                 } else if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
-                                    Room.viewInfo(update.callbackQuery(),
-                                            update.callbackQuery().data()
-                                                    .replaceAll("ViewRoomInfo ", ""),
-                                            "building", "HaveListOfRoom ");
+                                    try {
+                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        Room.viewInfo(update.callbackQuery(),
+                                                update.callbackQuery().data()
+                                                        .replaceAll("ViewRoomInfo ", ""),
+                                                "building", "HaveListOfRoom ");
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
 
                                 } else if (update.callbackQuery().data().startsWith("addRoomFromViewRoomInfo ")) {
                                     Room.add(update.callbackQuery(),
@@ -161,10 +166,15 @@ public class TelegramBotForOccupancy {
                             case "roomInlined" -> {
                                 userOnWait.remove(request.get());
                                 if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
-                                    Room.viewInfo(update.callbackQuery(),
-                                            update.callbackQuery().data()
-                                                    .replaceAll("ViewRoomInfo ", ""),
-                                            "roomInlined", "Go Back To roomMid ");
+                                    try {
+                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        Room.viewInfo(update.callbackQuery(),
+                                                update.callbackQuery().data()
+                                                        .replaceAll("ViewRoomInfo ", ""),
+                                                "roomInlined", "Go Back To roomMid ");
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
 
                                 } else if (update.callbackQuery().data().startsWith("Go Back To roomMid ")) {
                                     Room.backToMid(update.callbackQuery(),
@@ -203,6 +213,7 @@ public class TelegramBotForOccupancy {
                                                     .replaceAll("SearchStart ", "")));
                                 } else if (update.callbackQuery().data().startsWith("SearchMid ")) {
                                     try {
+                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
                                         Search.searchResult(update.callbackQuery(),
                                                 Integer.parseInt(request.get().additionalProperties.get(1)),
                                                 Integer.parseInt(update.callbackQuery().data()
@@ -212,6 +223,7 @@ public class TelegramBotForOccupancy {
                                     }
                                 } else if (update.callbackQuery().data().startsWith("SearchEnd ")) {
                                     try {
+                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
                                         Search.searchResultOfBuilding(update.callbackQuery(),
                                                 Integer.parseInt(request.get().additionalProperties.get(1)),
                                                 Integer.parseInt(request.get().additionalProperties.get(2)),
@@ -222,11 +234,16 @@ public class TelegramBotForOccupancy {
                                     }
 
                                 } else if (update.callbackQuery().data().startsWith("SearchResult ")) {
-                                    Room.viewInfo(update.callbackQuery(),
-                                            update.callbackQuery().data()
-                                                    .replaceAll("SearchResult ", ""),
-                                            "search", "SearchEnd ");
-                                    userOnWait.add(request.get());
+                                    try {
+                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        Room.viewInfo(update.callbackQuery(),
+                                                update.callbackQuery().data()
+                                                        .replaceAll("SearchResult ", ""),
+                                                "search", "SearchEnd ");
+                                        userOnWait.add(request.get());
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 } else {
                                     throw new IllegalArgumentException(
                                             update.callbackQuery().data() + " is not a valid parameter for search");
