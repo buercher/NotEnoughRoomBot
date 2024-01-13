@@ -88,12 +88,31 @@ public class Building {
      * @return The inline keyboard with all buildings.
      */
     private static InlineKeyboardMarkup allBuildingInlineKeyboard() {
-        InlineKeyboardButton[][] inlineKeyboardButton = new InlineKeyboardButton[AllBuildingList.size() / 4][4];
+        InlineKeyboardButton[][] inlineKeyboardButtonBig =
+                new InlineKeyboardButton[AllBuildingList.size() / 4][4];
+        InlineKeyboardButton[] inlineKeyboardButtonSmall =
+                new InlineKeyboardButton[AllBuildingList.size() - inlineKeyboardButtonBig.length * 4];
         int count = 0;
         for (String building : AllBuildingList) {
-            inlineKeyboardButton[count >>> 2][count & 3] = new InlineKeyboardButton(building).callbackData(building);
+            if (!((count >>> 2) == inlineKeyboardButtonBig.length)) {
+                inlineKeyboardButtonBig[count >>> 2][count & 3] =
+                        new InlineKeyboardButton(building).callbackData(building);
+            } else {
+                inlineKeyboardButtonSmall[count & 3] =
+                        new InlineKeyboardButton(building).callbackData(building);
+            }
             count++;
         }
+        InlineKeyboardButton[][] inlineKeyboardButton;
+        if (inlineKeyboardButtonSmall.length != 0) {
+            inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length + 1][];
+            inlineKeyboardButton[inlineKeyboardButtonBig.length] = inlineKeyboardButtonSmall;
+        } else {
+            inlineKeyboardButton = new InlineKeyboardButton[inlineKeyboardButtonBig.length][];
+        }
+        System.arraycopy(
+                inlineKeyboardButtonBig, 0,
+                inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
         return new InlineKeyboardMarkup(inlineKeyboardButton);
     }
 
