@@ -60,7 +60,7 @@ public class TestEPFL {
             pbEPFL.step();
             pbEPFL.setExtraMessage(StringUtils.rightPad(" EPFL: " + path, 20));
             pbEPFL.refresh();
-            Thread.sleep(20+ (long) (Math.random() * 50));
+            Thread.sleep(20 + (long) (Math.random() * 50));
         }
         JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName, FOLDER_PATH);
         JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName, FOLDER_PATH);

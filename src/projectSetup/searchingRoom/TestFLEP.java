@@ -66,8 +66,7 @@ public class TestFLEP {
             try (Response response = client.newCall(request).execute()) {
                 if (response.code() == 404) {
                     roomNoSearchable.add(path);
-                }
-                else{
+                } else {
                     fromFLEP.add(path);
                 }
             }
