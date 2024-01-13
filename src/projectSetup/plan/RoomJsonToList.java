@@ -32,15 +32,15 @@ public class RoomJsonToList {
             "HELP DESK", "PATIENTS", "ATTENTE", "CHAMBRE NOIRE", "SECRETARIAT",
             "AUMONERIE", "DESSIN", "REUNION", "LIBRAIRIE", "CULTURE");
     private static final List<String> BUILDINGS = Arrays.asList(
-            "AAB", "AAC", "AAD", "AI", "ALO", "ALP", "ART", "AST", "AU", "B25A", "BAC", "BAF", "BAH", "BAP", "BAR",
-            "BCH", "BFFA", "BI", "BM", "BP", "BSP", "BS", "CAPU", "CCT", "CE", "CH", "CM", "COV", "CO", "CP1", "CRR",
-            "CSB", "CSN", "CSS", "CSV", "DIA", "DLLEL", "ECAL", "ELA", "ELB", "ELD", "ELE", "ELG", "ELH", "ELL", "CL",
-            "EPH", "EXTRA", "FBC", "BC", "FO", "G6", "GC", "GEO", "GO10", "GR", "H8", "HBL", "I17", "H4", "I19", "INF",
-            "INJ", "INM", "INN", "INR", "JO40", "JORD", "LE", "MA", "MC", "MED", "ME", "MXC", "MXD", "MXE", "MXF",
-            "MXG", "MXH", "NH", "ODY", "PL", "GA", "PO", "PPB", "PPH", "PH", "PSEA", "PSEB", "PSEC", "PSED", "PSEL",
-            "PS_QN", "PV", "QIE", "QIF", "QIG", "QIH", "QII", "QIJ", "QIK", "QIN", "QIO", "RLC", "B1", "SCT", "SF",
-            "SG", "SKIL", "SOS1", "SOS2", "SPN", "SPP", "SSH", "SS", "B3", "STCC", "STF", "STT", "SV", "TCV", "TRIC",
-            "TRIE", "TRIH", "VOR", "ZC", "ZD", "ZP", "AN");
+            "AAB", "AAC", "AAD", "AI", "ALO", "ALP", "ART", "AST", "SAUV", "AU", "B25A", "BAC", "BAF", "BAH", "BAP",
+            "BAR", "BCH", "BFFA", "BI", "BM", "BP", "BSP", "BS", "CAPU", "CCT", "CE", "CH", "CM", "COV", "CO", "CP1",
+            "CRR", "CSB", "CSN", "CSS", "CSV", "DIA", "DLLEL", "ECAL", "ELA", "ELB", "ELD", "ELE", "ELG", "ELH", "ELL",
+            "CL", "EPH", "EXTRA", "FBC", "BC", "FO", "G6", "GC", "GEN", "GEO", "GO10", "GR", "H8", "HBL", "I17", "H4",
+            "I19", "INF", "INJ", "INM", "INN", "INR", "JO40", "JORD", "LE", "MA", "MC", "MED", "ME", "MXC", "MXD",
+            "MXE", "MXF", "MXG", "MXH", "NH", "ODY", "PL", "GA", "PO", "PPB", "PPH", "PH", "PSEA", "PSEB", "PSEC",
+            "PSED", "PSEL", "PS_QN", "PV", "QIE", "QIF", "QIG", "QIH", "QII", "QIJ", "QIK", "QIN", "QIO", "RLC", "B1",
+            "SCT", "SF", "SG", "SKIL", "SOS1", "SOS2", "SPN", "SPP", "SSH", "SS", "B3", "STCC", "STF", "STT", "SV",
+            "TCV", "TRIC", "TRIE", "TRIH", "VOR", "ZC", "ZD", "ZP", "AN");
 
     /**
      * The RoomJsonToList constructor is private because this class is not meant to be instantiated.
