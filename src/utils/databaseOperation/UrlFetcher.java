@@ -1,5 +1,8 @@
 package utils.databaseOperation;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,14 +49,26 @@ public class UrlFetcher {
      */
     public static List<JSONObject> FLEP(String roomName) throws IOException {
         String urlString = "https://occupancy-backend-e150a8daef31.herokuapp.com/api/rooms/";
+        OkHttpClient client = new OkHttpClient();
 
-        JSONObject data = new JSONObject(Objects.requireNonNull(connect(urlString, roomName)));
-        JSONArray schedulesArray = data.getJSONArray("schedules");
+        Request request = new Request.Builder()
+                .url(urlString + roomName)
+                .get()
+                .addHeader("Origin", "https://occupancy.flep.ch")
+                .build();
 
-        List<JSONObject> schedulesList = new ArrayList<>();
-        schedulesArray.forEach(item -> schedulesList.add((JSONObject) item));
+        try (Response response = client.newCall(request).execute()) {
+            if (response.code() == 404) {
+                return null;
+            }
+            JSONObject data = new JSONObject(Objects.requireNonNull(response.body()).string());
 
-        return schedulesList;
+            JSONArray schedulesArray = data.getJSONArray("schedules");
+            List<JSONObject> schedulesList = new ArrayList<>();
+            schedulesArray.forEach(item -> schedulesList.add((JSONObject) item));
+
+            return schedulesList;
+        }
     }
 
     /**

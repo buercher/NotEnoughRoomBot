@@ -3,14 +3,13 @@ package projectSetup.searchingRoom;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.tongfei.progressbar.ProgressBar;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -57,13 +56,20 @@ public class TestFLEP {
             pbFLEP.stepBy(temp.size());
         }
         for (String path : paths) {
-            URL url = new URL(BASE_URL + path);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            try (BufferedReader ignored = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                fromFLEP.add(path);
-            } catch (java.io.FileNotFoundException e) {
-                roomNoSearchable.add(path);
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(BASE_URL + path)
+                    .get()
+                    .addHeader("Origin", "https://occupancy.flep.ch")
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.code() == 404) {
+                    roomNoSearchable.add(path);
+                }
+                else{
+                    fromFLEP.add(path);
+                }
             }
             pbFLEP.step();
             pbFLEP.setExtraMessage(StringUtils.rightPad(" FLEP: " + path, 20));

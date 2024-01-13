@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The FLEP class provides multiple methods for fetching data from the FLEP website.
@@ -70,14 +71,14 @@ public class FLEP {
             for (String path : paths) {
                 String filePath = DATABASE_PATH + FLEP_PREFIX + currentDateString + "/" + path;
                 List<JSONObject> schedules = UrlFetcher.FLEP(path);
-
-                for (JSONObject schedule : schedules) {
-                    String scheduleStartDate = schedule.getString("start").substring(0, 10);
-
-                    if (currentDateString.equals(scheduleStartDate)) {
-                        String scheduleStartHour = schedule.getString("start_datetime").substring(17, 19);
-                        String scheduleEndHour = schedule.getString("end_datetime").substring(17, 19);
-                        FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                if (Objects.nonNull(schedules)) {
+                    for (JSONObject schedule : schedules) {
+                        String scheduleStartDate = schedule.getString("start_datetime").substring(0, 10);
+                        if (currentDateString.equals(scheduleStartDate)) {
+                            String scheduleStartHour = schedule.getString("start_datetime").substring(11, 13);
+                            String scheduleEndHour = schedule.getString("end_datetime").substring(11, 13);
+                            FileOperation.appendToFile(filePath, scheduleStartHour + " " + scheduleEndHour);
+                        }
                     }
                 }
 
