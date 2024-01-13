@@ -75,7 +75,7 @@ public class SearchRoom {
             EPFLThread = new Thread(() -> {
                 try {
                     EPFLThreadProcess(files, pb);
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             });
@@ -98,7 +98,7 @@ public class SearchRoom {
      * @param files The files to be processed
      * @throws IOException If an I/O error occurs
      */
-    private static void EPFLThreadProcess(File[] files, ProgressBar pbEPFL) throws IOException {
+    private static void EPFLThreadProcess(File[] files, ProgressBar pbEPFL) throws IOException, InterruptedException {
         if (files != null) {
             for (File file : files) {
                 TestEPFL.test(file.getName(), pbEPFL);

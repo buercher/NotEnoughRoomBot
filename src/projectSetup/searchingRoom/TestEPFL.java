@@ -46,7 +46,7 @@ public class TestEPFL {
      * @throws IOException If an I/O error occurs
      * @see UrlFetcher#EPFL(String)
      */
-    public static void test(String buildingName, ProgressBar pbEPFL) throws IOException {
+    public static void test(String buildingName, ProgressBar pbEPFL) throws IOException, InterruptedException {
         Set<String> roomWithIssue = new HashSet<>();
         Set<String> fromEPFL = new HashSet<>();
         List<String> paths = fetchStringsFromFile("database/SetupData/RoomList/" + buildingName);
@@ -60,6 +60,7 @@ public class TestEPFL {
             pbEPFL.step();
             pbEPFL.setExtraMessage(StringUtils.rightPad(" EPFL: " + path, 20));
             pbEPFL.refresh();
+            Thread.sleep(20+ (long) (Math.random() * 50));
         }
         JsonFileWrite(roomWithIssue, "roomWithIssue/" + buildingName, FOLDER_PATH);
         JsonFileWrite(fromEPFL, "fromEPFL/" + buildingName, FOLDER_PATH);
