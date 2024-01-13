@@ -30,7 +30,7 @@ public class SearchRoom {
             "ELA", "ELD", "ELE", "ELG", "GC", "GR", "INF", "INJ", "INM", "INR", "MA",
             "ME", "MED", "MXC", "MXF", "MXG", "ODY", "PH", "PO", "RLC", "SG", "STCC");
     private static final Queue<File> fileQueue = new LinkedList<>();
-    private static final int AllCASES_ROOMS_COUNT = 31156;
+    private static final int AllCASES_ROOMS_COUNT = 31250;
     private static Thread EPFLThread;
     private static Thread FLEPThread;
 
