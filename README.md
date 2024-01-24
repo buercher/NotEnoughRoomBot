@@ -1,6 +1,7 @@
 # [@NotEnoughRoomBot](https://t.me/NotEnoughRoomBot)
 
-This project is a Telegram bot that helps users easily find room occupancy. With some added commands :D. 
+This project is a Telegram bot that helps users easily find room occupancy in the EPFL campus. 
+With some added commands :D. 
 It is made using the [java-telegram-bot-api](https://github.com/pengrad/java-telegram-bot-api) sdk
 
 ## Commands
@@ -25,5 +26,5 @@ It is made using the [java-telegram-bot-api](https://github.com/pengrad/java-tel
 
 ## Usage
 
-- (NOT NEEDED SINCE THE valisRoomData.json IS PROVIDED) Set up the project using the `EntireProjectSetup` class to get different ressources.
+- (NOT NEEDED SINCE THE validRoomData.json IS PROVIDED) Set up the project using the `EntireProjectSetup` class to get different ressources.
 - Run the main method in the `TelegramBotForOccupancy` class to start the bot.
