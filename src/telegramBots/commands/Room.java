@@ -78,13 +78,13 @@ public class Room {
             userOnWait.remove(messageData);
             sendMessage = new SendMessage(message.chat().id(), midMessageText(message.from().languageCode(), room));
             sendMessage.replyMarkup(new InlineKeyboardMarkup(
-                    new InlineKeyboardButton("📋")
-                            .callbackData("ViewRoomInfo " + room),
-                    new InlineKeyboardButton("➕")
-                            .callbackData("addRoom " + room),
-                    new InlineKeyboardButton("➖")
-                            .callbackData("removeRoom " + room)
-            )).parseMode(ParseMode.HTML).disableNotification(true).disableWebPagePreview(true)
+                            new InlineKeyboardButton("📋")
+                                    .callbackData("ViewRoomInfo " + room),
+                            new InlineKeyboardButton("➕")
+                                    .callbackData("addRoom " + room),
+                            new InlineKeyboardButton("➖")
+                                    .callbackData("removeRoom " + room)
+                    )).parseMode(ParseMode.HTML).disableNotification(true).disableWebPagePreview(true)
                     .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             SendResponse response = bot.execute(sendMessage);
             userOnWait.add(

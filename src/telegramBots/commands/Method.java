@@ -36,7 +36,7 @@ public class Method {
             boolean shouldRemove =
                     Objects.equals(messageData.UserId(), message.from().id()) &&
                             Objects.equals(messageData.ChatId(), message.chat().id()) &&
-                                    Objects.equals(messageData.ThreadId(), message.messageThreadId());
+                            Objects.equals(messageData.ThreadId(), message.messageThreadId());
             if (shouldRemove && !messageData.additionalProperties().isEmpty()) {
                 if (!Objects.equals(messageData.additionalProperties().get(0), "")) {
                     EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup(
