@@ -34,7 +34,9 @@ public class AddRoom {
                 new TelegramBotForOccupancy.MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "addroom"));
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "addroom"));
         SendMessage request;
         if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
@@ -43,7 +45,8 @@ public class AddRoom {
             request = new SendMessage(
                     message.chat().id(), "Please give the room you want to add");
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -73,7 +76,8 @@ public class AddRoom {
                 }
             }
         }
-        request = new SendMessage(message.chat().id(), response).disableNotification(true);
+        request = new SendMessage(message.chat().id(), response).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

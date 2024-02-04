@@ -46,7 +46,9 @@ public class AddAll {
                     new TelegramBotForOccupancy.MessageData(
                             message.from().id(),
                             message.date(),
-                            message.chat().id(), "addall"));
+                            message.chat().id(),
+                            message.messageThreadId(),
+                            "addall"));
             if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider l'ajout de TOUTES les salles");
@@ -56,7 +58,8 @@ public class AddAll {
                         "Send \"CONFIRM\" (in all caps) to validate the addition of ALL rooms");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -96,7 +99,8 @@ public class AddAll {
                         message.chat().id(), "Error, redo /addall to try again");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

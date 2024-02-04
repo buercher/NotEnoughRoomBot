@@ -102,9 +102,16 @@ public class TelegramBotForOccupancy {
 
                     Optional<MessageData> request = userOnWait.stream()
                             .filter(l ->
-                                    Objects.equals(l.UserId(), update.callbackQuery().from().id()) &&
-                                            Objects.equals(l.ChatId, update.callbackQuery().message().chat().id()) &&
-                                            Objects.equals(l.additionalProperties.get(0),
+                                    Objects.equals(
+                                            l.UserId(), update.callbackQuery().from().id()) &&
+                                            Objects.equals(
+                                                    l.ChatId(),
+                                                    update.callbackQuery().message().chat().id()) &&
+                                            Objects.equals(
+                                                    l.ThreadId(),
+                                                    update.callbackQuery().message().messageThreadId()) &&
+                                            Objects.equals(
+                                                    l.additionalProperties().get(0),
                                                     update.callbackQuery().message().messageId().toString()))
                             .findFirst();
                     if (request.isPresent()) {
@@ -288,7 +295,8 @@ public class TelegramBotForOccupancy {
                                 Optional<MessageData> request =
                                         userOnWait.stream().filter(l ->
                                                         Objects.equals(l.UserId(), message.from().id()) &&
-                                                                Objects.equals(l.ChatId, message.chat().id()))
+                                                                Objects.equals(l.ChatId(), message.chat().id()) &&
+                                                                Objects.equals(l.ThreadId(), message.messageThreadId()))
                                                 .findFirst();
                                 if (request.isPresent()) {
                                     String command = request.get().command;
@@ -326,17 +334,19 @@ public class TelegramBotForOccupancy {
      * @param additionalProperties A list of additional properties related to the message and/or command.
      */
     public record MessageData(
-            Long UserId, Integer date, Long ChatId, String command, List<String> additionalProperties) {
+            Long UserId, Integer date, Long ChatId, Integer ThreadId, String command,
+            List<String> additionalProperties) {
         /**
          * Constructs of MessageData when there are no Additional Properties.
          *
-         * @param UserId  The unique identifier of the user who sent the message.
-         * @param date    The date when the message was sent.
-         * @param ChatId  The unique identifier of the chat where the message was sent.
-         * @param command The command associated with the message.
+         * @param UserId   The unique identifier of the user who sent the message.
+         * @param date     The date when the message was sent.
+         * @param ChatId   The unique identifier of the chat where the message was sent.
+         * @param ThreadId The unique identifier of the Thread where the message was sent.
+         * @param command  The command associated with the message.
          */
-        public MessageData(Long UserId, Integer date, Long ChatId, String command) {
-            this(UserId, date, ChatId, command, new ArrayList<>());
+        public MessageData(Long UserId, Integer date, Long ChatId, Integer ThreadId, String command) {
+            this(UserId, date, ChatId, ThreadId, command, new ArrayList<>());
         }
     }
 }

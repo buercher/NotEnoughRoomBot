@@ -43,7 +43,9 @@ public class Room {
                 new TelegramBotForOccupancy.MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "room"));
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "room"));
         SendMessage request;
         if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
@@ -52,7 +54,8 @@ public class Room {
             request = new SendMessage(
                     message.chat().id(), "Please give a room");
         }
-        request.disableNotification(true).disableWebPagePreview(true);
+        request.disableNotification(true).disableWebPagePreview(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -81,13 +84,16 @@ public class Room {
                             .callbackData("addRoom " + room),
                     new InlineKeyboardButton("➖")
                             .callbackData("removeRoom " + room)
-            )).parseMode(ParseMode.HTML).disableNotification(true).disableWebPagePreview(true);
+            )).parseMode(ParseMode.HTML).disableNotification(true).disableWebPagePreview(true)
+                    .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             SendResponse response = bot.execute(sendMessage);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
                             message.from().id(),
                             message.date(),
-                            message.chat().id(), "roomInlined",
+                            message.chat().id(),
+                            message.messageThreadId(),
+                            "roomInlined",
                             List.of(response.message().messageId().toString())));
         } else {
             String messageText;
@@ -100,7 +106,8 @@ public class Room {
             }
             sendMessage = new SendMessage(message.chat().id(), messageText)
                     .disableNotification(true)
-                    .disableWebPagePreview(true);
+                    .disableWebPagePreview(true)
+                    .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             bot.execute(sendMessage);
 
         }
@@ -449,7 +456,9 @@ public class Room {
                     new MessageData(
                             callbackQuery.from().id(),
                             callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(), command,
+                            callbackQuery.message().chat().id(),
+                            callbackQuery.message().messageThreadId(),
+                            command,
                             List.of(callbackQuery.message().messageId().toString())));
         }
     }

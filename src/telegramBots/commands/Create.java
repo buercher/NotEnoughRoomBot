@@ -56,7 +56,8 @@ public class Create {
                         "You can now add rooms using /room or /building.");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

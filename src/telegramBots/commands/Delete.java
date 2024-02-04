@@ -46,7 +46,9 @@ public class Delete {
                     new TelegramBotForOccupancy.MessageData(
                             message.from().id(),
                             message.date(),
-                            message.chat().id(), "delete"));
+                            message.chat().id(),
+                            message.messageThreadId(),
+                            "delete"));
             if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la suppression");
@@ -55,7 +57,8 @@ public class Delete {
                         message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the deletion");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -95,7 +98,8 @@ public class Delete {
                         message.chat().id(), "Error, redo /delete to try again");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

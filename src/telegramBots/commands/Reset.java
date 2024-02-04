@@ -45,7 +45,9 @@ public class Reset {
                     new MessageData(
                             message.from().id(),
                             message.date(),
-                            message.chat().id(), "reset"));
+                            message.chat().id(),
+                            message.messageThreadId(),
+                            "reset"));
             if ("fr".equals(message.from().languageCode())) {
                 request = new SendMessage(message.chat().id(),
                         "Envoyez \"CONFIRM\" (en majuscule) pour valider la réinitialisation");
@@ -54,7 +56,8 @@ public class Reset {
                         message.chat().id(), "Send \"CONFIRM\" (in all caps) to validate the reset");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -93,7 +96,8 @@ public class Reset {
                         message.chat().id(), "Error, redo /reset to try again");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

@@ -53,7 +53,8 @@ public class GetHash {
                                 rooms.get(message.from().id()).hashCode() + " </code>");
             }
         }
-        request.parseMode(ParseMode.HTML).disableNotification(true);
+        request.parseMode(ParseMode.HTML).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

@@ -45,7 +45,8 @@ public class AllBuildings {
                 String.format("%s\n<strong>%s</strong>\n%s", (Object[]) language);
 
         SendMessage request = new SendMessage(message.chat().id(), responseMessage);
-        request.parseMode(ParseMode.HTML).disableNotification(true);
+        request.parseMode(ParseMode.HTML).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

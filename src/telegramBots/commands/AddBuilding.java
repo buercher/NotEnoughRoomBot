@@ -33,7 +33,9 @@ public class AddBuilding {
                 new MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "addbuilding"));
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "addbuilding"));
         SendMessage request;
         if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
@@ -42,7 +44,8 @@ public class AddBuilding {
             request = new SendMessage(
                     message.chat().id(), "Please give the building you want to add");
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -68,7 +71,8 @@ public class AddBuilding {
                 response = "This building doesn't exist or isn't in my database";
             }
         }
-        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true);
+        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

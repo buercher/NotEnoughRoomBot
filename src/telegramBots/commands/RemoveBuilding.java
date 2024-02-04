@@ -33,7 +33,9 @@ public class RemoveBuilding {
                 new MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "removebuilding"));
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "removebuilding"));
         SendMessage request;
         if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
@@ -42,7 +44,8 @@ public class RemoveBuilding {
             request = new SendMessage(
                     message.chat().id(), "Please give the building you want to remove");
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -68,7 +71,8 @@ public class RemoveBuilding {
                 response = "This building doesn't exist or isn't in my database";
             }
         }
-        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true);
+        SendMessage request = new SendMessage(message.chat().id(), response).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }

@@ -41,13 +41,16 @@ public class Building {
     public static void command(Message message) {
         removeKeyboard(message);
         SendMessage request = new SendMessage(message.chat().id(), messageStartText(message.from().languageCode()));
-        request.replyMarkup(allBuildingInlineKeyboard()).disableNotification(true).disableWebPagePreview(true);
+        request.replyMarkup(allBuildingInlineKeyboard()).disableNotification(true).disableWebPagePreview(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         SendResponse response = bot.execute(request);
         userOnWait.add(
                 new TelegramBotForOccupancy.MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "building",
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "building",
                         List.of(response.message().messageId().toString())));
     }
 
@@ -364,7 +367,9 @@ public class Building {
                 new MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "building",
+                        callbackQuery.message().chat().id(),
+                        callbackQuery.message().messageThreadId(),
+                        "building",
                         List.of(callbackQuery.message().messageId().toString())));
     }
 }

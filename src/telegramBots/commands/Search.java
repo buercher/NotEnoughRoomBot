@@ -57,7 +57,8 @@ public class Search {
                         message.chat().id(), "I couldn't find any list /create to create one");
             }
             request.disableNotification(true)
-                    .disableWebPagePreview(true);
+                    .disableWebPagePreview(true)
+                    .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             bot.execute(request);
         } else if (rooms.get(message.from().id()).isEmpty()) {
             if ("fr".equals(message.from().languageCode())) {
@@ -68,7 +69,8 @@ public class Search {
                 request = new SendMessage(
                         message.chat().id(), "Your list is empty, add rooms with the different commands");
             }
-            request.disableNotification(true).disableWebPagePreview(true);
+            request.disableNotification(true).disableWebPagePreview(true)
+                    .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             bot.execute(request);
         } else {
             int hour = Instant.now().atZone(ZoneId.of("Europe/Paris")).getHour();
@@ -81,13 +83,16 @@ public class Search {
             request = new SendMessage(
                     message.chat().id(), messageText)
                     .replyMarkup(hourButton(hour, "SearchStart "))
-                    .disableNotification(true).disableWebPagePreview(true);
+                    .disableNotification(true).disableWebPagePreview(true)
+                    .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
             SendResponse response = bot.execute(request);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
                             message.from().id(),
                             message.date(),
-                            message.chat().id(), "search",
+                            message.chat().id(),
+                            message.messageThreadId(),
+                            "search",
                             List.of(String.valueOf(response.message().messageId()))));
         }
     }
@@ -118,7 +123,9 @@ public class Search {
                 new TelegramBotForOccupancy.MessageData(
                         callbackQuery.from().id(),
                         callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(), "search",
+                        callbackQuery.message().chat().id(),
+                        callbackQuery.message().messageThreadId(),
+                        "search",
                         List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour))));
 
     }
@@ -199,7 +206,9 @@ public class Search {
                     new TelegramBotForOccupancy.MessageData(
                             callbackQuery.from().id(),
                             callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(), "search",
+                            callbackQuery.message().chat().id(),
+                            callbackQuery.message().messageThreadId(),
+                            "search",
                             List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
                                     String.valueOf(endHour))));
         }
@@ -311,7 +320,9 @@ public class Search {
                     new TelegramBotForOccupancy.MessageData(
                             callbackQuery.from().id(),
                             callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(), "search",
+                            callbackQuery.message().chat().id(),
+                            callbackQuery.message().messageThreadId(),
+                            "search",
                             List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
                                     String.valueOf(endHour), building)));
             bot.execute(request);

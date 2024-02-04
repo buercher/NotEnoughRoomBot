@@ -37,7 +37,9 @@ public class CopyHash {
                 new TelegramBotForOccupancy.MessageData(
                         message.from().id(),
                         message.date(),
-                        message.chat().id(), "copyhash"));
+                        message.chat().id(),
+                        message.messageThreadId(),
+                        "copyhash"));
         SendMessage request;
         if ("fr".equals(message.from().languageCode())) {
             request = new SendMessage(
@@ -46,7 +48,8 @@ public class CopyHash {
             request = new SendMessage(
                     message.chat().id(), "Please give the hash of the list you want to copy");
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -77,6 +80,7 @@ public class CopyHash {
                             message.from().id(),
                             message.date(),
                             message.chat().id(),
+                            message.messageThreadId(),
                             "copyhashmid",
                             List.of("", String.valueOf(hash))));
             if ("fr".equals(message.from().languageCode())) {
@@ -89,7 +93,8 @@ public class CopyHash {
                         + "\n <b>⚠️Warning⚠️, this will completely replace your current list</b>");
             }
         }
-        request.parseMode(ParseMode.HTML).disableNotification(true);
+        request.parseMode(ParseMode.HTML).disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 
@@ -130,7 +135,8 @@ public class CopyHash {
                         message.chat().id(), "Copy cancelled, redo /copyhash if you want to try again");
             }
         }
-        request.disableNotification(true);
+        request.disableNotification(true)
+                .messageThreadId(message.messageThreadId() == null ? 0 : message.messageThreadId());
         bot.execute(request);
     }
 }
