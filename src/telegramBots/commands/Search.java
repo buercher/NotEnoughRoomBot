@@ -142,9 +142,8 @@ public class Search {
      * @param callbackQuery The callback query received from the user. It contains the user's ID and chat ID.
      * @param startHour     The start hour for the room search selected by the user.
      * @param endHour       The end hour for the room search selected by the user.
-     * @throws IOException If an I/O error occurs during the building count operation.
      */
-    public static void searchResult(CallbackQuery callbackQuery, int startHour, int endHour) throws IOException {
+    public static void searchResult(CallbackQuery callbackQuery, int startHour, int endHour) {
         EditMessageText request;
 
         Map<String, Integer> buildingCount = GetRoomAvailability.buildingCount(

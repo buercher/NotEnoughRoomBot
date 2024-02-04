@@ -2,7 +2,6 @@ package telegramBots;
 
 import utils.jsonObjects.Datajson;
 
-import java.io.IOException;
 import java.util.*;
 
 import static telegramBots.TelegramBotForOccupancy.dataJson;
@@ -30,7 +29,7 @@ public class GetRoomAvailability {
      * @return A map with two keys (EPFL and FLEP),
      * each containing a list of available rooms from the respective source.
      */
-    public static Map<String, List<String>> search(Set<String> listOfRoom, int Start, int End) throws IOException {
+    public static Map<String, List<String>> search(Set<String> listOfRoom, int Start, int End) {
         Map<String, List<String>> roomsList = new TreeMap<>(Map.of(
                 "EPFL", new ArrayList<>(),
                 "FLEP", new ArrayList<>()));

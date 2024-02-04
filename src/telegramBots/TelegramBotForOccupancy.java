@@ -26,17 +26,17 @@ import java.util.*;
 public class TelegramBotForOccupancy {
 
     public static Set<MessageData> userOnWait;
-    public static File userOnWaitJson = new File("database/UserData/UserOnWait.json");
+    public static final File userOnWaitJson = new File("database/UserData/UserOnWait.json");
 
     public static Map<Long, Set<String>> rooms;
     public static List<JsonRoomArchitecture> validRoomData;
     public static Map<String, Datajson> dataJson;
     // Replace "YOUR_BOT_TOKEN" with your actual bot token
-    public static TelegramBot bot = new TelegramBot("YOUR_BOT_TOKEN");
-    public static Set<String> AllBuilding = new TreeSet<>();
-    public static Set<String> AllRooms = new TreeSet<>();
-    public static List<String> AllBuildingList = new ArrayList<>();
-    public static File UserDataJson = new File("database/UserData/UserData.json");
+    public static TelegramBot bot;
+    public static final Set<String> AllBuilding = new TreeSet<>();
+    public static final Set<String> AllRooms = new TreeSet<>();
+    public static final List<String> AllBuildingList = new ArrayList<>();
+    public static final File UserDataJson = new File("database/UserData/UserData.json");
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -48,7 +48,7 @@ public class TelegramBotForOccupancy {
      * Main method for the Telegram Bot.
      */
     public static void main(String[] args) throws IOException {
-
+        bot= new TelegramBot(args[0]);
         File validRoomDataFile = new File("database/validRoomData.json");
 
         TypeReference<List<JsonRoomArchitecture>> typeRefValidRoom = new TypeReference<>() {
