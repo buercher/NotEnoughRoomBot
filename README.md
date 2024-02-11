@@ -28,3 +28,4 @@ It is made using the [java-telegram-bot-api](https://github.com/pengrad/java-tel
 
 - (NOT NEEDED SINCE THE validRoomData.json IS PROVIDED) Set up the project using the `EntireProjectSetup` class to get different ressources.
 - Run the main method in the `TelegramBotForOccupancy` class to start the bot.
+  - You need to put your bot token in the program arguments.
