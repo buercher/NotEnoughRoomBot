@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Main class for the Telegram Bot.
@@ -31,7 +32,7 @@ public class TelegramBotForOccupancy {
     public static Map<Long, Set<String>> rooms;
     public static List<JsonRoomArchitecture> validRoomData;
     public static Map<String, Datajson> dataJson;
-    // Replace "YOUR_BOT_TOKEN" with your actual bot token
+
     public static TelegramBot bot;
     public static final Set<String> AllBuilding = new TreeSet<>();
     public static final Set<String> AllRooms = new TreeSet<>();
@@ -59,8 +60,8 @@ public class TelegramBotForOccupancy {
         File DataJsonFile = new File("database/data.json");
         TypeReference<Map<String, Datajson>> typeRefDataJson = new TypeReference<>() {
         };
-        String dataJsonString = Files.readString(DataJsonFile.toPath());
-        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+        AtomicReference<String> dataJsonString = new AtomicReference<>(Files.readString(DataJsonFile.toPath()));
+        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
 
 
         validRoomData.forEach(validRooms -> {
@@ -146,7 +147,8 @@ public class TelegramBotForOccupancy {
 
                                 } else if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
                                     try {
-                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        dataJsonString.set(Files.readString(DataJsonFile.toPath()));
+                                        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
                                         Room.viewInfo(update.callbackQuery(),
                                                 update.callbackQuery().data()
                                                         .replaceAll("ViewRoomInfo ", ""),
@@ -174,7 +176,8 @@ public class TelegramBotForOccupancy {
                                 userOnWait.remove(request.get());
                                 if (update.callbackQuery().data().startsWith("ViewRoomInfo ")) {
                                     try {
-                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        dataJsonString.set(Files.readString(DataJsonFile.toPath()));
+                                        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
                                         Room.viewInfo(update.callbackQuery(),
                                                 update.callbackQuery().data()
                                                         .replaceAll("ViewRoomInfo ", ""),
@@ -220,7 +223,8 @@ public class TelegramBotForOccupancy {
                                                     .replaceAll("SearchStart ", "")));
                                 } else if (update.callbackQuery().data().startsWith("SearchMid ")) {
                                     try {
-                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        dataJsonString.set(Files.readString(DataJsonFile.toPath()));
+                                        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
                                         Search.searchResult(update.callbackQuery(),
                                                 Integer.parseInt(request.get().additionalProperties.get(1)),
                                                 Integer.parseInt(update.callbackQuery().data()
@@ -230,7 +234,8 @@ public class TelegramBotForOccupancy {
                                     }
                                 } else if (update.callbackQuery().data().startsWith("SearchEnd ")) {
                                     try {
-                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        dataJsonString.set(Files.readString(DataJsonFile.toPath()));
+                                        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
                                         Search.searchResultOfBuilding(update.callbackQuery(),
                                                 Integer.parseInt(request.get().additionalProperties.get(1)),
                                                 Integer.parseInt(request.get().additionalProperties.get(2)),
@@ -242,7 +247,8 @@ public class TelegramBotForOccupancy {
 
                                 } else if (update.callbackQuery().data().startsWith("SearchResult ")) {
                                     try {
-                                        dataJson = new ObjectMapper().readValue(dataJsonString, typeRefDataJson);
+                                        dataJsonString.set(Files.readString(DataJsonFile.toPath()));
+                                        dataJson = new ObjectMapper().readValue(dataJsonString.get(), typeRefDataJson);
                                         Room.viewInfo(update.callbackQuery(),
                                                 update.callbackQuery().data()
                                                         .replaceAll("SearchResult ", ""),
