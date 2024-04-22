@@ -227,12 +227,11 @@ public class Search {
      * @param startHour     The start hour for the room search selected by the user.
      * @param endHour       The end hour for the room search selected by the user.
      * @param building      The building for the room search selected by the user.
-     * @throws IOException If an I/O error occurs during the room availability search operation.
      */
     public static void searchResultOfBuilding(CallbackQuery callbackQuery,
                                               int startHour,
                                               int endHour,
-                                              String building) throws IOException {
+                                              String building) {
         EditMessageText request;
         Set<String> roomOfBuilding = new TreeSet<>();
         validRoomData.stream().filter(r ->
