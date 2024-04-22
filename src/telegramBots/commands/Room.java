@@ -444,8 +444,8 @@ public class Room {
                                       String messageText, InlineKeyboardMarkup inlineKeyboard, String command) {
         EditMessageText editMessageText =
                 new EditMessageText(
-                        callbackQuery.message().chat().id(),
-                        callbackQuery.message().messageId(),
+                        callbackQuery.maybeInaccessibleMessage().chat().id(),
+                        callbackQuery.maybeInaccessibleMessage().messageId(),
                         messageText)
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(inlineKeyboard)
@@ -455,11 +455,11 @@ public class Room {
             userOnWait.add(
                     new MessageData(
                             callbackQuery.from().id(),
-                            callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(),
-                            callbackQuery.message().messageThreadId(),
+                            callbackQuery.maybeInaccessibleMessage().date(),
+                            callbackQuery.maybeInaccessibleMessage().chat().id(),
+                            ((Message) callbackQuery.maybeInaccessibleMessage()).messageThreadId(),
                             command,
-                            List.of(callbackQuery.message().messageId().toString())));
+                            List.of(callbackQuery.maybeInaccessibleMessage().messageId().toString())));
         }
     }
 }

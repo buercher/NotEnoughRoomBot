@@ -107,13 +107,15 @@ public class TelegramBotForOccupancy {
                                             l.UserId(), update.callbackQuery().from().id()) &&
                                             Objects.equals(
                                                     l.ChatId(),
-                                                    update.callbackQuery().message().chat().id()) &&
+                                                    update.callbackQuery().maybeInaccessibleMessage().chat().id()) &&
                                             Objects.equals(
                                                     l.ThreadId(),
-                                                    update.callbackQuery().message().messageThreadId()) &&
+                                                    ((Message) update.callbackQuery()
+                                                            .maybeInaccessibleMessage()).messageThreadId()) &&
                                             Objects.equals(
                                                     l.additionalProperties().get(0),
-                                                    update.callbackQuery().message().messageId().toString()))
+                                                    update.callbackQuery().maybeInaccessibleMessage()
+                                                            .messageId().toString()))
                             .findFirst();
                     if (request.isPresent()) {
                         switch (request.get().command) {

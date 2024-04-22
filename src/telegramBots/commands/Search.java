@@ -11,7 +11,6 @@ import com.pengrad.telegrambot.response.SendResponse;
 import telegramBots.GetRoomAvailability;
 import telegramBots.TelegramBotForOccupancy;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
@@ -115,18 +114,19 @@ public class Search {
             messageText = "Starting hours: " + startHour + "h\nChoose an end hour ";
         }
         request = new EditMessageText(
-                callbackQuery.message().chat().id(),
-                callbackQuery.message().messageId(), messageText)
+                callbackQuery.maybeInaccessibleMessage().chat().id(),
+                callbackQuery.maybeInaccessibleMessage().messageId(), messageText)
                 .replyMarkup(hourButton(startHour + 1, "SearchMid ")).disableWebPagePreview(true);
         bot.execute(request);
         userOnWait.add(
                 new TelegramBotForOccupancy.MessageData(
                         callbackQuery.from().id(),
-                        callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(),
-                        callbackQuery.message().messageThreadId(),
+                        callbackQuery.maybeInaccessibleMessage().date(),
+                        callbackQuery.maybeInaccessibleMessage().chat().id(),
+                        ((Message) callbackQuery.maybeInaccessibleMessage()).messageThreadId(),
                         "search",
-                        List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour))));
+                        List.of(String.valueOf(
+                                callbackQuery.maybeInaccessibleMessage().messageId()), String.valueOf(startHour))));
 
     }
 
@@ -156,8 +156,8 @@ public class Search {
                 messageText = "I couldn't find a single room on your list that satisfied your time frame :(";
             }
             request = new EditMessageText(
-                    callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), messageText).disableWebPagePreview(true);
+                    callbackQuery.maybeInaccessibleMessage().chat().id(),
+                    callbackQuery.maybeInaccessibleMessage().messageId(), messageText).disableWebPagePreview(true);
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -196,19 +196,20 @@ public class Search {
                     inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
 
             request = new EditMessageText(
-                    callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), stringBuilder.toString())
+                    callbackQuery.maybeInaccessibleMessage().chat().id(),
+                    callbackQuery.maybeInaccessibleMessage().messageId(), stringBuilder.toString())
                     .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
                     .parseMode(ParseMode.HTML).disableWebPagePreview(true);
             bot.execute(request);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
                             callbackQuery.from().id(),
-                            callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(),
-                            callbackQuery.message().messageThreadId(),
+                            callbackQuery.maybeInaccessibleMessage().date(),
+                            callbackQuery.maybeInaccessibleMessage().chat().id(),
+                            ((Message) callbackQuery.maybeInaccessibleMessage()).messageThreadId(),
                             "search",
-                            List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
+                            List.of(String.valueOf(
+                                    callbackQuery.maybeInaccessibleMessage().messageId()), String.valueOf(startHour),
                                     String.valueOf(endHour))));
         }
     }
@@ -249,8 +250,8 @@ public class Search {
                         "\n You shouldn't see this message please report this bug";
             }
             request = new EditMessageText(
-                    callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), messageText).disableWebPagePreview(true);
+                    callbackQuery.maybeInaccessibleMessage().chat().id(),
+                    callbackQuery.maybeInaccessibleMessage().messageId(), messageText).disableWebPagePreview(true);
             bot.execute(request);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -311,18 +312,19 @@ public class Search {
                     inlineKeyboardButtonBig, 0,
                     inlineKeyboardButton, 0, inlineKeyboardButtonBig.length);
             request = new EditMessageText(
-                    callbackQuery.message().chat().id(),
-                    callbackQuery.message().messageId(), stringBuilder.toString())
+                    callbackQuery.maybeInaccessibleMessage().chat().id(),
+                    callbackQuery.maybeInaccessibleMessage().messageId(), stringBuilder.toString())
                     .replyMarkup(new InlineKeyboardMarkup(inlineKeyboardButton))
                     .parseMode(ParseMode.HTML).disableWebPagePreview(true);
             userOnWait.add(
                     new TelegramBotForOccupancy.MessageData(
                             callbackQuery.from().id(),
-                            callbackQuery.message().date(),
-                            callbackQuery.message().chat().id(),
-                            callbackQuery.message().messageThreadId(),
+                            callbackQuery.maybeInaccessibleMessage().date(),
+                            callbackQuery.maybeInaccessibleMessage().chat().id(),
+                            ((Message) callbackQuery.maybeInaccessibleMessage()).messageThreadId(),
                             "search",
-                            List.of(String.valueOf(callbackQuery.message().messageId()), String.valueOf(startHour),
+                            List.of(String.valueOf(
+                                    callbackQuery.maybeInaccessibleMessage().messageId()), String.valueOf(startHour),
                                     String.valueOf(endHour), building)));
             bot.execute(request);
         }

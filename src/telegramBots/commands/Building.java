@@ -356,8 +356,8 @@ public class Building {
                                       String messageText, InlineKeyboardMarkup inlineKeyboard) {
         EditMessageText editMessageText =
                 new EditMessageText(
-                        callbackQuery.message().chat().id(),
-                        callbackQuery.message().messageId(),
+                        callbackQuery.maybeInaccessibleMessage().chat().id(),
+                        callbackQuery.maybeInaccessibleMessage().messageId(),
                         messageText)
                         .parseMode(ParseMode.HTML)
                         .replyMarkup(inlineKeyboard)
@@ -366,10 +366,10 @@ public class Building {
         userOnWait.add(
                 new MessageData(
                         callbackQuery.from().id(),
-                        callbackQuery.message().date(),
-                        callbackQuery.message().chat().id(),
-                        callbackQuery.message().messageThreadId(),
+                        callbackQuery.maybeInaccessibleMessage().date(),
+                        callbackQuery.maybeInaccessibleMessage().chat().id(),
+                        ((Message) callbackQuery.maybeInaccessibleMessage()).messageThreadId(),
                         "building",
-                        List.of(callbackQuery.message().messageId().toString())));
+                        List.of(callbackQuery.maybeInaccessibleMessage().messageId().toString())));
     }
 }
