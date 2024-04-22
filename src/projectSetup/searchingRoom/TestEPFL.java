@@ -1,7 +1,7 @@
 package projectSetup.searchingRoom;
 
 import me.tongfei.progressbar.ProgressBar;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import utils.databaseOperation.UrlFetcher;
 
 import java.io.IOException;

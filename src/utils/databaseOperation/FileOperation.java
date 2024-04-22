@@ -1,7 +1,7 @@
 package utils.databaseOperation;
 
 import me.tongfei.progressbar.ProgressBar;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import telegramBots.hoursSearch.MergeRanges;
 
 import java.io.File;

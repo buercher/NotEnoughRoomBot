@@ -3,7 +3,7 @@ package projectSetup;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import projectSetup.searchingRoom.TestEPFL;
 import projectSetup.searchingRoom.TestFLEP;
 import utils.databaseOperation.FolderOperation;
