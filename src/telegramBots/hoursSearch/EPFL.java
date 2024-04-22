@@ -93,7 +93,7 @@ public class EPFL {
                 }
 
                 int startIndex = data.indexOf(EVENTS_START);
-                int endIndex = data.indexOf(";", startIndex);
+                int endIndex = data.indexOf(";v", startIndex);
 
                 if (startIndex != -1 && endIndex != -1) {
 
